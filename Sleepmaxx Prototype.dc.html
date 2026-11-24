@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sleepmaxx prototype</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap');
+body{margin:0}
+.sx{font-family:'Instrument Sans',system-ui,sans-serif;color:#ECEBFA}
+.sx-stage{background:#0C0D1C;min-height:100vh;box-sizing:border-box}
+.sx .tap{cursor:pointer;transition:transform .12s ease}
+.sx .tap:active{transform:scale(.96)}
+.sx button{font-family:inherit}
+@keyframes sxUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.sx .up{animation:sxUp .45s cubic-bezier(.2,.7,.3,1) both}
+@keyframes sxGlow{0%,100%{box-shadow:0 0 40px rgba(255,213,138,.25)}50%{box-shadow:0 0 70px rgba(255,213,138,.45)}}
+@keyframes aptap{0%{opacity:0;transform:scale(.5)}35%{opacity:1;transform:scale(1)}55%{opacity:1;transform:scale(.8)}100%{opacity:0;transform:scale(1.5)}}
+@keyframes apchip{from{opacity:0;transform:translate(-50%,6px)}to{opacity:1;transform:translate(-50%,0)}}
+</style>
+</helmet>
+<div class="sx {{ stageClass }}" style="display:flex;flex-direction:column;align-items:center;gap:10px;padding:{{ stagePad }}">
+<div ref="{{ phoneRef }}" onPointerDown="{{ takeOver }}" style="position:relative;width:375px;height:812px;background:#14162B;border:6px solid #050611;border-radius:44px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 18px 50px rgba(20,22,43,.35)">
+  <sc-if value="{{ apTapOn }}" hint-placeholder-val="{{ false }}"><span aria-hidden="true" style="position:absolute;left:{{ apTapX }};top:{{ apTapY }};width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;background:rgba(255,213,138,.55);box-shadow:0 0 0 3px rgba(255,255,255,.9),0 4px 14px rgba(0,0,0,.35);z-index:60;pointer-events:none;animation:aptap .9s ease-out both"></span></sc-if>
+  <sc-if value="{{ apShowChip }}" hint-placeholder-val="{{ false }}"><div aria-live="polite" style="position:absolute;left:50%;bottom:84px;transform:translateX(-50%);z-index:59;pointer-events:none;background:rgba(236,235,250,.95);color:#14162B;border-radius:999px;padding:7px 14px;font-size:12px;font-weight:700;white-space:nowrap;animation:apchip .3s ease-out both">{{ apLabel }}</div></sc-if>
+  <div style="display:flex;justify-content:space-between;padding:12px 22px 4px;font-size:12px;font-weight:600"><span>9:41 pm</span><span>●●● ▲ ▮</span></div>
+  <div style="flex:1;min-height:0;overflow-y:auto;overflow-x:hidden">
+
+    <sc-if value="{{ isTonight }}" hint-placeholder-val="{{ true }}">
+      <div class="up" style="padding:10px 20px 20px">
+        <div style="font-size:13px;color:#A3A1C2">Thursday night</div>
+        <div style="font-size:30px;font-weight:700;letter-spacing:-.02em">Tonight, Sam</div>
+        <div style="display:flex;gap:10px;align-items:center;background:#1F2240;border-radius:16px;padding:12px 14px;margin-top:16px">
+          <span style="font-size:18px">📅</span>
+          <div style="flex:1"><div style="font-size:11px;letter-spacing:.1em;font-weight:700;color:#A3A1C2">FIRST THING TOMORROW</div><div style="font-size:14px;font-weight:600">8:00am · Intro to Psych</div></div>
+          <span style="font-size:11px;color:#B9A7FF;font-weight:700">from calendar</span>
+        </div>
+        <div style="background:#1F2240;border-radius:16px;padding:14px;margin-top:10px">
+          <div style="font-size:14px;font-weight:600">Working a closing shift tonight?</div>
+          <div style="display:flex;gap:8px;margin-top:10px">
+            <div class="tap" onClick="{{ shiftNo }}" style="flex:1;text-align:center;border-radius:12px;padding:9px;font-weight:700;font-size:13.5px;background:{{ noBg }};color:{{ noC }}">No</div>
+            <div class="tap" onClick="{{ shiftYes }}" style="flex:1;text-align:center;border-radius:12px;padding:9px;font-weight:700;font-size:13.5px;background:{{ yesBg }};color:{{ yesC }}">Yes · off at 12:30</div>
+          </div>
+        </div>
+        <div style="background:linear-gradient(160deg,#2A2F5B,#1F2240);border-radius:24px;padding:20px;margin-top:14px;text-align:center">
+          <div style="width:64px;height:64px;border-radius:50%;background:#FFD58A;margin:4px auto 0;animation:sxGlow 4s ease-in-out infinite"></div>
+          <div style="font-size:11px;letter-spacing:.12em;font-weight:700;color:#A3A1C2;margin-top:14px">YOUR SLEEP WINDOW</div>
+          <div style="font-size:34px;font-weight:700;letter-spacing:-.02em;margin-top:2px">{{ windowLabel }}</div>
+          <div style="font-size:13px;color:#A3A1C2;margin-top:2px">wake {{ wakeLabel }} · {{ hoursLabel }} of sleep</div>
+          <div style="background:rgba(185,167,255,.14);border-radius:14px;padding:10px 12px;margin-top:14px;font-size:13px;text-align:left;color:#DCD5FF">🧠 {{ coachNote }}</div>
+        </div>
+        <button class="tap" onClick="{{ goWind }}" style="width:100%;margin-top:14px;background:#B9A7FF;color:#14162B;border:none;border-radius:999px;padding:14px;font-weight:700;font-size:15px">Start wind-down · {{ windStart }}</button>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isWind }}" hint-placeholder-val="{{ false }}">
+      <div class="up" style="padding:10px 20px 20px">
+        <span class="tap" onClick="{{ goTonight }}" style="font-size:13px;color:#B9A7FF;font-weight:700">← tonight</span>
+        <div style="font-size:28px;font-weight:700;letter-spacing:-.02em;margin-top:6px">Wind-down</div>
+        <div style="font-size:13px;color:#A3A1C2">20 minutes · three small things · no perfection required</div>
+        <div style="height:8px;border-radius:999px;background:#2A2F5B;margin-top:16px"><div style="width:{{ windBar }};height:8px;border-radius:999px;background:#FFD58A;transition:width .5s ease"></div></div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-top:16px">
+          <sc-for list="{{ windRows }}" as="r" hint-placeholder-count="3">
+            <div class="tap" onClick="{{ r.toggle }}" style="display:flex;gap:12px;align-items:center;background:#1F2240;border-radius:16px;padding:14px;outline:{{ r.outline }}">
+              <span style="font-size:20px">{{ r.e }}</span>
+              <div style="flex:1"><div style="font-size:14.5px;font-weight:600">{{ r.n }}</div><div style="font-size:12px;color:#A3A1C2">{{ r.d }}</div></div>
+              <span style="width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:700;background:{{ r.dotBg }};color:#14162B">{{ r.mark }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <div class="tap" onClick="{{ goJournal }}" style="display:flex;gap:10px;align-items:center;background:rgba(185,167,255,.12);border:1px dashed rgba(185,167,255,.5);border-radius:16px;padding:12px 14px;margin-top:12px"><span style="font-size:18px">🧠</span><div style="flex:1;font-size:13px;color:#DCD5FF">Racing thoughts? <b>Brain dump first</b> · 2 min</div><span style="color:#B9A7FF">→</span></div>
+        <button class="tap" onClick="{{ goNight }}" style="width:100%;margin-top:18px;background:{{ nightBg }};color:#14162B;border:none;border-radius:999px;padding:14px;font-weight:700;font-size:15px">Goodnight 🌙</button>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isNight }}" hint-placeholder-val="{{ false }}">
+      <div class="up" style="padding:70px 24px 20px;text-align:center">
+        <div style="width:90px;height:90px;border-radius:50%;background:#FFD58A;margin:0 auto;animation:sxGlow 4s ease-in-out infinite"></div>
+        <div style="font-size:30px;font-weight:700;letter-spacing:-.02em;margin-top:26px">Goodnight, Sam</div>
+        <div style="font-size:14px;color:#A3A1C2;margin-top:6px">alarm set for {{ wakeLabel }} · do not disturb on</div>
+        <div style="background:#1F2240;border-radius:16px;padding:14px;margin-top:26px;font-size:13.5px;text-align:left">☀️ Tomorrow: light by the window first thing, coffee before 1pm, and you'll be fine for psych.</div>
+        <div class="tap" onClick="{{ goTonight }}" style="font-size:13px;color:#B9A7FF;font-weight:700;margin-top:18px">back to tonight</div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isCoach }}" hint-placeholder-val="{{ false }}">
+      <div class="up" style="padding:10px 20px 20px">
+        <div style="display:flex;align-items:center;gap:10px"><span style="width:36px;height:36px;border-radius:50%;background:#B9A7FF;display:grid;place-items:center;font-size:17px">🌙</span><div><div style="font-size:18px;font-weight:700">Coach</div><div style="font-size:12px;color:#A3A1C2">knows your calendar · never preachy</div></div></div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-top:16px">
+          <sc-for list="{{ msgs }}" as="m" hint-placeholder-count="2">
+            <div style="align-self:{{ m.align }};max-width:82%;background:{{ m.bg }};color:{{ m.c }};border-radius:{{ m.radius }};padding:10px 13px;font-size:13.5px;line-height:1.45" class="up">{{ m.text }}</div>
+          </sc-for>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:16px">
+          <sc-for list="{{ chips }}" as="ch" hint-placeholder-count="3">
+            <span class="tap" onClick="{{ ch.on }}" style="border:1.5px solid #B9A7FF;color:#DCD5FF;border-radius:999px;padding:7px 12px;font-size:12.5px;font-weight:600">{{ ch.label }}</span>
+          </sc-for>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;background:#1F2240;border:1px solid rgba(185,167,255,.3);border-radius:999px;padding:6px 6px 6px 14px;margin-top:14px">
+          <input aria-label="Message the coach" value="{{ coachText }}" onChange="{{ coachChange }}" onKeyDown="{{ coachKey }}" placeholder="ask the coach anything…" style="flex:1;min-width:0;border:none;outline:none;background:transparent;color:#ECEBFA;font-family:inherit;font-size:13.5px">
+          <button class="tap" onClick="{{ coachSend }}" aria-label="Send" style="width:32px;height:32px;flex:none;border-radius:50%;border:none;background:#B9A7FF;color:#14162B;font-size:14px;font-weight:700">➤</button>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isJournal }}" hint-placeholder-val="{{ false }}">
+      <div class="up" style="padding:10px 20px 20px">
+        <div style="font-size:28px;font-weight:700;letter-spacing:-.02em">Brain dump 🧠</div>
+        <div style="font-size:13px;color:#A3A1C2">get it out of your head · tomorrow-you will handle it</div>
+        <sc-if value="{{ dumpOpen }}" hint-placeholder-val="{{ true }}">
+          <div style="background:#1F2240;border-radius:18px;padding:14px;margin-top:14px">
+            <textarea aria-label="Brain dump" value="{{ dumpText }}" onChange="{{ dumpChange }}" placeholder="whatever's looping… to-dos, worries, random thoughts" style="width:100%;box-sizing:border-box;min-height:120px;background:transparent;border:none;outline:none;resize:none;color:#ECEBFA;font-family:inherit;font-size:14px;line-height:1.5"></textarea>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px">
+              <sc-for list="{{ prompts }}" as="pr" hint-placeholder-count="3">
+                <span class="tap" onClick="{{ pr.add }}" style="border:1px solid rgba(185,167,255,.45);color:#DCD5FF;border-radius:999px;padding:5px 10px;font-size:12px">{{ pr.label }}</span>
+              </sc-for>
+            </div>
+          </div>
+          <button class="tap" onClick="{{ parkIt }}" style="width:100%;margin-top:12px;background:{{ parkBg }};color:#14162B;border:none;border-radius:999px;padding:14px;font-weight:700;font-size:15px">Park it for tomorrow 🌙</button>
+        </sc-if>
+        <sc-if value="{{ dumpParked }}" hint-placeholder-val="{{ false }}">
+          <div class="up" style="background:#1F2240;border-radius:18px;padding:16px;margin-top:14px">
+            <div style="font-size:11px;letter-spacing:.1em;font-weight:700;color:#FFD58A">📋 TOMORROW · REMINDER AT 7:30</div>
+            <sc-for list="{{ todos }}" as="t" hint-placeholder-count="2">
+              <div style="display:flex;gap:10px;align-items:center;margin-top:9px;font-size:14px"><span style="width:16px;height:16px;flex:none;border-radius:5px;border:1.5px solid #FFD58A"></span>{{ t.text }}</div>
+            </sc-for>
+            <sc-if value="{{ hasThoughts }}" hint-placeholder-val="{{ false }}">
+              <div style="font-size:11px;letter-spacing:.1em;font-weight:700;color:#B9A7FF;margin-top:16px">🌀 THOUGHTS, PARKED</div>
+              <sc-for list="{{ thoughts }}" as="t" hint-placeholder-count="1"><div style="font-size:14px;color:#DCD5FF;margin-top:8px;opacity:.85">{{ t.text }}</div></sc-for>
+            </sc-if>
+            <sc-if value="{{ hasGood }}" hint-placeholder-val="{{ false }}">
+              <div style="background:rgba(255,213,138,.12);border-radius:12px;padding:10px 12px;margin-top:14px;font-size:13.5px">✨ <b>one good thing:</b> {{ goodText }}</div>
+            </sc-if>
+          </div>
+          <div style="background:rgba(185,167,255,.14);border-radius:14px;padding:12px 14px;margin-top:10px;font-size:13px;color:#DCD5FF;line-height:1.45">🧠 Nice. It's all written down and waiting for you at 7:30. Nothing left to hold onto tonight.</div>
+          <button class="tap" onClick="{{ goWind }}" style="width:100%;margin-top:12px;background:#B9A7FF;color:#14162B;border:none;border-radius:999px;padding:14px;font-weight:700;font-size:15px">Back to wind-down</button>
+          <div class="tap" onClick="{{ newDump }}" style="text-align:center;font-size:12.5px;color:#B9A7FF;font-weight:700;margin-top:10px">start a new dump</div>
+        </sc-if>
+        <div style="font-size:11px;letter-spacing:.1em;font-weight:700;color:#A3A1C2;margin-top:20px">PAST DUMPS</div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px">
+          <div style="display:flex;align-items:center;background:#1F2240;border-radius:14px;padding:11px 14px;font-size:13px"><span>Wed · 4 items</span><span style="margin-left:auto;color:#A3A1C2">asleep in 14 min</span></div>
+          <div style="display:flex;align-items:center;background:#1F2240;border-radius:14px;padding:11px 14px;font-size:13px"><span>Mon · 2 items</span><span style="margin-left:auto;color:#A3A1C2">asleep in 11 min</span></div>
+        </div>
+        <div style="font-size:12.5px;color:#DCD5FF;margin-top:10px">✨ On nights you dump, you fall asleep about 12 min faster.</div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isWeek }}" hint-placeholder-val="{{ false }}">
+      <div class="up" style="padding:10px 20px 20px">
+        <div style="font-size:28px;font-weight:700;letter-spacing:-.02em">This week</div>
+        <div style="font-size:13px;color:#A3A1C2">honest, not scary</div>
+        <div style="background:#1F2240;border-radius:20px;padding:16px;margin-top:14px">
+          <div style="display:flex;align-items:baseline"><span style="font-size:11px;letter-spacing:.1em;font-weight:700;color:#A3A1C2">SLEEP DEBT</span><span style="margin-left:auto;font-size:22px;font-weight:700;color:#FFD58A">{{ debtLabel }}</span></div>
+          <div style="display:flex;align-items:flex-end;gap:8px;height:120px;margin-top:14px">
+            <sc-for list="{{ bars }}" as="b" hint-placeholder-count="7">
+              <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:5px"><div style="width:100%;height:{{ b.h }};border-radius:8px;background:{{ b.bg }};transition:height .5s ease"></div><span style="font-size:10.5px;color:#A3A1C2;font-weight:600">{{ b.d }}</span></div>
+            </sc-for>
+          </div>
+          <div style="font-size:12px;color:#A3A1C2;margin-top:8px">goal 7h 30m · dashed days are the plan</div>
+        </div>
+        <div class="tap" onClick="{{ toggleExam }}" style="display:flex;align-items:center;gap:12px;background:#1F2240;border-radius:16px;padding:14px;margin-top:12px">
+          <span style="font-size:20px">📚</span>
+          <div style="flex:1"><div style="font-size:14.5px;font-weight:600">Exam week mode</div><div style="font-size:12px;color:#A3A1C2">plan the whole week, not night by night</div></div>
+          <span style="width:40px;height:24px;border-radius:999px;background:{{ examTrack }};position:relative;transition:background .2s"><span style="position:absolute;top:3px;left:{{ examKnob }};width:18px;height:18px;border-radius:50%;background:#fff;transition:left .2s"></span></span>
+        </div>
+        <sc-if value="{{ exam }}" hint-placeholder-val="{{ false }}">
+          <div class="up" style="background:rgba(185,167,255,.14);border-radius:16px;padding:14px;margin-top:10px;font-size:13px;color:#DCD5FF;line-height:1.5">🧠 Recovery spread out: +25 min/night Tue–Thu, a 20-min nap before 4pm on your two late shifts, and Saturday's sleep-in protected till 10.</div>
+        </sc-if>
+      </div>
+    </sc-if>
+
+  </div>
+  <div style="display:flex;justify-content:space-around;border-top:1px solid rgba(236,235,250,.08);padding:10px 8px 14px;background:#101227">
+    <div class="tap" onClick="{{ goTonight }}" style="text-align:center;opacity:{{ opTonight }}"><div style="font-size:17px">🌙</div><div style="font-size:10.5px;font-weight:700">Tonight</div></div>
+    <div class="tap" onClick="{{ goCoach }}" style="text-align:center;opacity:{{ opCoach }}"><div style="font-size:17px">💬</div><div style="font-size:10.5px;font-weight:700">Coach</div></div>
+    <div class="tap" onClick="{{ goJournal }}" style="text-align:center;opacity:{{ opJournal }}"><div style="font-size:17px">📓</div><div style="font-size:10.5px;font-weight:700">Journal</div></div>
+    <div class="tap" onClick="{{ goWeek }}" style="text-align:center;opacity:{{ opWeek }}"><div style="font-size:17px">📊</div><div style="font-size:10.5px;font-weight:700">Week</div></div>
+  </div>
+</div>
+<sc-if value="{{ isStandalone }}" hint-placeholder-val="{{ true }}"><div style="font-size:13px;color:#A3A1C2;max-width:340px;text-align:center">Try: closing shift → Yes · Start wind-down · or Coach → tap a chip · or Week → Exam week mode</div></sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":480,"height":940},"startScreen":{"editor":"enum","default":"tonight","options":["tonight","coach","journal","week"],"tsType":"string"},"embed":{"editor":"boolean","default":false,"tsType":"boolean"},"autoplay":{"editor":"enum","default":"off","options":["off","tonight","coach","journal","week"],"tsType":"string"}}'>
+class Component extends DCLogic {
+  state = { screen: this.props.startScreen ?? 'tonight', shift: '', wind: {}, used: {}, msgs: [], exam: false, dump: '', parked: null };
+  go(screen) { this.setState({ screen }); }
+  _coachSend() {
+    const t = (this.state.coachText || '').trim(); if (!t) return;
+    const l = t.toLowerCase();
+    let ai = 'Got it. Here\u2019s the move: protect tonight\u2019s window, keep the wind-down short, and let tomorrow-you handle the rest. Want me to adjust the plan?';
+    if (/nap/.test(l)) ai = 'Naps are allowed. Keep it to 20 minutes and before 4pm so it doesn\u2019t steal from tonight.';
+    else if (/coffee|caffeine|energy/.test(l)) ai = 'Last coffee by 1pm is the sweet spot. Caffeine hangs around for hours, even when you feel fine.';
+    else if (/alarm|wake|morning/.test(l)) ai = 'Same wake time every day does more than a perfect bedtime. Light by the window right after the alarm helps it stick.';
+    else if (/anxious|stress|thought|worry|racing|mind/.test(l)) ai = 'Sounds like a busy brain. Try a 2-minute brain dump in Journal: write it down, park it, and it\u2019ll be waiting at 7:30.';
+    else if (/party|out|drink/.test(l)) ai = 'Have fun. Drink water between rounds, and I\u2019ll build tomorrow around a softer start.';
+    this.setState((st) => ({ coachText: '', msgs: [...st.msgs, { role: 'user', text: t }, { role: 'ai', text: ai }] }));
+  }
+  phoneRef = (el) => { this._phone = el; };
+  takeOver = (e) => {
+    const trusted = e && (e.nativeEvent ? e.nativeEvent.isTrusted : e.isTrusted);
+    if (!trusted || !this._apFlow()) return;
+    this._apStop(); this._apUser = true; this.setState({ apLabel: '', apTapOn: false });
+    clearTimeout(this._apIdle);
+    this._apIdle = setTimeout(() => { this._apUser = false; if (this._apVisible) this._apStart(); }, 20000);
+  };
+  _apFlow() {
+    const F = {
+      tonight: [
+        { wait: 1500, label: '① it already knows tomorrow' },
+        { find: 'Yes · off at 12:30', label: '② closing shift tonight' },
+        { wait: 1700, label: '③ the plan adapts to real life' },
+        { find: 'Start wind-down', label: '④ start wind-down' },
+        { find: 'Lights to warm', label: '⑤ three small things' },
+        { find: 'Phone on the charger', label: '⑥ check off as you go' },
+        { find: 'breathing', label: '⑦ almost there' },
+        { find: 'Goodnight', label: '⑧ goodnight' },
+        { wait: 2400, label: '🌙 alarm set, no guilt' },
+      ],
+      coach: [
+        { wait: 1200, label: '① the coach, one tap away' },
+        { find: 'Coach', within: 'Week', label: '② open the coach' },
+        { find: 'rough night out', label: '③ be honest, no judgment' },
+        { wait: 2600, label: '④ math, not a lecture' },
+        { find: 'exam week', label: '⑤ plan ahead' },
+        { wait: 2600, label: '⑥ warm, a little funny' },
+      ],
+      journal: [
+        { wait: 1200, label: '① thoughts still racing at 1am' },
+        { find: 'Journal', within: 'Coach', label: '② open the brain dump' },
+        { find: 'tomorrow I need to', label: '③ prompts get it started' },
+        { find: 'on my mind', label: '④ worries count too' },
+        { find: 'one good thing', label: '⑤ end on something good' },
+        { find: 'Park it for tomorrow', label: '⑥ park it' },
+        { wait: 3000, label: '⑦ sorted into to-dos for 7:30' },
+      ],
+      week: [
+        { wait: 1200, label: '① tonight is one night of seven' },
+        { find: 'Week', within: 'Coach', label: '② open the week' },
+        { wait: 1700, label: '③ sleep debt, honest not scary' },
+        { find: 'Exam week mode', label: '④ exam week mode' },
+        { wait: 2800, label: '⑤ recovery planned for the week' },
+      ],
+    };
+    return F[this.props.autoplay] || null;
+  }
+  componentDidMount() {
+    if (!this._apFlow() || typeof IntersectionObserver === 'undefined') return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    this._apIO = new IntersectionObserver((es) => {
+      this._apVisible = es.some((x) => x.isIntersecting);
+      if (this._apVisible && !this._apOn && !this._apUser) this._apStart();
+      else if (!this._apVisible && this._apOn) { this._apStop(); this.setState({ apTapOn: false }); }
+    }, { threshold: 0.3 });
+    this._apObs = setTimeout(() => { if (this._phone) this._apIO.observe(this._phone); }, 60);
+  }
+  componentWillUnmount() { this._apStop(); clearTimeout(this._apIdle); clearTimeout(this._apObs); if (this._apIO) this._apIO.disconnect(); }
+  _apStart() { this._apOn = true; const tok = this._apTok = (this._apTok || 0) + 1; this._apRun(tok); }
+  _apStop() { this._apOn = false; this._apTok = (this._apTok || 0) + 1; }
+  _apSleep(ms) { return new Promise((r) => setTimeout(r, ms)); }
+  _apFind(text, within) {
+    const root = this._phone; if (!root) return null;
+    const vis = (el) => el.offsetParent !== null || el === root;
+    const short = (arr) => arr.reduce((a, b) => (b.textContent.length < a.textContent.length ? b : a));
+    let scope = root;
+    if (within) {
+      const boxes = [...root.querySelectorAll('div')].filter((d) => vis(d) && d.textContent.includes(within) && d.textContent.includes(text));
+      if (boxes.length) scope = short(boxes);
+    }
+    const hits = [...scope.querySelectorAll('button, .tap')].filter((el) => vis(el) && el.textContent.includes(text));
+    return hits.length ? short(hits) : null;
+  }
+  _apScroll(el) {
+    let sc = el && el.parentElement;
+    while (sc && sc !== this._phone) { const oy = getComputedStyle(sc).overflowY; if ((oy === 'auto' || oy === 'scroll') && sc.scrollHeight > sc.clientHeight + 2) break; sc = sc.parentElement; }
+    if (!sc || sc === this._phone) return;
+    const er = el.getBoundingClientRect(), sr = sc.getBoundingClientRect(); const k = sr.height / (sc.offsetHeight || 1) || 1;
+    sc.scrollTo({ top: Math.max(0, sc.scrollTop + (er.top + er.height / 2 - (sr.top + sr.height * 0.45)) / k), behavior: 'smooth' });
+  }
+  _apTopAll() { if (this._phone) this._phone.querySelectorAll('div').forEach((d) => { if (d.scrollTop) d.scrollTop = 0; }); }
+  _apTap(el) {
+    const ph = this._phone; const pr = ph.getBoundingClientRect(); const k = pr.width / (ph.offsetWidth || 1) || 1; const r = el.getBoundingClientRect();
+    this.setState({ apTapOn: false }, () => this.setState({ apTapOn: true, apTapX: ((r.left + r.width / 2 - pr.left) / k - 6) + 'px', apTapY: ((r.top + r.height / 2 - pr.top) / k - 6) + 'px' }));
+  }
+  async _apRun(tok) {
+    const flow = this._apFlow(); const live = () => tok === this._apTok;
+    while (live()) {
+      this.setState({ screen: this.props.startScreen ?? 'tonight', shift: '', wind: {}, used: {}, msgs: [], exam: false, dump: '', parked: null, apTapOn: false });
+      await this._apSleep(60); this._apTopAll();
+      for (const st of flow) {
+        if (!live()) return;
+        this.setState({ apLabel: st.label });
+        if (st.find) {
+          await this._apSleep(750); if (!live()) return;
+          const el = this._apFind(st.find, st.within);
+          if (el) {
+            this._apScroll(el); await this._apSleep(420); if (!live()) return;
+            this._apTap(el); await this._apSleep(470); if (!live()) return;
+            const before = this.state.screen; el.click();
+            await this._apSleep(450); if (!live()) return;
+            if (this.state.screen !== before) this._apTopAll();
+            this.setState({ apTapOn: false });
+          }
+        }
+        await this._apSleep(st.wait || 900);
+      }
+    }
+  }
+  renderVals() {
+    const s = this.state;
+    const LIL = '#B9A7FF', CARD = '#1F2240', INK = '#14162B';
+    const late = s.shift === 'yes';
+    const WIND = [
+      { k: 'lights', e: '💡', n: 'Lights to warm', d: 'dim everything · 5 min' },
+      { k: 'phone', e: '🔌', n: 'Phone on the charger', d: 'across the room, alarm still on' },
+      { k: 'breath', e: '🫁', n: '4-7-8 breathing', d: '3 rounds · in bed' },
+    ];
+    const wdone = WIND.filter((w) => s.wind[w.k]).length;
+    const CHIPS = {
+      rough: { label: 'rough night out 🫠', user: 'rough night out last night 🫠', ai: 'Been there, no shame, just math: you’re about 2h short. Tonight: in bed by 11:45, last coffee before 1pm, and a 20-min nap before 4 if you can.' },
+      wired: { label: 'can’t fall asleep', user: 'I’m in bed but wide awake', ai: 'Classic wired-tired. Phone across the room, lights warm, and if you’re still awake after 20 min, get up and read something boring until you’re drowsy.' },
+      exam: { label: 'exam week next week', user: 'I have exam week next week', ai: 'Turning on exam week mode in Week ✓ I’ll spread recovery across the week instead of night by night, and protect Saturday’s sleep-in. You’ve got this.' },
+    };
+    const msgs = [{ role: 'ai', text: 'Hey Sam. Tomorrow starts at 8 · what’s tonight looking like?' }, ...s.msgs];
+    const HRS = [6.9, 5.8, 7.6, 5.2, null, null, null];
+    const PLAN = s.exam ? [7.9, 7.9, 7.9] : [7.5, 7.5, 7.5];
+    const DAYS = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+    const tab = (n) => (s.screen === n || (n === 'tonight' && ['wind', 'night'].includes(s.screen)) ? 1 : 0.45);
+    const PROMPTS = [
+      { label: '📝 tomorrow I need to…', line: 'tomorrow I need to: email prof about the extension, swap Sunday shift, buy coffee' },
+      { label: '🌀 on my mind…', line: 'on my mind: did I sound weird in the group chat' },
+      { label: '✨ one good thing', line: 'one good thing: finally finished the psych reading' },
+    ];
+    const P = s.parked || { todos: [], thoughts: [], good: '' };
+    return {
+      isStandalone: !this.props.embed, stageClass: this.props.embed ? '' : 'sx-stage', stagePad: this.props.embed ? '0' : '24px 0',
+      phoneRef: this.phoneRef, takeOver: this.takeOver,
+      apTapOn: !!s.apTapOn, apTapX: s.apTapX || '0px', apTapY: s.apTapY || '0px', apShowChip: !!s.apLabel, apLabel: s.apLabel || '',
+      isTonight: s.screen === 'tonight', isWind: s.screen === 'wind', isNight: s.screen === 'night', isCoach: s.screen === 'coach', isWeek: s.screen === 'week',
+      goTonight: () => this.go('tonight'), goWind: () => this.go('wind'), goCoach: () => this.go('coach'), goWeek: () => this.go('week'), goJournal: () => this.go('journal'),
+      isJournal: s.screen === 'journal', dumpOpen: !s.parked, dumpParked: !!s.parked,
+      dumpText: s.dump, dumpChange: (e) => this.setState({ dump: e.target.value }),
+      prompts: PROMPTS.map((p) => ({ label: p.label, add: () => this.setState((st) => ({ dump: st.dump.includes(p.line) ? st.dump : (st.dump ? st.dump.replace(/\s+$/, '') + '\n' : '') + p.line })) })),
+      parkBg: s.dump.trim() ? '#B9A7FF' : 'rgba(185,167,255,.35)',
+      parkIt: () => {
+        const text = s.dump.trim(); if (!text) return;
+        const out = { todos: [], thoughts: [], good: '' };
+        text.split('\n').map((l) => l.trim()).filter(Boolean).forEach((l) => {
+          const low = l.toLowerCase();
+          if (low.startsWith('tomorrow i need to')) l.split(':').slice(1).join(':').split(',').map((x) => x.trim()).filter(Boolean).forEach((x) => out.todos.push({ text: x }));
+          else if (low.startsWith('one good thing')) out.good = l.split(':').slice(1).join(':').trim();
+          else if (low.startsWith('on my mind')) out.thoughts.push({ text: l.split(':').slice(1).join(':').trim() });
+          else if (/^(email|text|call|buy|pay|finish|send|book|pick up|study|submit)\b/.test(low)) out.todos.push({ text: l });
+          else out.thoughts.push({ text: l });
+        });
+        this.setState({ parked: out });
+      },
+      newDump: () => this.setState({ parked: null, dump: '' }),
+      todos: P.todos, thoughts: P.thoughts, hasThoughts: P.thoughts.length > 0, hasGood: !!P.good, goodText: P.good,
+      goNight: () => { if (wdone >= 2) this.go('night'); },
+      shiftNo: () => this.setState({ shift: 'no' }), shiftYes: () => this.setState({ shift: 'yes' }),
+      noBg: s.shift === 'no' ? LIL : '#2A2F5B', noC: s.shift === 'no' ? INK : '#ECEBFA',
+      yesBg: late ? LIL : '#2A2F5B', yesC: late ? INK : '#ECEBFA',
+      windowLabel: late ? '1:15 – 1:45' : '11:30 – 12:00',
+      wakeLabel: late ? '7:15' : '7:20',
+      hoursLabel: late ? '5h 45m' : '7h 30m',
+      windStart: late ? '12:55am' : '11:10pm',
+      coachNote: late ? 'Short night, so let’s make it count: wind-down starts the minute you’re home, and I’ll block a 20-min nap at 2pm tomorrow.' : 'Nice, a normal night. Hit the window and you’re fully charged for psych.',
+      windRows: WIND.map((w) => { const on = !!s.wind[w.k]; return { ...w, mark: on ? '✓' : '', dotBg: on ? '#FFD58A' : '#2A2F5B', outline: on ? '1.5px solid rgba(255,213,138,.5)' : '1px solid transparent', toggle: () => this.setState((st) => ({ wind: { ...st.wind, [w.k]: !st.wind[w.k] } })) }; }),
+      windBar: Math.round((wdone / 3) * 100) + '%',
+      nightBg: wdone >= 2 ? '#FFD58A' : 'rgba(255,213,138,.35)',
+      msgs: msgs.map((m) => ({ text: m.text, align: m.role === 'ai' ? 'flex-start' : 'flex-end', bg: m.role === 'ai' ? CARD : LIL, c: m.role === 'ai' ? '#ECEBFA' : INK, radius: m.role === 'ai' ? '16px 16px 16px 4px' : '16px 16px 4px 16px' })),
+      coachText: s.coachText || '', coachChange: (e) => this.setState({ coachText: e.target.value }),
+      coachKey: (e) => { if (e.key === 'Enter') this._coachSend(); }, coachSend: () => this._coachSend(),
+      chips: Object.keys(CHIPS).filter((k) => !s.used[k]).map((k) => ({ label: CHIPS[k].label, on: () => this.setState((st) => ({ used: { ...st.used, [k]: true }, exam: k === 'exam' ? true : st.exam, msgs: [...st.msgs, { role: 'user', text: CHIPS[k].user }, { role: 'ai', text: CHIPS[k].ai }] })) })),
+      bars: DAYS.map((d, i) => {
+        const h = i < 4 ? HRS[i] : (i < 7 ? (i === 4 ? (late ? 5.75 : 7.5) : PLAN[i - 4] || 7.5) : 7.5);
+        const past = i < 4;
+        return { d, h: Math.round((h / 9) * 100) + 'px', bg: past ? (h < 6.5 ? '#FFD58A' : LIL) : 'repeating-linear-gradient(-45deg,rgba(185,167,255,.35) 0 6px,rgba(185,167,255,.12) 6px 12px)' };
+      }),
+      debtLabel: s.exam ? '3h 40m → 1h by Sun' : '3h 40m',
+      exam: s.exam, toggleExam: () => this.setState({ exam: !s.exam }),
+      examTrack: s.exam ? LIL : '#2A2F5B', examKnob: s.exam ? '19px' : '3px',
+      opTonight: tab('tonight'), opCoach: tab('coach'), opWeek: tab('week'), opJournal: tab('journal'),
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Noto+Sans:wght@400;500;600;700&display=swap');
+@import url('https://fonts.cdnfonts.com/css/recoleta');
+body{margin:0}
+.ppx{font-family:"Noto Sans",system-ui,sans-serif;color:#3A3733;font-variant-ligatures:none;font-feature-settings:'liga' 0,'clig' 0}
+.ppx *{font-variant-ligatures:none;font-feature-settings:'liga' 0,'clig' 0}
+.ppx a{color:#1F2ED0}.ppx a:hover{color:#233AA2}
+.ppx-stage{background:#F5EEEA;min-height:100vh;box-sizing:border-box}
+.ppx-stage .pphone{box-shadow:0 18px 50px rgba(31,46,208,.18)}
+.tap{cursor:pointer;transition:transform .12s ease}
+.tap:active{transform:scale(.96)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.fadeup{animation:fadeUp .45s cubic-bezier(.2,.7,.3,1) both}
+@keyframes toybounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-7px) rotate(-8deg)}}
+@keyframes aptap{0%{opacity:0;transform:scale(.5)}35%{opacity:1;transform:scale(1)}55%{opacity:1;transform:scale(.8)}100%{opacity:0;transform:scale(1.5)}}
+@keyframes apchip{from{opacity:0;transform:translateY(-6px) scale(.9)}to{opacity:1;transform:none}}
+.nosb::-webkit-scrollbar{display:none}
+</style>
+</helmet>
+<div class="ppx {{ stageClass }}" style="display:flex;flex-direction:column;align-items:center;gap:10px;padding:{{ stagePad }}">
+<sc-if value="{{ isStandalone }}" hint-placeholder-val="{{ true }}">
+<div style="font:600 11px ui-monospace,Menlo,monospace;color:#6E6C7A;white-space:nowrap">playpals · interactive prototype</div>
+</sc-if>
+<div class="pphone" ref="{{ phoneRef }}" onPointerDown="{{ takeOver }}" style="position:relative;width:375px;height:812px;background:#F5F4F1;border:6px solid #26252F;border-radius:44px;overflow:hidden;display:flex;flex-direction:column">
+  <sc-if value="{{ apTapOn }}" hint-placeholder-val="{{ false }}"><span aria-hidden="true" style="position:absolute;left:{{ apTapX }};top:{{ apTapY }};width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;background:rgba(255,199,36,.5);box-shadow:0 0 0 3px rgba(255,255,255,.95),0 4px 14px rgba(17,17,17,.25);z-index:60;pointer-events:none;animation:aptap .9s ease-out both"></span></sc-if>
+  <sc-if value="{{ apShowChip }}" hint-placeholder-val="{{ false }}"><div aria-live="polite" style="position:absolute;left:0;right:0;top:0;height:34px;z-index:59;pointer-events:none;background:#F5F4F1;display:flex;align-items:center;justify-content:center"><div style="background:#111;color:#fff;border-radius:999px;padding:5px 13px;font-size:11.5px;font-weight:700;white-space:nowrap;animation:apchip .3s ease-out both">{{ apLabel }}</div></div></sc-if>
+  <div style="display:flex;justify-content:space-between;padding:12px 22px 4px;font-size:12px;font-weight:600"><span>9:41</span><span style="white-space:nowrap">●●● ▲ ▮</span></div>
+  <div style="flex:1;min-height:0;overflow-y:auto;overflow-x:hidden">
+
+    <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+      <div style="padding:0 18px 16px">
+        <div style="display:flex;align-items:center;gap:10px;position:sticky;top:0;background:#F5F4F1;z-index:2;padding:14px 0 8px">
+          <div style="flex:1"><div style="font-size:13.5px;color:#6E6C7A">good morning ☀️</div><div style="font-family:'Recoleta','Baloo 2',serif;font-weight:700;font-size:22px;color:#1F2ED0">marey</div></div>
+          <span style="background:#CFF4EC;color:#233AA2;border-radius:999px;padding:5px 12px;font-size:13px;font-weight:600;white-space:nowrap">🧒 Cleo · 14 mo</span>
+        </div>
+        <div style="display:flex;align-items:baseline;gap:8px;margin-top:16px"><span style="font-size:11px;letter-spacing:.08em;color:#6E6C7A;font-weight:700;white-space:nowrap">THIS WEEK</span><span class="tap" onClick="{{ goPacks }}" style="margin-left:auto;font-size:11.5px;color:#1F2ED0;font-weight:600;white-space:nowrap">manage pack →</span></div>
+        <div style="background:#fff;border-radius:24px;padding:16px;margin-top:8px;box-shadow:0 2px 8px rgba(31,46,208,.08)">
+          <div style="display:flex;align-items:center;gap:8px"><span style="font-size:11px;letter-spacing:.08em;color:#1F2ED0;font-weight:700;white-space:nowrap">CURRENT PLAYPACK</span><span style="margin-left:auto;font-size:11px;color:#6E6C7A;white-space:nowrap">week 6 of 8</span></div>
+          <div style="font-family:'Recoleta','Baloo 2',serif;font-weight:700;font-size:19px;margin-top:4px">The Little Stacker</div>
+          <div style="display:flex;gap:8px;margin-top:10px">
+            <div style="width:52px;height:52px;border-radius:14px;background:#FFEDB0;display:grid;place-items:center;font-size:24px">🪆</div>
+            <div style="width:52px;height:52px;border-radius:14px;background:#CFF4EC;display:grid;place-items:center;font-size:24px">🧩</div>
+            <div style="width:52px;height:52px;border-radius:14px;background:#D8E2FC;display:grid;place-items:center;font-size:24px">🟡</div>
+            <div style="width:52px;height:52px;border-radius:14px;background:#FED9D0;display:grid;place-items:center;font-size:24px">🧸</div>
+          </div>
+          <div style="height:6px;border-radius:999px;background:#EFECE5;margin-top:12px"><div style="width:72%;height:6px;border-radius:999px;background:#FFC724"></div></div>
+        </div>
+        <div style="display:flex;gap:10px;background:#CFF4EC;border-radius:20px;padding:13px 14px;margin-top:12px;align-items:flex-start">
+          <span style="font-size:17.5px">🔮</span>
+          <div style="flex:1"><div style="font-size:14px;font-weight:700;color:#233AA2">Cleo's ready for her next stage early</div><div style="font-size:13px;color:#233AA2;margin-top:2px">She's deep in stacking play · you can move up the swap, no extra cost.</div></div>
+        </div>
+        <button class="tap" onClick="{{ goPacks }}" style="width:100%;margin-top:12px;background:#1F2ED0;color:#fff;border:none;border-radius:999px;padding:13px;font-weight:700;font-size:15px;font-family:inherit">Preview Next PlayPack →</button>
+        <div style="display:flex;align-items:baseline;gap:8px;margin-top:18px"><span style="font-size:11px;letter-spacing:.08em;color:#6E6C7A;font-weight:700;white-space:nowrap">FROM THE LEARN HUB</span><span class="tap" onClick="{{ goLearn }}" style="margin-left:auto;font-size:11.5px;color:#1F2ED0;font-weight:600;white-space:nowrap">see all →</span></div>
+        <div style="display:flex;gap:10px;margin-top:8px">
+          <div class="tap" onClick="{{ openSchema }}" style="flex:1;background:#D8E2FC;border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:6px">
+            <div style="display:flex;align-items:center;gap:6px"><span style="font-size:18px">🧠</span><span style="margin-left:auto;font-size:10.5px;letter-spacing:.06em;color:#3559F3;font-weight:700;white-space:nowrap">4 MIN READ</span></div>
+            <div style="font-size:14.5px;font-weight:700;line-height:1.25">Why she throws everything</div>
+            <div style="font-size:12px;color:#3559F3;font-weight:600;white-space:nowrap">schema play, explained →</div>
+          </div>
+          <div class="tap" onClick="{{ openMilestones }}" style="flex:1;background:#FFEDB0;border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:6px">
+            <div style="display:flex;align-items:center;gap:6px"><span style="font-size:18px">👀</span><span style="margin-left:auto;font-size:10.5px;letter-spacing:.06em;color:#8a6a1f;font-weight:700;white-space:nowrap">CHECKLIST</span></div>
+            <div style="font-size:14.5px;font-weight:700;line-height:1.25">Milestones, 12–18 mo</div>
+            <div style="font-size:12px;color:#8a6a1f;font-weight:600;white-space:nowrap">what to watch for →</div>
+          </div>
+        </div>
+        <div class="tap" onClick="{{ openMilestones }}" style="background:#fff;border-radius:20px;padding:14px 16px;margin-top:12px;box-shadow:0 2px 8px rgba(31,46,208,.07)">
+          <div style="display:flex;align-items:center;gap:8px"><span style="font-size:11px;letter-spacing:.08em;color:#1F2ED0;font-weight:700">CLEO'S MILESTONES</span><span style="margin-left:auto;font-size:11.5px;color:#1F2ED0;font-weight:600;white-space:nowrap">see all →</span></div>
+          <div style="display:flex;gap:8px;margin-top:10px">
+            <div style="flex:1;background:#CFF4EC;border-radius:12px;padding:9px 10px"><div style="font-size:14.5px">🚶‍♀️</div><div style="font-size:11px;font-weight:700;color:#233AA2;margin-top:2px">First steps ✓</div></div>
+            <div style="flex:1;background:#D8E2FC;border-radius:12px;padding:9px 10px"><div style="font-size:14.5px">🗣</div><div style="font-size:11px;font-weight:700;color:#3559F3;margin-top:2px">8 words &amp; counting</div></div>
+            <div style="flex:1;background:#FFEDB0;border-radius:12px;padding:9px 10px"><div style="font-size:14.5px">👉</div><div style="font-size:11px;font-weight:700;color:#8a6a1f;margin-top:2px">Pointing · new!</div></div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:baseline;gap:8px;margin-top:18px"><span style="font-size:11px;letter-spacing:.08em;color:#6E6C7A;font-weight:700;white-space:nowrap">FROM THE PARENTS CLUB</span><span class="tap" onClick="{{ goParents }}" style="margin-left:auto;font-size:11.5px;color:#1F2ED0;font-weight:600;white-space:nowrap">join in →</span></div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px;margin-bottom:16px">
+          <div class="tap" onClick="{{ goThread }}" style="display:flex;gap:10px;background:#fff;border-radius:20px;padding:13px 16px;box-shadow:0 2px 8px rgba(31,46,208,.07);align-items:center">
+            <div style="width:30px;height:30px;flex:none;border-radius:50%;background:#FED9D0;display:grid;place-items:center;font-size:13px;font-family:'Recoleta','Baloo 2',serif;font-weight:700">j</div>
+            <div style="flex:1;min-width:0"><div style="font-size:13.5px;font-weight:700">11 parents replied to jess's 3am question</div><div style="font-size:11.5px;color:#6E6C7A">"is this normal?" · 12–18 mo club</div></div>
+            <span style="color:#1F2ED0">→</span>
+          </div>
+          <div class="tap" onClick="{{ goParents }}" style="display:flex;gap:10px;background:#fff;border-radius:20px;padding:13px 16px;box-shadow:0 2px 8px rgba(31,46,208,.07);align-items:center">
+            <div style="width:30px;height:30px;flex:none;border-radius:50%;background:#CFF4EC;display:grid;place-items:center;font-size:13px;font-family:'Recoleta','Baloo 2',serif;font-weight:700">m</div>
+            <div style="flex:1;min-width:0"><div style="font-size:13.5px;font-weight:700">marcus's yes-throw basket win 🎉</div><div style="font-size:11.5px;color:#6E6C7A">"living room survived a whole day" · wins</div></div>
+            <span style="color:#1F2ED0">→</span>
+          </div>
+          <div class="tap" onClick="{{ goParents }}" style="display:flex;gap:10px;background:#fff;border-radius:20px;padding:13px 16px;box-shadow:0 2px 8px rgba(31,46,208,.07);align-items:center">
+            <div style="width:30px;height:30px;flex:none;border-radius:50%;background:#E5C0FF;display:grid;place-items:center;font-size:13px;font-family:'Recoleta','Baloo 2',serif;font-weight:700">p</div>
+            <div style="flex:1;min-width:0"><div style="font-size:13.5px;font-weight:700">priya's nap-transition SOS</div><div style="font-size:11.5px;color:#6E6C7A">"how long did it last for you??" · sleep</div></div>
+            <span style="color:#1F2ED0">→</span>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isPacks }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:0 18px 16px">
+        <div style="display:flex;align-items:center;gap:8px;position:sticky;top:0;background:#F5F4F1;z-index:2;padding:14px 0 8px"><div style="font-family:'Recoleta','Baloo 2',serif;font-weight:700;font-size:20px;white-space:nowrap">Next PlayPack 📦</div></div>
+        <div style="display:flex;gap:12px;background:#fff;border-radius:18px;padding:12px;margin-top:10px;box-shadow:0 2px 8px rgba(31,46,208,.08);align-items:center">
+          <div style="flex:none;width:56px;background:#1F2ED0;color:#fff;border-radius:12px;padding:8px 0;text-align:center"><div style="font-size:10px;letter-spacing:.08em;font-weight:700;opacity:.8">TUE</div><div style="font-family:'Recoleta','Baloo 2',serif;font-weight:700;font-size:19px;line-height:1">12</div><div style="font-size:10px;font-weight:700;opacity:.8">MAY</div></div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:14px;font-weight:700">Next delivery</div>
+            <div style="font-size:12px;color:#6E6C7A;margin-top:2px">📦 new PlayPack in · 🔁 The Little Stacker out, same visit</div>
+            <div style="display:flex;gap:6px;margin-top:6px"><span style="background:#CFF4EC;color:#233AA2;border-radius:999px;padding:2px 9px;font-size:10.5px;font-weight:700;white-space:nowrap">swap scheduled ✓</span><span style="background:#FFEDB0;color:#8a6a1f;border-radius:999px;padding:2px 9px;font-size:10.5px;font-weight:700;white-space:nowrap">no box needed</span></div>
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;background:#CFF4EC;border-radius:18px;padding:12px 14px;margin-top:12px;align-items:center">
+          <span style="font-size:16.5px">🔮</span><div style="font-size:13px;color:#233AA2"><b>Picked for stacking + early pretend play.</b> Swap any toy from the Toy Shelf.</div>
+        </div>
+        <div class="tap" onClick="{{ goShelf }}" style="display:flex;align-items:center;gap:8px;margin-top:10px"><span style="font-size:14px;color:#1F2ED0;font-weight:700;white-space:nowrap">Browse the full Toy Shelf →</span><span style="font-size:11.5px;color:#6E6C7A">12 toys for Cleo's stage</span></div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px;padding-bottom:12px">
+          <sc-for list="{{ packRows }}" as="row" hint-placeholder-count="4">
+            <div style="background:#fff;border-radius:16px;padding:10px 12px;box-shadow:0 2px 8px rgba(31,46,208,.07);outline:{{ row.outline }}">
+              <div style="display:flex;align-items:center;gap:10px">
+                <div style="width:40px;height:40px;flex:none;border-radius:12px;background:{{ row.tile }};display:grid;place-items:center;font-size:20px">{{ row.emoji }}</div>
+                <div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:700">{{ row.name }}</div><div style="font-size:11.5px;color:#6E6C7A">{{ row.desc }}</div></div>
+                <div style="display:flex;flex:none;border:1px solid rgba(31,46,208,.2);border-radius:999px;overflow:hidden">
+                  <span class="tap" onClick="{{ row.onKeep }}" style="background:{{ row.keepBg }};color:{{ row.keepC }};padding:6px 11px;font-size:11px;font-weight:700;white-space:nowrap">Keep ✓</span>
+                  <span class="tap" onClick="{{ row.onSwap }}" style="background:{{ row.swapBg }};color:{{ row.swapC }};padding:6px 11px;font-size:11px;font-weight:700;white-space:nowrap;border-left:1px solid rgba(31,46,208,.15)">Swap ⇄</span>
+                </div>
+              </div>
+              <sc-if value="{{ row.hasNote }}" hint-placeholder-val="{{ false }}">
+                <div style="font-size:11.5px;color:#FB523D;margin-top:7px">🔮 {{ row.note }}</div>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isShelf }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:0 18px 16px">
+        <div style="position:sticky;top:0;background:#F5F4F1;z-index:2;padding:14px 0 8px">
+        <div style="display:flex;align-items:center;gap:8px"><span class="tap" onClick="{{ goPacks }}" style="font-size:15.5px;color:#1F2ED0">←</span><div style="font-family:'Recoleta','Baloo 2',serif;font-weight:700;font-size:20px;white-space:nowrap">Toy Shelf 🧸</div><span style="margin-left:auto;font-size:11.5px;background:#CFF4EC;color:#233AA2;border-radius:999px;padding:3px 9px;font-weight:700;white-space:nowrap">re-loved ♻️</span></div>
+        <p style="font-size:13.5px;color:#6E6C7A;margin:6px 0 0">every toy for Cleo's stage · cleaned, checked, ready to play</p>
+        <div style="display:flex;gap:6px;margin-top:10px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px">
+          <sc-for list="{{ shelfFilters }}" as="f" hint-placeholder-count="6">
+            <span class="tap" onClick="{{ f.on }}" style="background:{{ f.bg }};color:{{ f.c }};border:1px solid rgba(31,46,208,.2);border-radius:999px;padding:5px 12px;font-size:13px;font-weight:600;white-space:nowrap">{{ f.label }}</span>
+          </sc-for>
+        </div>
+        </div>
+        <div style="font-size:12px;color:#233AA2;font-weight:700;margin-top:6px">{{ shelfCount }}</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;padding-bottom:12px">
+          <sc-for list="{{ shelfRows }}" as="t" hint-placeholder-count="6">
+            <div style="background:#fff;border-radius:18px;padding:12px;outline:{{ t.outline }}">
+              <div style="height:78px;border-radius:14px;background:{{ t.tile }};display:grid;place-items:center;font-size:32px">{{ t.e }}</div>
+              <div style="font-size:14px;font-weight:700;margin-top:8px;line-height:1.2">{{ t.n }}</div>
+              <div style="font-size:11.5px;color:#6E6C7A;margin-top:2px">{{ t.cat }}</div>
+              <button class="tap" onClick="{{ t.onToggle }}" style="width:100%;margin-top:8px;background:{{ t.btnBg }};color:{{ t.btnC }};border:{{ t.btnBorder }};border-radius:999px;padding:7px;font-weight:700;font-size:12px;font-family:inherit;white-space:nowrap">{{ t.btnLabel }}</button>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isConfirmed }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:22px 18px 16px;text-align:center">
+        <div style="width:76px;height:76px;border-radius:50%;background:#CFF4EC;display:grid;place-items:center;font-size:36px;margin:8px auto 0">🎉</div>
+        <div style="font-family:'Recoleta','Baloo 2',serif;font-weight:700;font-size:22px;margin-top:12px">PlayPack confirmed!</div>
+        <div style="display:flex;gap:12px;background:#fff;border-radius:18px;padding:12px;margin-top:14px;box-shadow:0 2px 8px rgba(31,46,208,.08);align-items:center;text-align:left">
+          <div style="flex:none;width:56px;background:#1F2ED0;color:#fff;border-radius:12px;padding:8px 0;text-align:center"><div style="font-size:11px;letter-spacing:.08em;font-weight:700;opacity:.8">TUE</div><div style="font-family:'Recoleta','Baloo 2',serif;font-weight:700;font-size:20px;line-height:1">12</div><div style="font-size:11px;font-weight:700;opacity:.8">MAY</div></div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:15.5px;font-weight:700">{{ confirmedPackName }}</div>
+            <div style="font-size:13px;color:#6E6C7A;margin-top:2px">📦 arrives at your door · 🔁 old pack collected</div>
+            <div style="display:flex;gap:6px;margin-top:6px"><span style="background:#CFF4EC;color:#233AA2;border-radius:999px;padding:2px 9px;font-size:11.5px;font-weight:700;white-space:nowrap">swap scheduled ✓</span><span style="background:#FFEDB0;color:#8a6a1f;border-radius:999px;padding:2px 9px;font-size:11.5px;font-weight:700;white-space:nowrap">no box needed</span></div>
+          </div>
+        </div>
+        <div style="text-align:left;background:#fff;border-radius:20px;padding:16px;margin-top:12px;box-shadow:0 2px 8px rgba(31,46,208,.08)">
+          <div style="font-size:11px;letter-spacing:.08em;color:#1F2ED0;font-weight:700">WHAT'S INSIDE</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px">
+            <sc-for list="{{ confirmedToys }}" as="t" hint-placeholder-count="4">
+              <div style="display:flex;align-items:center;gap:8px;background:#F5F4F1;border-radius:12px;padding:8px 10px">
+                <div style="width:32px;height:32px;flex:none;border-radius:9px;background:{{ t.tile }};display:grid;place-items:center;font-size:15.5px">{{ t.e }}</div>
+                <div style="flex:1;min-width:0;font-size:11.5px;font-weight:700;line-height:1.2">{{ t.n }}</div>
+                <sc-if value="{{ t.hasTag }}" hint-placeholder-val="{{ false }}"><span style="background:#CFF4EC;color:#233AA2;border-radius:999px;padding:1px 7px;font-size:9.5px;font-weight:700">NEW</span></sc-if>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="text-align:left;background:#fff;border-radius:20px;padding:16px;margin-top:12px;box-shadow:0 2px 8px rgba(31,46,208,.08)">
+          <div style="font-size:11px;letter-spacing:.08em;color:#1F2ED0;font-weight:700">WHAT HAPPENS NEXT</div>
+          <div style="display:flex;gap:10px;margin-top:10px;align-items:flex-start"><span style="width:22px;height:22px;flex:none;border-radius:50%;background:#FFEDB0;display:grid;place-items:center;font-size:12px;font-weight:700">1</span><div style="font-size:13px">Box arrives May 12 · driver collects The Little Stacker at your door</div></div>
+          <div style="display:flex;gap:10px;margin-top:8px;align-items:flex-start"><span style="width:22px;height:22px;flex:none;border-radius:50%;background:#CFF4EC;display:grid;place-items:center;font-size:12px;font-weight:700">2</span><div style="font-size:13px">Missing a piece? Pop strays in the return box · we'll reunite them</div></div>
+          <div style="display:flex;gap:10px;margin-top:8px;align-items:flex-start"><span style="width:22px;height:22px;flex:none;border-radius:50%;background:#FED9D0;display:grid;place-items:center;font-size:12px;font-weight:700">3</span><div style="font-size:13px">Old toys get hospital-grade cleaning + safety checks at playpals HQ</div></div>
+        </div>
+        <div style="display:flex;gap:10px;background:#FFF3C9;border-radius:16px;padding:12px 14px;margin:12px 0;align-items:center;text-align:left">
+          <span style="font-size:17.5px">💛</span><div style="font-size:13px;color:#8a6a1f"><b>Cleo loved the tea set?</b> Make it hers for 55% off retail before it goes back.</div>
+        </div>
+        <button class="tap" onClick="{{ goHome }}" style="width:100%;background:transparent;border:2px solid #1F2ED0;color:#1F2ED0;border-radius:999px;padding:12px;font-weight:700;font-size:14px;font-family:inherit">Back to Home</button>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isLearn }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:0 18px 16px">
+        <div style="position:sticky;top:0;background:#F5F4F1;z-index:2;padding:14px 0 8px">
+        <div style="font-family:'Recoleta','Baloo 2',serif;font-weight:700;font-size:20px">Learn 📚</div>
+        <div style="display:flex;gap:6px;margin-top:10px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px">
+          <sc-for list="{{ learnFilters }}" as="f" hint-placeholder-count="7">
+            <span class="tap" onClick="{{ f.on }}" style="background:{{ f.bg }};color:{{ f.c }};border:1px solid rgba(31,46,208,.2);border-radius:999px;padding:5px 12px;font-size:13px;font-weight:600;white-space:nowrap">{{ f.label }}</span>
+          </sc-for>
+        </div>
+        </div>
+        <div style="background:#233AA2;color:#CFF4EC;border-radius:20px;padding:16px;margin-top:12px">
+          <div style="font-size:11px;letter-spacing:.08em;color:#87E1D2;font-weight:700">CLEO'S STAGE RIGHT NOW</div>
+          <div style="font-family:'Recoleta','Baloo 2',serif;font-weight:700;font-size:17.5px;color:#fff;margin-top:4px">Stacking, dumping &amp; carrying everything</div>
+          <div style="font-size:13px;margin-top:6px;opacity:.9">Schema play is how she experiments with cause and effect. Totally normal, actually brilliant.</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px;padding-bottom:16px">
+          <sc-for list="{{ learnArts }}" as="art" hint-placeholder-count="5">
+            <div class="tap" onClick="{{ art.onOpen }}" style="display:flex;gap:10px;background:#fff;border-radius:16px;padding:11px 12px;align-items:center;box-shadow:0 2px 8px rgba(31,46,208,.07)"><span style="font-size:20px">{{ art.e }}</span><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:700">{{ art.title }}</div><div style="font-size:11.5px;color:#6E6C7A">{{ art.meta }}</div></div><span style="color:#1F2ED0">{{ art.savedMark }}</span></div>
+          </sc-for>
+          <sc-if value="{{ noLearnArts }}" hint-placeholder-val="{{ false }}">
+            <div style="text-align:center;padding:26px 20px;color:#6E6C7A;font-size:13.5px">nothing saved yet · tap 🔖 on any article and it'll live here</div>
+          </sc-if>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isArticle }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:0 18px 16px">
+        <div style="display:flex;align-items:center;gap:8px;position:sticky;top:0;background:#F5F4F1;z-index:2;padding:14px 0 8px"><span class="tap" onClick="{{ goLearn }}" style="font-size:15.5px;color:#1F2ED0">←</span><span style="font-size:11px;letter-spacing:.08em;color:#1F2ED0;font-weight:700">LEARN HUB</span><span class="tap" onClick="{{ toggleSave }}" style="margin-left:auto;font-size:13px;font-weight:700;background:{{ saveBg }};color:{{ saveC }};border:1.5px solid #1F2ED0;border-radius:999px;padding:4px 12px;white-space:nowrap">{{ saveLabel }}</span></div>
+        <div style="font-family:'Recoleta','Baloo 2',serif;font-weight:700;font-size:23px;line-height:1.15;margin-top:10px">{{ articleTitle }}</div>
+        <div style="font-size:11.5px;color:#6E6C7A;margin-top:4px">{{ articleMeta }} · reviewed by our child-development board</div>
+        <div style="background:#CFF4EC;border-radius:18px;padding:14px 16px;margin-top:12px">
+          <div style="font-size:11px;letter-spacing:.08em;color:#233AA2;font-weight:700">THE GIST</div>
+          <div style="display:flex;flex-direction:column;gap:5px;margin-top:8px;font-size:13.5px;color:#233AA2">
+            <div style="display:flex;gap:8px"><span>✓</span><span>{{ articleG1 }}</span></div>
+            <div style="display:flex;gap:8px"><span>✓</span><span>{{ articleG2 }}</span></div>
+            <div style="display:flex;gap:8px"><span>✓</span><span>{{ articleG3 }}</span></div>
+          </div>
+        </div>
+        <sc-for list="{{ articleSections }}" as="sec" hint-placeholder-count="3">
+          <div class="fadeup" style="background:#fff;border-radius:20px;padding:16px;margin-top:12px;box-shadow:0 2px 8px rgba(31,46,208,.07);animation-delay:{{ sec.delay }}">
+            <div style="display:flex;align-items:center;gap:8px"><span style="font-size:16.5px">{{ sec.e }}</span><div style="font-family:'Recoleta','Baloo 2',serif;font-weight:700;font-size:15.5px">{{ sec.h }}</div></div>
+            <p style="font-size:14px;line-height:1.6;margin:8px 0 0;color:#3A3733"><b>{{ sec.lead }}</b> {{ sec.rest }}</p>
+            <sc-if value="{{ sec.hasTip }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;gap:8px;background:#CFF4EC;border-radius:12px;padding:9px 12px;margin-top:10px;align-items:flex-start">
+                <span style="font-size:13px">💡</span><div style="font-size:12.5px;color:#233AA2;font-weight:600">{{ sec.tip }}</div>
+              </div>
+            </sc-if>
+          </div>
+        </sc-for>
+        <div style="display:flex;gap:10px;background:#CFF4EC;border-radius:16px;padding:12px 14px;margin-top:12px;align-items:center">
+          <span style="font-size:16.5px">💬</span><div style="flex:1;font-size:13px;color:#233AA2">Questions about Cleo specifically?</div>
+          <span class="tap" onClick="{{ goAsk }}" style="background:#1F2ED0;color:#fff;border-radius:999px;padding:6px 12px;font-weight:700;font-size:11.5px;white-space:nowrap">Ask Playpals</span>
+        </div>
+        <button class="tap" onClick="{{ goShelfForStage }}" style="width:100%;margin-top:12px;background:transparent;border:2px solid #1F2ED0;color:#1F2ED0;border-radius:999px;padding:11px;font-weight:700;font-size:13.5px;font-family:inherit">See Toys For This Stage</button>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isAsk }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:0 18px 16px">
+        <div style="display:flex;align-items:center;gap:8px;position:sticky;top:0;background:#F5F4F1;z-index:2;padding:14px 0 8px"><div style="font-family:'Recoleta','Baloo 2',serif;font-weight:700;font-size:20px;white-space:nowrap">Ask Playpals 💬</div><span style="background:#CFF4EC;color:#233AA2;border-radius:999px;padding:3px 9px;font-size:10.5px;font-weight:700;white-space:nowrap">AI ASSISTANT</span></div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-top:14px">
+          <div style="align-self:flex-end;background:#1F2ED0;color:#fff;border-radius:18px 18px 4px 18px;padding:10px 14px;font-size:14px;max-width:88%">why does Cleo throw literally everything we hand her 😩</div>
+          <div style="align-self:flex-start;background:#fff;border-radius:18px 18px 18px 4px;padding:12px 14px;font-size:14px;max-width:88%;box-shadow:0 2px 8px rgba(31,46,208,.08)">
+            Good news: that's <b>trajectory schema play</b> · she's running physics experiments, not testing you.
+            <div style="background:#CFF4EC;border-radius:12px;padding:8px 10px;margin-top:8px;font-size:12px;color:#233AA2">💡 Try: a "yes-throw" basket of soft toys. Redirect, don't restrict.</div>
+            <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap">
+              <span style="border:1px solid rgba(31,46,208,.18);border-radius:999px;padding:3px 9px;font-size:10.5px;color:#6E6C7A;white-space:nowrap">📚 from: Schema play 101</span>
+              <span style="border:1px solid rgba(31,46,208,.18);border-radius:999px;padding:3px 9px;font-size:10.5px;color:#6E6C7A;white-space:nowrap">📚 Milestones 12–18</span>
+            </div>
+          </div>
+          <div style="align-self:flex-end;background:#1F2ED0;color:#fff;border-radius:18px 18px 4px 18px;padding:10px 14px;font-size:14px;max-width:88%">should her next pack help with that?</div>
+          <div style="align-self:flex-start;background:#fff;border-radius:18px 18px 18px 4px;padding:12px 14px;font-size:14px;max-width:88%;box-shadow:0 2px 8px rgba(31,46,208,.08)">Already on it · her May PlayPack leans into throwing-safe play. Want to preview it?
+            <div style="display:flex;gap:8px;margin-top:8px">
+              <span class="tap" onClick="{{ goPacks }}" style="background:#1F2ED0;color:#fff;border-radius:999px;padding:6px 12px;font-weight:700;font-size:12px;white-space:nowrap">Preview Pack</span>
+              <span class="tap" onClick="{{ notNow }}" style="border:1.5px solid #1F2ED0;color:#1F2ED0;border-radius:999px;padding:6px 12px;font-weight:700;font-size:12px;white-space:nowrap">Not Now</span>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-top:10px">
+          <sc-for list="{{ askExtra }}" as="m" hint-placeholder-count="1">
+            <div class="fadeup" style="align-self:{{ m.align }};background:{{ m.bg }};color:{{ m.color }};border-radius:{{ m.radius }};padding:14px 16px;font-size:14px;max-width:88%;box-shadow:{{ m.shadow }}">
+              <sc-if value="{{ m.hasBullets }}" hint-placeholder-val="{{ false }}">
+                <div style="font-weight:700;line-height:1.45;padding:2px 0 0">{{ m.text }}</div>
+                <div style="display:flex;flex-direction:column;gap:{{ m.bulletGap }};margin-top:14px">
+                  <sc-for list="{{ m.bullets }}" as="b" hint-placeholder-count="2">
+                    <div class="tap" onClick="{{ b.onTap }}" style="display:flex;gap:10px;align-items:center;background:{{ m.bulletBg }};border-radius:12px;padding:{{ m.bulletPad }}">
+                      <div style="width:26px;height:26px;flex:none;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(31,46,208,.1);display:grid;place-items:center;font-size:13px;align-self:flex-start">{{ b.icon }}</div>
+                      <div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:700;color:#233AA2;line-height:1.35">{{ b.lead }}</div><div style="font-size:12.5px;color:#6E6C7A;line-height:1.55;margin-top:4px">{{ b.rest }}</div></div>
+                      <sc-if value="{{ b.tappable }}" hint-placeholder-val="{{ false }}"><span style="flex:none;color:#1F2ED0;font-size:14px;font-weight:700">{{ b.arrow }}</span></sc-if>
+                    </div>
+                  </sc-for>
+                </div>
+                <sc-if value="{{ m.hasOutro }}" hint-placeholder-val="{{ false }}">
+                  <div style="margin-top:14px;font-size:12.5px;color:#233AA2;font-weight:600">{{ m.outro }}</div>
+                </sc-if>
+              </sc-if>
+              <sc-if value="{{ m.noBullets }}" hint-placeholder-val="{{ true }}"><div style="white-space:pre-wrap;line-height:1.5">{{ m.text }}</div></sc-if>
+              <sc-if value="{{ m.hasToy }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;align-items:center;gap:10px;background:#CFF4EC;border-radius:14px;padding:11px 12px;margin-top:14px">
+                  <div style="width:38px;height:38px;flex:none;border-radius:11px;background:{{ m.toyTile }};display:grid;place-items:center;font-size:18px">{{ m.toyE }}</div>
+                  <div style="flex:1;min-width:0"><div style="font-size:12.5px;font-weight:700;color:#233AA2">{{ m.toyN }}</div><div style="font-size:10.5px;color:#233AA2;opacity:.75">{{ m.toyD }} · on the Toy Shelf</div></div>
+                  <span class="tap" onClick="{{ goShelf }}" style="flex:none;font-size:11px;font-weight:700;color:#1F2ED0;border:1.5px solid #1F2ED0;border-radius:999px;padding:4px 10px;white-space:nowrap">View</span>
+                </div>
+              </sc-if>
+            </div>
+          </sc-for>
+          <sc-if value="{{ showAskPrompts }}" hint-placeholder-val="{{ false }}">
+            <div class="nosb" style="display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:2px 0;margin-top:2px">
+              <sc-for list="{{ askPrompts }}" as="pp" hint-placeholder-count="4">
+                <span class="tap" onClick="{{ pp.on }}" style="flex:none;border:1.5px solid rgba(31,46,208,.3);color:#1F2ED0;border-radius:999px;padding:6px 13px;font-size:12.5px;font-weight:600;white-space:nowrap;background:#fff">{{ pp.label }}</span>
+              </sc-for>
+            </div>
+          </sc-if>
+          <sc-if value="{{ askBusy }}" hint-placeholder-val="{{ false }}">
+            <div style="align-self:flex-start;display:flex;align-items:center;gap:8px;background:#fff;border-radius:18px 18px 18px 4px;padding:10px 14px;box-shadow:0 2px 8px rgba(31,46,208,.08)">
+              <span style="display:inline-block;font-size:16px;animation:toybounce 1s ease-in-out infinite">🧸</span>
+              <span style="display:inline-block;font-size:16px;animation:toybounce 1s ease-in-out .15s infinite">🪀</span>
+              <span style="display:inline-block;font-size:16px;animation:toybounce 1s ease-in-out .3s infinite">🧩</span>
+              <span style="font-size:12px;color:#1F2ED0;font-weight:700">Playpals is thinking…</span>
+            </div>
+          </sc-if>
+        </div>
+
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isParents }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:0 18px 16px">
+        <div style="position:sticky;top:0;background:#F5F4F1;z-index:2;padding:14px 0 8px">
+        <div style="display:flex;align-items:center;gap:8px"><div style="font-family:'Recoleta','Baloo 2',serif;font-weight:700;font-size:20px">Parents 👥</div><span class="tap" style="margin-left:auto;background:#1F2ED0;color:#fff;border-radius:999px;padding:6px 12px;font-weight:700;font-size:11.5px;white-space:nowrap" onClick="{{ goCompose }}">+ New Post</span></div>
+        <div style="display:flex;gap:6px;margin-top:10px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px">
+          <sc-for list="{{ parentFilters }}" as="f" hint-placeholder-count="5">
+            <span class="tap" onClick="{{ f.on }}" style="background:{{ f.bg }};color:{{ f.c }};border:1px solid rgba(31,46,208,.2);border-radius:999px;padding:5px 12px;font-size:12px;font-weight:600;white-space:nowrap">{{ f.label }}</span>
+          </sc-for>
+        </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-top:6px;padding-bottom:16px">
+          <sc-for list="{{ userPostsView }}" as="p" hint-placeholder-count="1">
+            <div style="background:#fff;border-radius:18px;padding:14px;box-shadow:0 2px 8px rgba(31,46,208,.07);outline:2px solid #CFF4EC">
+              <div style="display:flex;align-items:center;gap:8px"><div style="width:26px;height:26px;border-radius:50%;background:#FFEDB0;display:grid;place-items:center;font-size:12px;font-family:'Recoleta','Baloo 2',serif;font-weight:700">m</div><div style="font-size:13px;font-weight:700;white-space:nowrap">marey · just now</div><span style="margin-left:auto;font-size:10.5px;background:#CFF4EC;color:#233AA2;border-radius:999px;padding:2px 8px;white-space:nowrap">your post ✓</span></div>
+              <div style="font-size:14px;margin-top:8px">{{ p.text }}</div>
+              <div style="display:flex;gap:10px;margin-top:10px;font-size:11.5px;color:#6E6C7A"><span>🤍 0</span><span>💬 0 replies</span></div>
+            </div>
+          </sc-for>
+          <sc-for list="{{ parentPosts }}" as="p" hint-placeholder-count="3">
+            <div style="background:#fff;border-radius:18px;padding:14px;box-shadow:0 2px 8px rgba(31,46,208,.07)">
+              <div class="tap" onClick="{{ p.onOpen }}">
+                <div style="display:flex;align-items:center;gap:8px"><div style="width:26px;height:26px;border-radius:50%;background:{{ p.abg }};display:grid;place-items:center;font-size:12px;font-family:'Recoleta','Baloo 2',serif;font-weight:700">{{ p.a }}</div><div style="font-size:13px;font-weight:700;white-space:nowrap">{{ p.name }}</div><span style="margin-left:auto;font-size:10.5px;background:{{ p.bbg }};color:{{ p.bc }};border-radius:999px;padding:2px 8px;white-space:nowrap">{{ p.badge }}</span></div>
+                <div style="font-size:14px;margin-top:8px">{{ p.text }}</div>
+              </div>
+              <div style="display:flex;gap:10px;margin-top:10px;font-size:11.5px;color:#6E6C7A"><span class="tap" onClick="{{ p.onLike }}">{{ p.likeLabel }}</span><span class="tap" onClick="{{ p.onOpen }}">{{ p.replies }}</span><sc-if value="{{ p.hasExtra }}" hint-placeholder-val="{{ false }}"><span class="tap" onClick="{{ p.onOpen }}" style="margin-left:auto;color:#233AA2;font-weight:600;white-space:nowrap">🤖 + sourced take</span></sc-if></div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isCompose }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:0 18px 16px">
+        <div style="display:flex;align-items:center;gap:8px;position:sticky;top:0;background:#F5F4F1;z-index:2;padding:14px 0 8px"><span class="tap" onClick="{{ goParents }}" style="font-size:15.5px;color:#1F2ED0">←</span><div style="font-family:'Recoleta','Baloo 2',serif;font-weight:700;font-size:20px;white-space:nowrap">New post ✍️</div></div>
+        <p style="font-size:13.5px;color:#6E6C7A;margin:8px 0 0">no judgement here · wins, worries and 3am thoughts all welcome</p>
+        <textarea value="{{ composeText }}" onChange="{{ composeTextChange }}" placeholder="what's on your mind, marey?" style="width:100%;box-sizing:border-box;min-height:190px;margin-top:12px;background:#fff;border:1px solid rgba(31,46,208,.18);border-radius:18px;padding:16px;font-size:16.5px;line-height:1.45;font-family:inherit;color:#3A3733;resize:none;outline:none"></textarea>
+        <div style="font-size:11px;letter-spacing:.08em;color:#6E6C7A;font-weight:700;margin-top:18px">ADD PHOTOS</div>
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <sc-for list="{{ composePhotoTiles }}" as="ph" hint-placeholder-count="1">
+            <div style="width:64px;height:64px;flex:none;border-radius:14px;background:{{ ph.bg }};display:grid;place-items:center;font-size:24px">📷</div>
+          </sc-for>
+          <div class="tap" onClick="{{ addPhoto }}" style="width:64px;height:64px;flex:none;border-radius:14px;border:1.5px dashed rgba(31,46,208,.35);display:grid;place-items:center;color:#1F2ED0;font-size:24px;background:#fff">+</div>
+        </div>
+        <div style="font-size:11px;letter-spacing:.08em;color:#6E6C7A;font-weight:700;margin-top:18px">PICK A TOPIC</div>
+        <div style="display:flex;gap:6px;margin-top:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px">
+          <sc-for list="{{ composeTags }}" as="tg" hint-placeholder-count="5">
+            <span class="tap" onClick="{{ tg.on }}" style="background:{{ tg.bg }};color:{{ tg.c }};border:1px solid rgba(31,46,208,.2);border-radius:999px;padding:6px 13px;font-size:13.5px;font-weight:600;white-space:nowrap">{{ tg.label }}</span>
+          </sc-for>
+        </div>
+        <div style="font-size:11px;letter-spacing:.08em;color:#6E6C7A;font-weight:700;margin-top:18px">PREFERENCES</div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px;padding-bottom:12px">
+          <div style="display:flex;align-items:center;gap:10px;background:#fff;border-radius:14px;padding:12px 14px">
+            <span style="font-size:16.5px">🎭</span><div style="flex:1;font-size:14.5px;font-weight:600">Post anonymously</div>
+            <div class="tap" onClick="{{ tAnon }}" style="width:40px;height:24px;flex:none;border-radius:999px;background:{{ anonBg }};position:relative;transition:background .15s"><div style="position:absolute;top:3px;left:{{ anonLeft }};width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:left .15s"></div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;background:#fff;border-radius:14px;padding:12px 14px">
+            <span style="font-size:16.5px">🤖</span><div style="flex:1;font-size:14.5px;font-weight:600">Ask Playpals adds a sourced take</div>
+            <div class="tap" onClick="{{ tAI }}" style="width:40px;height:24px;flex:none;border-radius:999px;background:{{ aiBg }};position:relative;transition:background .15s"><div style="position:absolute;top:3px;left:{{ aiLeft }};width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:left .15s"></div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;background:#fff;border-radius:14px;padding:12px 14px">
+            <span style="font-size:16.5px">🔔</span><div style="flex:1;font-size:14.5px;font-weight:600">Notify me about replies</div>
+            <div class="tap" onClick="{{ tNotify }}" style="width:40px;height:24px;flex:none;border-radius:999px;background:{{ notifyBg }};position:relative;transition:background .15s"><div style="position:absolute;top:3px;left:{{ notifyLeft }};width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:left .15s"></div></div>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isThread }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:0 18px 16px">
+        <div style="display:flex;align-items:center;gap:8px;position:sticky;top:0;background:#F5F4F1;z-index:2;padding:14px 0 8px"><span class="tap" onClick="{{ goParents }}" style="display:inline-flex;align-items:center;gap:6px;font-size:13.5px;color:#1F2ED0;font-weight:700;white-space:nowrap">← Back to Parent Forum</span><span style="margin-left:auto;font-size:10.5px;background:#D8E2FC;color:#3559F3;border-radius:999px;padding:3px 10px;font-weight:700;white-space:nowrap">12–18 mo club</span></div>
+        <div style="background:#fff;border-radius:18px;padding:14px;margin-top:12px;box-shadow:0 2px 8px rgba(31,46,208,.07)">
+          <div style="display:flex;align-items:center;gap:8px"><div style="width:26px;height:26px;border-radius:50%;background:#FED9D0;display:grid;place-items:center;font-size:12px;font-family:'Recoleta','Baloo 2',serif;font-weight:700">j</div><div style="font-size:13px;font-weight:700;white-space:nowrap">jess · 3:02am</div><span style="margin-left:auto;font-size:10.5px;background:#FED9D0;color:#FB523D;border-radius:999px;padding:2px 8px;white-space:nowrap">is this normal?</span></div>
+          <div style="font-size:14px;margin-top:8px">14mo woke up screaming and only wants to be held standing up?? is this a phase or am I broken</div>
+          <div style="display:flex;gap:10px;margin-top:10px;font-size:11.5px;color:#6E6C7A"><span class="tap" onClick="{{ likeJess }}">{{ jessLikes }}</span><span>💬 11 replies</span></div>
+        </div>
+        <div style="background:#CFF4EC;border-radius:18px;padding:14px;margin-top:10px">
+          <div style="display:flex;align-items:center;gap:8px"><span style="font-size:15.5px">🤖</span><div style="font-size:12px;font-weight:700;color:#233AA2;white-space:nowrap">Ask Playpals · sourced take</div><span style="margin-left:auto;font-size:10px;background:#fff;color:#233AA2;border-radius:999px;padding:2px 8px;white-space:nowrap">📚 Sleep 12–18</span></div>
+          <div style="font-size:13.5px;color:#233AA2;margin-top:8px">Very normal · separation anxiety peaks around 14–15 months and often shows up at night. Being held upright is her feeling safe, not a habit you're "creating." It usually eases in 2–6 weeks.</div>
+        </div>
+        <div style="font-size:11px;letter-spacing:.06em;color:#6E6C7A;font-weight:700;margin:14px 0 0 8px">11 REPLIES</div>
+        <div style="margin:8px 0 0 14px;padding-left:14px;border-left:2px solid rgba(31,46,208,.15);display:flex;flex-direction:column;gap:12px">
+          <div>
+            <div style="display:flex;align-items:center;gap:7px"><div style="width:20px;height:20px;border-radius:50%;background:#CFF4EC;display:grid;place-items:center;font-size:10.5px;font-family:'Recoleta','Baloo 2',serif;font-weight:700">m</div><div style="font-size:12px;font-weight:700">marcus</div><span style="font-size:10.5px;color:#6E6C7A">· 2:14am</span></div>
+            <div style="font-size:13.5px;margin:4px 0 0 27px;color:#3A3733">we're in the exact same week over here. solidarity. it passed in ~3 weeks with our first</div>
+            <div style="font-size:11px;color:#6E6C7A;margin:3px 0 0 27px">🤍 6 · reply</div>
+          </div>
+          <div>
+            <div style="display:flex;align-items:center;gap:7px"><div style="width:20px;height:20px;border-radius:50%;background:#D8E2FC;display:grid;place-items:center;font-size:10.5px;font-family:'Recoleta','Baloo 2',serif;font-weight:700">a</div><div style="font-size:12px;font-weight:700">amara</div><span style="font-size:10.5px;color:#6E6C7A">· 6:40am</span></div>
+            <div style="font-size:13.5px;margin:4px 0 0 27px;color:#3A3733">you are not broken 💙 the standing-hold thing is SO 14 months. dark circles club forever</div>
+            <div style="font-size:11px;color:#6E6C7A;margin:3px 0 0 27px">🤍 14 · reply</div>
+          </div>
+          <sc-for list="{{ extraRepliesView }}" as="r" hint-placeholder-count="1">
+            <div>
+              <div style="display:flex;align-items:center;gap:7px"><div style="width:20px;height:20px;border-radius:50%;background:#FFEDB0;display:grid;place-items:center;font-size:10.5px;font-family:'Recoleta','Baloo 2',serif;font-weight:700">m</div><div style="font-size:12px;font-weight:700;white-space:nowrap">marey</div><span style="font-size:10.5px;color:#6E6C7A">· just now</span></div>
+              <div style="font-size:13.5px;margin:4px 0 0 27px;color:#3A3733">{{ r.text }}</div>
+              <div style="font-size:11px;color:#6E6C7A;margin:3px 0 0 27px">🤍 0 · reply</div>
+            </div>
+          </sc-for>
+          <sc-for list="{{ moreRepliesView }}" as="mr" hint-placeholder-count="1">
+            <div>
+              <div style="display:flex;align-items:center;gap:7px"><div style="width:20px;height:20px;border-radius:50%;background:{{ mr.abg }};display:grid;place-items:center;font-size:10.5px;font-family:'Recoleta','Baloo 2',serif;font-weight:700">{{ mr.a }}</div><div style="font-size:12px;font-weight:700;white-space:nowrap">{{ mr.name }}</div><span style="font-size:10.5px;color:#6E6C7A">{{ mr.time }}</span></div>
+              <div style="font-size:13.5px;margin:4px 0 0 27px;color:#3A3733">{{ mr.text }}</div>
+              <div style="font-size:11px;color:#6E6C7A;margin:3px 0 0 27px">{{ mr.likes }} · reply</div>
+            </div>
+          </sc-for>
+          <sc-if value="{{ showMoreLink }}" hint-placeholder-val="{{ true }}">
+            <div class="tap" onClick="{{ showAllReplies }}" style="font-size:11.5px;color:#1F2ED0;font-weight:600;margin-left:27px">show 9 more replies…</div>
+          </sc-if>
+        </div>
+
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isPause }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:0 18px 16px">
+        <div style="display:flex;align-items:center;gap:8px;position:sticky;top:0;background:#F5F4F1;z-index:2;padding:14px 0 8px"><span class="tap" onClick="{{ goPacks }}" style="font-size:15.5px;color:#1F2ED0">←</span><div style="font-family:'Recoleta','Baloo 2',serif;font-weight:700;font-size:20px;white-space:nowrap">Pause Playpals</div></div>
+        <p style="font-size:14px;color:#6E6C7A;margin:8px 0 0">No hoops, no guilt. Pick what works · cancel or pause anytime, like we promised:</p>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px">
+          <div class="tap" onClick="{{ pickPause }}" style="background:#fff;border-radius:16px;padding:14px;outline:2px solid {{ pauseOutline1 }}">
+            <div style="display:flex;align-items:center;gap:8px"><span style="font-size:17.5px">⏸</span><div style="font-size:14.5px;font-weight:700;white-space:nowrap">Pause 1–3 months</div><span style="margin-left:auto;color:{{ pauseDot1 }};font-size:16.5px">●</span></div>
+            <div style="font-size:12px;color:#6E6C7A;margin-top:4px">Keep your toys until you're back. $0/mo while paused (normally $55/mo).</div>
+          </div>
+          <div class="tap" onClick="{{ pickFree }}" style="background:#fff;border-radius:16px;padding:14px;outline:2px solid {{ pauseOutline2 }}">
+            <div style="display:flex;align-items:center;gap:8px"><span style="font-size:17.5px">📚</span><div style="font-size:14.5px;font-weight:700">Free plan · hub + community</div><span style="margin-left:auto;color:{{ pauseDot2 }};font-size:16.5px">●</span></div>
+            <div style="font-size:12px;color:#6E6C7A;margin-top:4px">Return the toys, keep Ask Playpals, Learn &amp; Parents free.</div>
+          </div>
+          <div class="tap" onClick="{{ pickCancel }}" style="background:#fff;border-radius:16px;padding:14px;outline:2px solid {{ pauseOutline3 }}">
+            <div style="display:flex;align-items:center;gap:8px"><span style="font-size:17.5px">👋</span><div style="font-size:14.5px;font-weight:700;white-space:nowrap">Cancel fully</div><span style="margin-left:auto;color:{{ pauseDot3 }};font-size:16.5px">●</span></div>
+            <div style="font-size:12px;color:#6E6C7A;margin-top:4px">We'll collect the pack. Rejoin anytime · Cleo's profile stays.</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;background:#FFF3C9;border-radius:16px;padding:12px 14px;margin-top:12px;align-items:center">
+          <span style="font-size:16.5px">💛</span><div style="font-size:13px;color:#8a6a1f">Keeping a favorite? Buy the tea set for 55% off before pickup.</div>
+        </div>
+        <button class="tap" onClick="{{ confirmPause }}" style="width:100%;margin-top:12px;background:#1F2ED0;color:#fff;border:none;border-radius:999px;padding:13px;font-weight:700;font-size:15px;font-family:inherit">{{ pauseCta }}</button>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isPaused }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:22px 18px 16px;text-align:center">
+        <div style="width:76px;height:76px;border-radius:50%;background:#FFEDB0;display:grid;place-items:center;font-size:36px;margin:8px auto 0">🌤</div>
+        <div style="font-family:'Recoleta','Baloo 2',serif;font-weight:700;font-size:22px;margin-top:12px">Paused until August</div>
+        <div style="font-size:14px;color:#6E6C7A;margin-top:4px">Zero charges until then. Cleo keeps The Little Stacker, and everything else stays free:</div>
+        <div style="text-align:left;background:#fff;border-radius:20px;padding:16px;margin-top:14px;box-shadow:0 2px 8px rgba(31,46,208,.08)">
+          <div style="display:flex;gap:10px;align-items:center"><span style="font-size:16.5px">💬</span><div style="font-size:13.5px"><b>Ask Playpals</b> · still answering, still citing</div></div>
+          <div style="display:flex;gap:10px;align-items:center;margin-top:8px"><span style="font-size:16.5px">📚</span><div style="font-size:13.5px"><b>Learn hub</b> · Cleo's stage updates keep coming</div></div>
+          <div style="display:flex;gap:10px;align-items:center;margin-top:8px"><span style="font-size:16.5px">👥</span><div style="font-size:13.5px"><b>Parents</b> · the 3am club stays open</div></div>
+        </div>
+        <div style="font-size:13px;color:#6E6C7A;margin-top:12px">We'll check in a week before August · no surprise charges, promise.</div>
+        <button class="tap" onClick="{{ goHome }}" style="width:100%;margin-top:14px;background:transparent;border:2px solid #1F2ED0;color:#1F2ED0;border-radius:999px;padding:12px;font-weight:700;font-size:14px;font-family:inherit">Back to Home</button>
+      </div>
+    </sc-if>
+
+  </div>
+
+  <sc-if value="{{ isPacks }}" hint-placeholder-val="{{ false }}">
+    <div style="padding:10px 18px 6px">
+      <button class="tap" onClick="{{ confirmPack }}" style="width:100%;background:#1F2ED0;color:#fff;border:none;border-radius:999px;padding:14px;font-weight:700;font-size:15px;font-family:inherit">Confirm PlayPack ✓</button>
+      <div style="text-align:center;margin-top:6px;font-size:12px;color:#6E6C7A">Need a break? <span class="tap" onClick="{{ goPause }}" style="color:#1F2ED0;font-weight:600;text-decoration:underline">Pause or manage plan</span></div>
+    </div>
+  </sc-if>
+  <sc-if value="{{ isAsk }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;gap:8px;align-items:center;background:#fff;border:1px solid rgba(31,46,208,.18);border-radius:999px;padding:6px 6px 6px 14px;margin:10px 18px">
+      <input value="{{ askInput }}" onChange="{{ askInputChange }}" onKeyDown="{{ askKey }}" placeholder="Ask Playpals anything…" style="flex:1;border:none;outline:none;background:transparent;font-size:13.5px;font-family:inherit;color:#3A3733">
+      <span class="tap" onClick="{{ sendAskNow }}" style="width:30px;height:30px;flex:none;border-radius:50%;background:#1F2ED0;color:#fff;display:grid;place-items:center;font-size:14.5px">➤</span>
+    </div>
+  </sc-if>
+  <sc-if value="{{ isParents }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;gap:8px;align-items:center;background:#fff;border:1px solid rgba(31,46,208,.18);border-radius:999px;padding:6px 6px 6px 14px;margin:10px 18px">
+      <input value="{{ parentInput }}" onChange="{{ parentInputChange }}" onKeyDown="{{ parentKey }}" placeholder="share a win or a 3am worry…" style="flex:1;border:none;outline:none;background:transparent;font-size:13.5px;font-family:inherit;color:#3A3733">
+      <span class="tap" onClick="{{ sendParent }}" style="width:30px;height:30px;flex:none;border-radius:50%;background:#1F2ED0;color:#fff;display:grid;place-items:center;font-size:14.5px">➤</span>
+    </div>
+  </sc-if>
+  <sc-if value="{{ isCompose }}" hint-placeholder-val="{{ false }}">
+    <div style="padding:10px 18px 6px">
+      <button class="tap" onClick="{{ composePost }}" style="width:100%;background:{{ postBtnBg }};color:#fff;border:none;border-radius:999px;padding:14px;font-weight:700;font-size:16.5px;font-family:inherit">Post to the Club</button>
+      <div style="font-size:11.5px;color:#6E6C7A;text-align:center;margin-top:6px;white-space:nowrap">visible to Playpals parents only · be kind, we're all tired</div>
+    </div>
+  </sc-if>
+  <sc-if value="{{ isThread }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;gap:8px;align-items:center;background:#fff;border:1px solid rgba(31,46,208,.18);border-radius:999px;padding:6px 6px 6px 14px;margin:10px 18px">
+      <input value="{{ replyInput }}" onChange="{{ replyInputChange }}" onKeyDown="{{ replyKey }}" placeholder="reply to jess…" style="flex:1;border:none;outline:none;background:transparent;font-size:13.5px;font-family:inherit;color:#3A3733">
+      <span class="tap" onClick="{{ sendReply }}" style="width:30px;height:30px;flex:none;border-radius:50%;background:#1F2ED0;color:#fff;display:grid;place-items:center;font-size:14.5px">➤</span>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ sheetOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:relative">
+      <div style="position:absolute;bottom:0;left:0;right:0;background:#fff;border-radius:28px 28px 0 0;padding:18px;box-shadow:0 -8px 30px rgba(31,46,208,.2)">
+        <div style="width:36px;height:4px;border-radius:999px;background:rgba(31,46,208,.15);margin:0 auto 12px"></div>
+        <div style="font-family:'Recoleta','Baloo 2',serif;font-weight:700;font-size:16.5px">Swap the {{ sheetToyLabel }} for…</div>
+        <div style="font-size:12px;color:#6E6C7A;margin-top:2px">from the Toy Shelf · same stage, music &amp; rhythm</div>
+        <div class="nosb" style="display:flex;flex-direction:column;gap:8px;margin-top:12px;max-height:250px;overflow-y:auto;padding:3px;scrollbar-width:none">
+          <sc-for list="{{ sheetOptions }}" as="o" hint-placeholder-count="5">
+            <div class="tap" onClick="{{ o.on }}" style="display:flex;align-items:center;gap:10px;background:#F5F4F1;border-radius:14px;padding:10px 12px;outline:2px solid {{ o.outline }}">
+              <div style="width:38px;height:38px;flex:none;border-radius:11px;background:{{ o.tile }};display:grid;place-items:center;font-size:19px">{{ o.e }}</div>
+              <div style="flex:1;min-width:0"><div style="font-size:13.5px;font-weight:700">{{ o.n }}</div><div style="font-size:11px;color:{{ o.dc }}">{{ o.d }}</div></div>
+              <sc-if value="{{ o.dupBadge }}" hint-placeholder-val="{{ false }}"><span style="background:#FFF3C9;color:#8a6a1f;border-radius:999px;padding:2px 8px;font-size:9.5px;font-weight:700;white-space:nowrap">IN PACK</span></sc-if>
+              <span style="color:{{ o.dot }};font-size:16.5px">●</span>
+            </div>
+          </sc-for>
+        </div>
+        <sc-if value="{{ dupWarning }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;gap:8px;background:#FFF3C9;border-radius:12px;padding:10px 12px;margin-top:10px;align-items:flex-start">
+            <span style="font-size:14.5px">⚠️</span><div style="font-size:12px;color:#8a6a1f">{{ dupWarningText }}</div>
+          </div>
+        </sc-if>
+        <button class="tap" onClick="{{ doSwap }}" style="width:100%;margin-top:12px;background:{{ swapBtnBg }};color:#fff;border:none;border-radius:999px;padding:12px;font-weight:700;font-size:14px;font-family:inherit">{{ swapBtnLabel }}</button>
+        <button class="tap" onClick="{{ closeSheet }}" style="width:100%;margin-top:8px;background:transparent;border:none;color:#1F2ED0;font-weight:700;font-size:13.5px;font-family:inherit;padding:6px">Never mind</button>
+      </div>
+    </div>
+  </sc-if>
+
+  <div style="display:flex;justify-content:space-around;border-top:1px solid rgba(31,46,208,.12);padding:10px 8px 14px;background:#fff">
+    <div class="tap" onClick="{{ goHome }}" style="text-align:center;opacity:{{ opHome }}"><div style="font-size:17.5px">🏠</div><div style="font-size:10px;font-weight:700;color:{{ cHome }}">Home</div></div>
+    <div class="tap" onClick="{{ goPacks }}" style="text-align:center;opacity:{{ opPacks }}"><div style="font-size:17.5px">📦</div><div style="font-size:10px;font-weight:700;color:{{ cPacks }}">Packs</div></div>
+    <div class="tap" onClick="{{ goLearn }}" style="text-align:center;opacity:{{ opLearn }}"><div style="font-size:17.5px">📚</div><div style="font-size:10px;font-weight:700;color:{{ cLearn }}">Learn</div></div>
+    <div class="tap" onClick="{{ goAsk }}" style="text-align:center;opacity:{{ opAsk }}"><div style="font-size:17.5px">💬</div><div style="font-size:10px;font-weight:700;color:{{ cAsk }}">Ask</div></div>
+    <div class="tap" onClick="{{ goParents }}" style="text-align:center;opacity:{{ opParents }}"><div style="font-size:17.5px">👥</div><div style="font-size:10px;font-weight:700;color:{{ cParents }}">Parents</div></div>
+  </div>
+</div>
+<sc-if value="{{ isStandalone }}" hint-placeholder-val="{{ true }}"><div style="font-size:13px;color:#6E6C7A;max-width:340px;text-align:center">Try: Preview Next PlayPack → tap the drum → Swap It In → Confirm · or Ask → Preview Pack · or Packs → Pause</div></sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:480,&quot;height&quot;:940},&quot;startScreen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;home&quot;,&quot;options&quot;:[&quot;home&quot;,&quot;packs&quot;,&quot;shelf&quot;,&quot;learn&quot;,&quot;ask&quot;,&quot;parents&quot;,&quot;thread&quot;,&quot;compose&quot;,&quot;pause&quot;],&quot;tsType&quot;:&quot;string&quot;},&quot;embed&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;autoplay&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;off&quot;,&quot;options&quot;:[&quot;off&quot;,&quot;swap&quot;,&quot;learn&quot;,&quot;community&quot;],&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  state = { screen: this.props.startScreen ?? 'home', sheetOpen: false, swaps: {}, sheetToy: null, sheetPick: 'piano', pausePick: 'pause',
+    learnFilter: 'for Cleo', parentsFilter: 'all', article: 'schema',
+    composeText: '', composeTag: 'win 🎉', composeAnon: false, composeAI: true, composeNotify: true, composePhotos: 0, shelfFilter: 'all', shelfAdded: {},
+    askInput: '', askBusy: false, askMsgs: [], parentInput: '', userPosts: [], replyInput: '', extraReplies: [],
+    likes: { jess: 24, marcus: 57, amara: 132, priya: 41, dev: 88, sam: 63 }, liked: {} };
+  go(screen) { this.setState({ screen, sheetOpen: false }); }
+  // ── autoplay: drives the real prototype with real clicks, loops while on screen, hands over on a real tap ──
+  phoneRef = (el) => { this._phone = el; };
+  takeOver = (e) => {
+    const trusted = e && (e.nativeEvent ? e.nativeEvent.isTrusted : e.isTrusted);
+    if (!trusted || !this._apFlow()) return;
+    this._apStop(); this._apUser = true;
+    this.setState({ apLabel: '', apTapOn: false });
+    clearTimeout(this._apIdle);
+    this._apIdle = setTimeout(() => { this._apUser = false; if (this._apVisible) this._apStart(); }, 20000);
+  };
+  _apFlow() {
+    const FLOWS = {
+      swap: [
+        { wait: 1700, label: '① this week, at a glance' },
+        { find: 'Preview Next PlayPack', label: '② preview the next PlayPack' },
+        { scrollTo: 'Wooden drum', wait: 1500, label: '③ the AI flags a toy she already owns' },
+        { find: 'Swap ⇄', within: 'Wooden drum', label: '④ swap just that one toy' },
+        { find: 'Shaker trio', label: '⑤ pick from the Toy Shelf' },
+        { find: 'Swap It In', label: '⑥ swapped in place ✓' },
+        { find: 'Confirm PlayPack', label: '⑦ confirm the pack' },
+        { wait: 2800, label: '🎉 done · no emails, no forms' },
+      ],
+      learn: [
+        { wait: 1700, label: '① a read picked for her stage' },
+        { find: 'Why she throws everything', label: '② open the Learn hub article' },
+        { wait: 1600, label: '③ the gist first, for tired eyes' },
+        { scrollTo: 'What it means for Cleo', wait: 1900, label: '④ personal to Cleo, never judgy' },
+        { find: 'Save', label: '⑤ save it for 3am' },
+        { scrollTo: 'How her PlayPack helps', wait: 2600, label: '⑥ tied back to her PlayPack' },
+      ],
+      community: [
+        { wait: 1500, label: '① the Parents Club, one tap away' },
+        { find: 'Parents', within: 'Learn', label: '② open the club' },
+        { wait: 1500, label: '③ wins, worries, real questions' },
+        { find: '🤍 24', label: '④ send jess some love' },
+        { find: '14mo woke up screaming', label: '⑤ open the 3am thread' },
+        { wait: 1700, label: '⑥ parents + a sourced AI take' },
+        { scrollTo: 'replies', wait: 2600, label: '⑦ support that never sleeps 💙' },
+      ],
+    };
+    return FLOWS[this.props.autoplay] || null;
+  }
+  componentDidMount() {
+    if (!this._apFlow() || typeof IntersectionObserver === 'undefined') return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    this._apIO = new IntersectionObserver((es) => {
+      this._apVisible = es.some((x) => x.isIntersecting);
+      if (this._apVisible && !this._apOn && !this._apUser) this._apStart();
+      else if (!this._apVisible && this._apOn) { this._apStop(); this.setState({ apTapOn: false }); }
+    }, { threshold: 0.3 });
+    this._apObs = setTimeout(() => { if (this._phone) this._apIO.observe(this._phone); }, 60);
+  }
+  componentWillUnmount() { this._apStop(); clearTimeout(this._apIdle); clearTimeout(this._apObs); if (this._apIO) this._apIO.disconnect(); }
+  _apStart() { this._apOn = true; const tok = this._apTok = (this._apTok || 0) + 1; this._apRun(tok); }
+  _apStop() { this._apOn = false; this._apTok = (this._apTok || 0) + 1; }
+  _apSleep(ms) { return new Promise((r) => setTimeout(r, ms)); }
+  _apFind(text, within) {
+    const root = this._phone; if (!root) return null;
+    const vis = (el) => el.offsetParent !== null || el === root;
+    let scope = root;
+    if (within) {
+      const boxes = [...root.querySelectorAll('div')].filter((d) => vis(d) && d.textContent.includes(within) && d.textContent.includes(text));
+      if (boxes.length) scope = boxes.reduce((a, b) => (b.textContent.length < a.textContent.length ? b : a));
+    }
+    const hits = [...scope.querySelectorAll('button, .tap')].filter((el) => vis(el) && el.textContent.includes(text));
+    if (hits.length) return hits.reduce((a, b) => (b.textContent.length < a.textContent.length ? b : a));
+    const any = [...scope.querySelectorAll('div, span, h1, h2, h3, p')].filter((el) => vis(el) && el.textContent.includes(text));
+    return any.length ? any.reduce((a, b) => (b.textContent.length < a.textContent.length ? b : a)) : null;
+  }
+  _apScroller(el) {
+    let sc = el && el.parentElement;
+    while (sc && sc !== this._phone) {
+      const oy = getComputedStyle(sc).overflowY;
+      if ((oy === 'auto' || oy === 'scroll') && sc.scrollHeight > sc.clientHeight + 2) return sc;
+      sc = sc.parentElement;
+    }
+    return null;
+  }
+  _apScroll(el) {
+    const sc = this._apScroller(el); if (!sc) return;
+    const er = el.getBoundingClientRect(), sr = sc.getBoundingClientRect();
+    const k = sr.height / (sc.offsetHeight || 1) || 1;
+    const delta = (er.top + er.height / 2 - (sr.top + sr.height * 0.45)) / k;
+    sc.scrollTo({ top: Math.max(0, sc.scrollTop + delta), behavior: 'smooth' });
+  }
+  _apTopAll() { if (this._phone) this._phone.querySelectorAll('div').forEach((d) => { if (d.scrollTop) d.scrollTop = 0; }); }
+  _apTap(el) {
+    const ph = this._phone; const pr = ph.getBoundingClientRect(); const k = pr.width / (ph.offsetWidth || 1) || 1;
+    const r = el.getBoundingClientRect();
+    const x = (r.left + r.width / 2 - pr.left) / k - 6, y = (r.top + r.height / 2 - pr.top) / k - 6;
+    this.setState({ apTapOn: false }, () => this.setState({ apTapOn: true, apTapX: x + 'px', apTapY: y + 'px' }));
+  }
+  async _apRun(tok) {
+    const flow = this._apFlow(); const live = () => tok === this._apTok;
+    while (live()) {
+      this.setState({ screen: this.props.startScreen ?? 'home', sheetOpen: false, swaps: {}, sheetToy: null, sheetPick: 'piano', article: 'schema', savedArticles: {}, liked: {}, likes: { jess: 24, marcus: 57, amara: 132, priya: 41, dev: 88, sam: 63 }, parentsFilter: 'all', learnFilter: 'for Cleo', repliesExpanded: false, apTapOn: false });
+      await this._apSleep(60); this._apTopAll();
+      for (const st of flow) {
+        if (!live()) return;
+        this.setState({ apLabel: st.label });
+        if (st.scrollTo) { await this._apSleep(350); const t = this._apFind(st.scrollTo); if (t) this._apScroll(t); }
+        if (st.find) {
+          await this._apSleep(800); if (!live()) return;
+          const el = this._apFind(st.find, st.within);
+          if (el) {
+            this._apScroll(el); await this._apSleep(420); if (!live()) return;
+            this._apTap(el); await this._apSleep(470); if (!live()) return;
+            const before = this.state.screen; el.click();
+            await this._apSleep(450); if (!live()) return;
+            if (this.state.screen !== before) this._apTopAll();
+            this.setState({ apTapOn: false });
+          }
+        }
+        await this._apSleep(st.wait || 1000);
+      }
+    }
+  }
+  async sendAsk() {
+    const q = this.state.askInput.trim();
+    if (!q || this.state.askBusy) return;
+    const msgs = [...this.state.askMsgs, { role: 'user', text: q }];
+    this.setState({ askMsgs: msgs, askInput: '', askBusy: true });
+    let reply;
+    try {
+      const history = [
+        { role: 'user', content: 'why does Cleo throw literally everything we hand her' },
+        { role: 'assistant', content: "Good news: that's trajectory schema play · she's running physics experiments, not testing you. Try a yes-throw basket of soft toys." },
+        ...msgs.map(m => ({ role: m.role === 'ai' ? 'assistant' : 'user', content: m.text })),
+      ];
+      if (!(window.claude && window.claude.complete)) throw new Error('offline');
+      reply = await window.claude.complete({
+        system: "You are Ask Playpals, the warm AI helper inside the Playpals toy-rotation subscription app. The parent is marey; her daughter Cleo is 14 months old, deep in stacking and throwing schema play. Playpals delivers PlayPacks of re-loved developmental toys on 2-month Play Cycles with built-in swaps from the Toy Shelf. FORMAT: match the shape to the question. Quick factual or yes/no questions get 1-3 plain warm sentences, no bullets. How-to, multi-part, or 'help me' questions ALWAYS get a short warm opening line first (never start with a bullet), then 2-3 bullet lines (never more than 3) each starting with '- ' and a fitting emoji, a 2-4 word lead phrase, a colon, and one short practical sentence, optionally a short encouraging closer. When suggesting toys, prefer toys from the Toy Shelf: Rainbow step stacker, Bean bag toss, Pop-up piano, Nesting cups, Touch-and-feel books, Tiny tea set, Shaker trio, Chime blocks. Emotional or reassurance-seeking messages get plain empathetic prose (2-3 sentences, one emoji max), never bullets. No markdown besides the '- ' bullets, never clinical, never judgy.",
+        messages: history,
+      });
+    } catch (e) {
+      await new Promise(r => setTimeout(r, 900 + Math.random() * 600));
+      reply = this.localReply(q);
+    }
+    // attach a product card ONLY when the reply explicitly names a shelf toy · never off loose keywords
+    const toyNames = { 'step stacker': 'stacker', 'bean bag toss': 'bean', 'pop-up piano': 'piano', 'nesting cup': 'cups', 'touch-and-feel book': 'books', 'tea set': 'tea' };
+    const qLower = q.toLowerCase();
+    const toyIntent = /\b(toy|toys|play|pack|shelf|activity|activities|gift|swap)\b/.test(qLower);
+    const replyLower = reply.toLowerCase();
+    let toyKey = null;
+    if (toyIntent) { for (const n in toyNames) { if (replyLower.includes(n)) { toyKey = toyNames[n]; break; } } }
+    this.setState(st => ({ askMsgs: [...st.askMsgs, { role: 'ai', text: reply, toy: toyKey, itemList: toyIntent }], askBusy: false }));
+  }
+  localReply(q) {
+    const t = q.toLowerCase(), has = (...w) => w.some(x => t.includes(x));
+    if (has('play space','playroom','set up','setup','organize','room')) return "Love this question · a calm space does half the work for you.\n- 🧺 Fewer toys out: Keep 4–6 toys on a low shelf and rotate the rest out of sight.\n- 🪜 Her height, her choice: Open bins and low shelves let Cleo pick without asking.\n- 🛋 A soft landing zone: A rug or floor cushions makes throwing and climbing safe.";
+    if (has('toy','toys','play with','activity','activities','gift','bored')) return "She's deep in stacking and throwing, so lean into both.\n- 🎯 Bean bag toss: Soft, safe throwing with a target to aim for.\n- 🥣 Nesting cups: Stack, dump, repeat · feeds both of her favorite schemas.\n- 🪜 Rainbow step stacker: Big-muscle climbing plus stacking in one.";
+    if (has('sleep','nap','night','wake','bedtime','bed')) return "Sleep wobbles around 14 months are so common.\n- 🌙 Boring night visits: Same low voice, same phrase, minimal light, then out.\n- ⏰ Earlier bedtime: 30–45 minutes earlier on rough days stops the overtired spiral.\n- 🧸 One lovey: Keep a single comfort toy out of rotation so bedtime has an anchor.";
+    if (has('throw','throwing')) return "Good news: that's trajectory schema play · she's running physics experiments, not testing you. A \"yes-throw\" basket of soft toys gives the urge somewhere safe to go.";
+    if (has('tantrum','meltdown','cry','crying','scream','hit','bite','biting')) return "Big feelings at this age are overflow, not manipulation. Stay close, name the feeling once, and save the lesson for after · your calm is the intervention 💙";
+    if (has('word','talk','talking','speech','language','say')) return "Understanding races way ahead of speaking right now. Narrate your day in short sentences and leave little pauses · those gaps are her invitation to answer, even in babble.";
+    if (has('walk','walking','steps','crawl')) return "Anywhere from 9 to 18 months is normal for first steps. Cruising, standing up from the floor and squatting to grab things are the real signs it's coming.";
+    if (has('eat','food','picky','snack','feeding','meal')) return "Picky phases are ancient, protective wiring. You choose what and when, she chooses how much · and it can take 15+ relaxed tries before a new food sticks.";
+    if (has('normal','worried','worry','should i','is it ok','okay')) return "It sounds like you're paying really close attention, which is exactly what she needs. Most of what happens at 14 months has a wide normal range · and if something keeps nagging at you, your pediatrician is always a great call 💙";
+    if (has('swap','pack','playpack','delivery','pause','cancel','subscription')) return "You can swap any toy right from Next PlayPack · just tap Swap on the toy and pick a replacement from the Toy Shelf. Need a break? Pause keeps your toys and your spot.";
+    return "Great question. At 14 months Cleo is learning through repetition, so the simplest answer is usually: follow her lead, keep things low-pressure, and give her a few chances to try again tomorrow 💙";
+  }
+  like(k) {
+    this.setState(s => {
+      const liked = { ...s.liked, [k]: !s.liked[k] };
+      const likes = { ...s.likes, [k]: s.likes[k] + (liked[k] ? 1 : -1) };
+      return { liked, likes };
+    });
+  }
+  renderVals() {
+    const s = this.state;
+    const BLUE = '#1F2ED0', GRAY = '#6E6C7A', OFF = 'transparent', DIM = 'rgba(31,46,208,.2)';
+    const tab = (name) => s.screen === name || (name==='packs' && ['confirmed','pause','paused','shelf'].includes(s.screen)) || (name==='learn' && s.screen==='article') || (name==='parents' && ['thread','compose'].includes(s.screen));
+    const ART = {
+      schema: { e: '🧱', topic: 'play ideas', cat: 'stacking', title: 'Schema play 101', meta: '4 min read · play ideas', gist: ['Repeated throwing/stacking = brain experiments, not chaos', 'Redirect the urge, don\u2019t restrict it', 'Her PlayPacks are built around her current schema'], secs: [
+        { e: '🔁', h: 'What you\u2019re seeing', lead: 'The same action, on repeat.', rest: 'Throwing, stacking, dumping, carrying · between 12 and 18 months, toddlers loop one behavior over and over. These loops are called play schemas, and they\u2019re how young brains run experiments on physics, cause and effect, and their own growing bodies. The repetition isn\u2019t boredom; it\u2019s the science.' },
+        { e: '🧪', h: 'What it means for Cleo', lead: 'She\u2019s testing balance and distance.', rest: 'Cleo\u2019s current favorites · stacking and trajectory · are her working out how high things go before they fall and how far things fly when they leave her hand. Every repeat refines the prediction. That\u2019s why she\u2019ll do it forty times and be delighted forty times.', tip: 'Try a "yes-throw" basket of soft toys · redirect the urge instead of restricting it.' },
+        { e: '📦', h: 'How her PlayPack helps', lead: 'The toys follow the schema.', rest: 'Every toy in her current pack was chosen for stacking and throwing play · steps to climb, cups to nest, soft things that fly safely. When her loop changes (and it will, suddenly), her next pack changes with it. You don\u2019t have to track any of this; the recommender does.' }] },
+      milestones: { e: '👀', topic: 'milestones', cat: 'language', title: 'Milestones to watch, 12–18 mo', meta: 'checklist · pediatric-reviewed', gist: ['First steps, 5–20 words, pointing, early pretend play', 'Ranges matter more than dates', 'Flag missing pointing/words/name-response at 18 mo'], secs: [
+        { e: '🚶', h: 'What to expect, 12–18 mo', lead: 'Four big arrivals.', rest: 'First independent steps, a vocabulary burst of 5–20 words, pointing (both to ask for things and to show you things), and simple pretend play like feeding a doll or "drinking" from an empty cup. They rarely arrive in order, and they never arrive on schedule.' },
+        { e: '📅', h: 'Ranges, not dates', lead: 'Every child\u2019s timeline is their own.', rest: 'Walking anywhere from 9 to 18 months is normal. Talking has an even wider spread. A skill that hasn\u2019t shown up yet is usually a skill that\u2019s still loading · comparison with the playground kid the same age tells you almost nothing.', tip: 'Watch trends over weeks, not days. Skills often plateau right before a leap.' },
+        { e: '🩺', h: 'When to check in', lead: 'Three things worth flagging at 18 months:', rest: 'no pointing, no single words, or no response to their name. None of these is a diagnosis · they\u2019re just the signals pediatricians most want to hear about early. Cleo\u2019s profile quietly tracks milestones from your notes and swap history: never scores, just gentle context.' }] },
+      tantrums: { e: '😤', topic: 'behavior', cat: 'pretend', title: 'Tantrums are communication', meta: '5 min read · behavior', gist: ['A tantrum is overflow, not manipulation', 'Regulate first, teach later', 'Fewer, better toys = fewer overwhelm meltdowns'], secs: [
+        { e: '🌊', h: 'What a tantrum actually is', lead: 'An overflowing nervous system.', rest: 'Not a negotiation tactic, not manipulation, not a verdict on your parenting. At this age big feelings arrive long before the words to name them · so the feeling comes out sideways, loudly, usually in public. It\u2019s developmentally right on time.' },
+        { e: '🧘', h: 'In the moment', lead: 'Regulate first, teach later.', rest: 'Stay close, stay calm (or convincingly fake it), and name the feeling once · "you\u2019re so frustrated." Skip the lesson mid-storm; a flooded brain can\u2019t learn. The teaching moment comes after, when everyone\u2019s breathing normally again.', tip: 'Your calm is the intervention. Co-regulation beats any script.' },
+        { e: '🧸', h: 'The toy connection', lead: 'Fewer, better toys = fewer meltdowns.', rest: 'A crowded shelf is a wall of decisions a toddler can\u2019t make, and overwhelm loves an exit. A small rotation of stage-right toys lowers the ambient noise. It\u2019s genuinely the whole reason toy rotation works · calmer play, longer focus, fewer overflow moments.' }] },
+      sleep: { e: '🌙', topic: 'sleep', cat: 'language', title: 'Surviving the 2-to-1 nap transition', meta: '5 min read · sleep', gist: ['Usually hits 13–18 months, takes 2–6 weeks', 'Shift the single nap earlier, not later', 'Cranky 4pm? Quiet play beats a car-seat catnap'], secs: [
+        { e: '⏰', h: 'How you\u2019ll know it\u2019s time', lead: 'The two-nap day stops working.', rest: 'Somewhere between 13 and 18 months, the morning nap starts stealing the afternoon one, or bedtime slides past nine while everyone suffers. If two out of three days look like this for two weeks straight, the transition has begun · expect two to six bumpy weeks.' },
+        { e: '🐌', h: 'Make the move gradually', lead: 'Shift, don\u2019t drop.', rest: 'Push the morning nap 15 minutes later every few days until it lands around midday, rather than cutting it cold turkey. An earlier bedtime is your best friend during the shift · 30–45 minutes early on rough days keeps the sleep-debt spiral from starting.', tip: 'Protect the new midday nap fiercely for the first two weeks · car naps will sabotage it.' },
+        { e: '🧺', h: 'Surviving the 4pm zone', lead: 'Quiet play beats a catnap.', rest: 'The late-afternoon meltdown window is real. A calm-play basket · books, nesting cups, soft sensory toys · buys everyone twenty low-stimulation minutes without an accidental car-seat doze that wrecks the night. Rotate the basket weekly so it stays interesting.' }] },
+      snack: { e: '🍌', topic: 'feeding', cat: 'motor', title: 'Snack-time independence hacks', meta: '3 min read · feeding', gist: ['Let her self-serve from tiny portions', 'Mess is the curriculum', 'A "yes shelf" of snacks lowers the whining'], secs: [
+        { e: '🙋', h: 'Let her do it herself', lead: 'Snack time is the safest place to practice independence.', rest: 'Around this age, "me do it" arrives with force. Tiny open cups, pre-loaded spoons, and two-piece portions turn the chaos into skill-building · small enough that failure is cheap and success is frequent.' },
+        { e: '🎨', h: 'Mess is the curriculum', lead: 'Smearing, dropping and dunking are fine-motor work,', rest: 'not bad manners. Every squish teaches grip pressure; every drop is (annoyingly) a physics lesson. Save the etiquette for age three · right now the mess is doing its job.', tip: 'A splat mat under the chair protects your floor and your sanity. Shake, rinse, done.' },
+        { e: '👉', h: 'The yes shelf trick', lead: 'Two choices, both pre-approved.', rest: 'A low shelf with two snack options she can point to lowers the whining dramatically · she gets real agency, you keep control of the menu. Bonus: pointing to choose is milestone practice in disguise.' }] },
+      clean: { e: '🛁', topic: 'for Cleo', cat: 'stacking', title: 'How we clean re-loved toys', meta: '2 min read · behind the scenes', gist: ['Hospital-grade disinfectant on every toy', 'Safety-checked + repacked at playpals HQ', 'Stray pieces get reunited, no fuss'], secs: [
+        { e: '🧼', h: 'Every toy, every time', lead: 'Inspected piece by piece.', rest: 'When a PlayPack comes home from a Play Cycle, each toy is checked over, cleaned with a hospital-grade disinfectant, and dried before it goes anywhere near another family. No shortcuts, no "looks clean enough."' },
+        { e: '✅', h: 'The safety pass', lead: 'Worn toys retire.', rest: 'Anything chipped, cracked, loose or faded fails the check and leaves the rotation for good. What ships to the next family has passed the same standard we\u2019d want for our own kids · that\u2019s the re-loved promise: feels new to Cleo, without a single new toy being made.' },
+        { e: '🧩', h: 'About stray pieces', lead: 'Missing a piece? No fuss.', rest: 'Pop any strays into your next return box · even months later · and our team reunites them with their set at playpals HQ. Nobody\u2019s charging you for a lost teacup lid.', tip: 'A dedicated "playpals bowl" on a high shelf catches strays all cycle long.' }] },
+      mile2: { e: '🗣', topic: 'milestones', cat: 'language', title: 'From babble to words', meta: '4 min read · milestones', gist: ['Narrate everything · she\u2019s always listening', 'Pauses invite her to "answer"', 'Signs and words count the same'], b1: 'Between 12 and 18 months, understanding races ahead of speaking · she knows far more words than she can say.', b2: 'Narrate your day in short sentences and leave pauses; those gaps are her invitation to answer, even in babble.', b3: 'Gestures and signs count as words at this age, so celebrate the point and the wave like the real vocabulary they are.' },
+      mile3: { e: '🚶‍♀️', topic: 'milestones', cat: 'motor', title: 'Walking late? When to relax', meta: '3 min read · milestones', gist: ['9–18 months is ALL normal for first steps', 'Cruisers and bum-shufflers get there too', 'Ask your pediatrician past 18 months'], b1: 'First independent steps land anywhere from 9 to 18 months · the range is wide and mostly meaningless for what comes later.', b2: 'Confident cruising, standing from the floor and squatting to pick things up are the real precursors to watch happening.', b3: 'If there are no independent steps by 18 months, that\u2019s simply the moment to loop in your pediatrician · not to panic.' },
+      sleep2: { e: '🌜', topic: 'sleep', cat: 'language', title: 'Night wakings at 14 months', meta: '4 min read · sleep', gist: ['Separation anxiety peaks right now', 'Boring, calm, consistent responses win', 'It usually passes in 2–6 weeks'], b1: 'A sudden wave of night waking around 14 months is almost always separation anxiety, molars, or a leap · not a broken sleeper.', b2: 'Keep night visits boring and identical: low voice, minimal light, same phrase, and out. Consistency is the reassurance.', b3: 'Most waves pass within two to six weeks; survive it in shifts if you can, and protect the nap while it lasts.' },
+      sleep3: { e: '🛏', topic: 'sleep', cat: 'pretend', title: 'Bedtime routines that stick', meta: '3 min read · sleep', gist: ['Same 3 steps, same order, every night', 'Keep one "lovey" toy out of rotation', 'Start before overtired o\u2019clock'], b1: 'Toddlers don\u2019t follow clocks, they follow sequences · three predictable steps in the same order beat any perfect schedule.', b2: 'Keep one comfort toy permanently out of the PlayPack rotation so bedtime always has its familiar anchor.', b3: 'Start the routine before the overtired window hits; a slightly early boring bedtime beats a late dramatic one every time.' },
+      beh2: { e: '🦷', topic: 'behavior', cat: 'pretend', title: 'Biting & hitting, toddler edition', meta: '4 min read · behavior', gist: ['It\u2019s communication, not aggression', 'Block calmly, name the feeling once', 'Teethers and big-muscle play help'], b1: 'Biting and hitting at this age are overflow behaviors · a body with big feelings and no words yet, not a character flaw.', b2: 'Block the action calmly, name the feeling once ("you\u2019re mad"), and move on; big reactions accidentally make it a game.', b3: 'Offer legal outlets: teethers to bite, cushions to whack, bean bags to throw. The urge needs a place to go.' },
+      beh3: { e: '🫂', topic: 'behavior', cat: 'pretend', title: 'Separation anxiety, decoded', meta: '4 min read · behavior', gist: ['Peaks 14–18 months · right on schedule', 'Short goodbyes, always announced', 'It means attachment is working'], b1: 'Clinginess that appears overnight around 14–18 months is a healthy attachment milestone, even when it doesn\u2019t feel healthy at 6am.', b2: 'Always say goodbye · sneaking out teaches her you might vanish at any moment. Short, warm, announced exits build trust fastest.', b3: 'Peekaboo, hiding toys under cups, and "I always come back" games are literally rehearsals for this exact skill.' },
+      play2: { e: '📦', topic: 'play ideas', cat: 'stacking', title: 'Cardboard box week', meta: '3 min read · play ideas', gist: ['The box IS the toy · lean in', 'Fill, dump, sit, push, repeat', 'Rotate the box out before boredom'], b1: 'Every parent knows the joke: the box beats the toy. At this age it\u2019s true because a box serves every schema at once.', b2: 'Offer it for filling and dumping, sitting inside, pushing like a car, and posting toys through cut holes · one box, five games.', b3: 'When interest fades, recycle it and bring a new one next delivery day. Rotation works for boxes too.' },
+      play3: { e: '⏱', topic: 'play ideas', cat: 'stacking', title: '10 minutes of independent play', meta: '4 min read · play ideas', gist: ['Start with 2 minutes, sit nearby', 'Fewer toys out = longer focus', 'Narrate less, watch more'], b1: 'Independent play is a muscle: start with two minutes while you sit visibly nearby, and stretch it slowly over weeks.', b2: 'Four toys out beats fourteen · a small, rotating selection is the single biggest booster of toddler focus.', b3: 'Resist narrating her every move; quiet presence tells her play belongs to her, and that\u2019s what makes it last.' },
+      feed2: { e: '🥦', topic: 'feeding', cat: 'motor', title: 'Picky eating is a phase (mostly)', meta: '4 min read · feeding', gist: ['Neophobia peaks in toddlerhood · it\u2019s protective', 'You choose what & when, she chooses how much', '15+ exposures is normal before acceptance'], b1: 'Toddler food refusal is ancient wiring: suspicion of new foods once kept wobbly walkers from eating the wrong berry.', b2: 'Division of responsibility keeps mealtimes calm · you decide what\u2019s served and when, she decides whether and how much.', b3: 'A food can take fifteen or more relaxed exposures before it\u2019s accepted. Keep serving, keep it boring, skip the pressure.' },
+      feed3: { e: '🍴', topic: 'feeding', cat: 'motor', title: 'Open cups & tiny forks', meta: '2 min read · feeding', gist: ['Open cups beat sippies for oral development', 'Pre-loaded spoons build independence', 'Expect mess · it\u2019s the curriculum'], b1: 'Tiny open cups with a splash of water build the mouth muscles that sippy cups let sleep · and 14 months is prime practice time.', b2: 'Pre-load a chunky-handled fork or spoon and hand it over; stabbing a piece of banana solo is a genuine motor milestone.', b3: 'Mess is the tuition: a mat under the chair and a bath-night dinner schedule make it affordable.' },
+      m4: { e: '👉', topic: 'milestones', cat: 'language', title: 'Pointing predicts talking', meta: '3 min read · milestones', gist: ['Pointing = "talk to me about that"', 'Follow her point every time you can', 'A word-burst usually follows'], b1: 'Pointing is Cleo asking you to name her world · every point answered is a vocabulary deposit.', b2: 'Follow the point, name the thing, add one word ("dog! sleepy dog"), and stop there.', b3: 'A burst of pointing usually arrives a few weeks before a burst of words. It\u2019s the trailer for the movie.' },
+      m5: { e: '🙈', topic: 'milestones', cat: 'stacking', title: 'Object permanence games', meta: '3 min read · milestones', gist: ['Peekaboo is brain science', 'Hide toys under cups, scarves, boxes', 'Also rehearses goodbyes'], b1: 'Knowing hidden things still exist is fresh, thrilling knowledge at this age · which is why peekaboo never gets old.', b2: 'Level it up: hide a toy under one of two cups, then swap them slowly while she watches.', b3: 'These games quietly rehearse separations too · "gone" always comes back.' },
+      m6: { e: '🧗', topic: 'milestones', cat: 'motor', title: 'Climbing everything is a phase', meta: '4 min read · milestones', gist: ['Climbing is scheduled development, not defiance', 'Make one legal climbing zone', 'Spot, don\u2019t hover'], b1: 'Climbing at 14 months is gross-motor homework · the couch is simply the nearest gym.', b2: 'Give the urge one legal outlet: a floor cushion pile, a low climbing triangle, a park trip a day.', b3: 'Stay close enough to spot, far enough that she does the work. Confidence is built in wobbles.' },
+      m7: { e: '🔤', topic: 'milestones', cat: 'language', title: 'First 50 words: what counts', meta: '3 min read · milestones', gist: ['"Uh-oh" and "moo" are real words', 'Consistent sounds for things count', 'Track meaning, not pronunciation'], b1: 'If she says "baba" for bottle every single time, that\u2019s a word · dictionaries can wait.', b2: 'Animal sounds, "uh-oh", and half-words all count toward the famous 50-word milestone.', b3: 'Keep a notes-app list; watching it grow beats worrying about how the words sound.' },
+      m8: { e: '🧸', topic: 'milestones', cat: 'pretend', title: 'Pretend play begins', meta: '3 min read · milestones', gist: ['Feeding the bear = symbolic thinking', 'Imitate her pretend, then extend it', 'Real-life props work best'], b1: 'The first time Cleo feeds a teddy or holds a block to her ear like a phone, symbolic thinking has officially arrived.', b2: 'Join the game she starts: sip the invisible tea, thank her, and add one new step ("does bear want some too?").', b3: 'Real-ish props · cups, spoons, hats · beat fancy playsets for sparking early pretend.' },
+      m9: { e: '🩺', topic: 'milestones', cat: 'language', title: 'The 15-month checkup, decoded', meta: '4 min read · milestones', gist: ['They\u2019ll ask about words, walking, pointing', 'Bring your questions written down', 'No quiz to pass · it\u2019s a conversation'], b1: 'At the 15-month visit, expect questions about words, steps, pointing, feeding and sleep · a snapshot, not an exam.', b2: 'Write your questions down beforehand; 4pm-you will forget what 3am-you worried about.', b3: 'Screens like these exist to catch the rare kid who needs support early · for everyone else they\u2019re reassurance with a stethoscope.' },
+      m10: { e: '🪞', topic: 'milestones', cat: 'pretend', title: 'Mirror games & early self-awareness', meta: '3 min read · milestones', gist: ['Mirror fascination is identity work', 'Name body parts in the reflection', 'The "rouge test" clicks around 18–24 mo'], b1: 'That daily flirtation with the mirror is Cleo slowly working out the biggest puzzle there is: that\u2019s me.', b2: 'Play alongside: wave, name noses and ears, make faces to copy.', b3: 'True self-recognition tends to click between 18 and 24 months · until then, enjoy the world\u2019s cutest confusion.' },
+      s4: { e: '🌅', topic: 'sleep', cat: 'stacking', title: 'The 5am club: early wakings', meta: '4 min read · sleep', gist: ['Check bedtime isn\u2019t too LATE', 'Blackout + boring until 6', 'Light is the boss of body clocks'], b1: 'Counterintuitively, overtired toddlers wake earlier · a too-late bedtime is the most common 5am culprit.', b2: 'Treat pre-6am like night: dark room, low voice, no breakfast party. The message is "still sleeping hours."', b3: 'Blackout curtains and a consistent wake time reset the body clock faster than any gadget.' },
+      s5: { e: '🧳', topic: 'sleep', cat: 'pretend', title: 'Travel sleep without tears', meta: '4 min read · sleep', gist: ['Pack the routine, not just the crib', 'Recreate one familiar corner', 'Accept 80% and move on'], b1: 'Toddlers sleep where the routine lives · pack the same books, sound machine and lovey, and half the room travels with you.', b2: 'Set up one familiar corner on arrival and run bedtime exactly as at home, jetlag permitting.', b3: 'Expect 80% of normal sleep and call it a win; routines snap back within a few nights of returning.' },
+      s6: { e: '🦷', topic: 'sleep', cat: 'motor', title: 'Molars vs. sleep', meta: '3 min read · sleep', gist: ['First molars land 13–19 months', 'Worst nights are BEFORE the tooth shows', 'Comfort more, change nothing'], b1: 'First molars arrive between 13 and 19 months, and the worst nights usually come before anything is visible.', b2: 'During a flare: comfort generously, medicate per your pediatrician, and keep the routine itself unchanged.', b3: 'Teething waves pass in days. Habits changed during them can hang around for months · comfort, don\u2019t renovate.' },
+      s7: { e: '🛌', topic: 'sleep', cat: 'pretend', title: 'Crib to floor bed: when & how', meta: '4 min read · sleep', gist: ['No rush before 3 unless she\u2019s climbing out', 'Childproof the whole room first', 'Expect a novelty week'], b1: 'There\u2019s no prize for early crib graduation · most kids do best staying until closer to three, unless escape attempts force the issue.', b2: 'If you do switch, the room becomes the crib: anchor furniture, cover outlets, gate the door.', b3: 'Expect a week of gleeful wandering, respond with calm boring returns, and it settles.' },
+      s8: { e: '🏫', topic: 'sleep', cat: 'language', title: 'Naps at daycare, chaos at home?', meta: '3 min read · sleep', gist: ['Group rhythm is daycare\u2019s secret', 'Borrow their schedule on weekends', 'Different ≠ broken'], b1: 'Kids who nap like champions at daycare are riding the group rhythm · everyone lies down, so she does too.', b2: 'Borrow the weekday structure on weekends: same nap window, same wind-down, even a similar snack beforehand.', b3: 'If weekend naps stay shorter anyway, that\u2019s normal · judge her mood, not the minutes.' },
+      s9: { e: '🕰', topic: 'sleep', cat: 'stacking', title: 'Daylight saving survival', meta: '2 min read · sleep', gist: ['Shift 15 min a day, starting 4 days early', 'Or do nothing and ride it out', 'Light exposure does the heavy lifting'], b1: 'The clock change is a solved problem: shift bedtime by 15 minutes a day for four days beforehand.', b2: 'The lazier plan · changing nothing and absorbing a groggy week · also genuinely works.', b3: 'Morning light after the change resets little body clocks fastest, so eat breakfast by the window.' },
+      s10: { e: '🔊', topic: 'sleep', cat: 'music', title: 'White noise: friend or crutch?', meta: '3 min read · sleep', gist: ['Great tool, safe at ~50dB across the room', 'Continuous beats cycling', 'Wean later is fine · or never'], b1: 'White noise masks the doorbell, the sibling and the garbage truck · a legitimately great tool, not a cheat.', b2: 'Keep it around 50dB and across the room, running continuously rather than cutting out mid-night.', b3: 'Worried about dependence? Plenty of adults sleep with fans forever. Wean with volume steps later if you care.' },
+      b4: { e: '⏳', topic: 'behavior', cat: 'language', title: 'Tiny patience practice', meta: '3 min read · behavior', gist: ['"Wait" is a skill you can grow at 14 mo', 'Narrate the wait out loud', 'Seconds now, minutes by two'], b1: 'Waiting is a muscle toddlers barely have · but naming it ("water is coming, we\u2019re waiting!") starts building it now.', b2: 'Keep first waits to seconds, narrated cheerfully, then stretch them slowly.', b3: 'A visible routine helps: sing the same two lines while the water pours and the wait has a shape.' },
+      b5: { e: '🍝', topic: 'behavior', cat: 'motor', title: 'Throwing food usually means done', meta: '2 min read · behavior', gist: ['It\u2019s a signal, not sabotage', 'Teach an "all done" sign early', 'End the meal, skip the lecture'], b1: 'Spaghetti on the floor is usually toddler for "I\u2019m finished" · the words just aren\u2019t installed yet.', b2: 'Teach the "all done" sign at every meal; most kids adopt it fast because it works.', b3: 'When food flies, calmly end the meal. The lesson lands over weeks, not tonight.' },
+      b6: { e: '🙅‍♀️', topic: 'behavior', cat: 'pretend', title: 'The toddler "no": autonomy 101', meta: '4 min read · behavior', gist: ['"No" is identity, not rebellion', 'Offer two yes-able choices', 'Save real "no"s for safety'], b1: '"No" is Cleo discovering she\u2019s a separate person with opinions · developmentally, it\u2019s a feature.', b2: 'Sidestep the standoff with two choices you can live with: red cup or blue cup, stairs or carried.', b3: 'Spend your own "no"s carefully on safety and hard limits, so they keep their power.' },
+      b7: { e: '📵', topic: 'behavior', cat: 'language', title: 'Screens under 18 months, honestly', meta: '4 min read · behavior', gist: ['Video calls with family: genuinely fine', 'Background TV quietly eats play', 'Watch together when you do watch'], b1: 'The honest guidance: video chats with grandma are fine and good; solo streaming before 18 months has little upside.', b2: 'The sneakiest cost is background TV · it fragments exactly the deep, repetitive play her brain is scheduled for.', b3: 'When screens happen (they will), sit together and narrate · co-viewing turns some of it back into language time.' },
+      b8: { e: '🚪', topic: 'behavior', cat: 'music', title: 'Transitions without meltdowns', meta: '3 min read · behavior', gist: ['Warnings beat surprises', 'Same goodbye song every time', 'Carry, don\u2019t negotiate, when needed'], b1: 'Leaving the park is a grief event at 14 months · transitions go better announced than sprung.', b2: 'Use the same short countdown and goodbye song every time; ritual is a toddler\u2019s calendar.', b3: 'Some days you\u2019ll still carry a starfishing toddler to the car. That\u2019s not failure, that\u2019s Tuesday.' },
+      b9: { e: '🤝', topic: 'behavior', cat: 'stacking', title: 'Sharing is a 3-year-old skill', meta: '3 min read · behavior', gist: ['Don\u2019t expect true sharing yet', 'Use turns and timers instead', 'Duplicate favorites at playdates'], b1: 'True sharing needs empathy and time-concepts that don\u2019t install until closer to three · grabbing now is age-appropriate.', b2: 'Practice "turns" with a visible cue: a sand timer or a song makes waiting concrete.', b3: 'For playdates, two of the favorite toy prevents 90% of diplomacy incidents.' },
+      b10: { e: '🛒', topic: 'behavior', cat: 'motor', title: 'Big feelings in public', meta: '4 min read · behavior', gist: ['Nobody worth knowing is judging you', 'Low voice, fewer words, get low', 'Exit is always a legal move'], b1: 'A supermarket meltdown feels like a spotlight; in reality every parent in that aisle has been you.', b2: 'Get low, drop your volume, use five words or fewer · co-regulation beats explanation mid-storm.', b3: 'And abandoning the cart to regroup in the car is not defeat; it\u2019s advanced parenting.' },
+      p4: { e: '💧', topic: 'play ideas', cat: 'motor', title: 'Water play, zero setup', meta: '2 min read · play ideas', gist: ['An inch of water + cups = 20 minutes', 'Towel down first, always', 'Supervise every second'], b1: 'An inch of water in a baking tray, two cups and a spoon buys more focus than most toys ever will.', b2: 'Lay the towel down before you start · future you says thanks.', b3: 'Water play is always eyes-on, even shallow. Bring your coffee and enjoy the show.' },
+      p5: { e: '🧺', topic: 'play ideas', cat: 'stacking', title: 'Treasure baskets & heuristic play', meta: '3 min read · play ideas', gist: ['Real objects fascinate more than toys', 'Wood, metal, fabric · varied textures', 'Swap contents weekly'], b1: 'A basket of safe real things · wooden spoon, metal whisk, silk scarf, big shell · is the original open-ended toy.', b2: 'Variety of texture and weight is the point; her hands are cataloguing the physical world.', b3: 'Refresh a few objects weekly and the basket stays endlessly interesting. Rotation, again.' },
+      p6: { e: '📖', topic: 'play ideas', cat: 'language', title: 'Reading with a lap escaper', meta: '3 min read · play ideas', gist: ['Moving while listening still counts', 'Let her drive: skip pages, go backwards', 'Books in every room'], b1: 'If Cleo won\u2019t sit for stories, read to the back of a moving toddler · the language lands anyway.', b2: 'Let her turn pages, skip to the dog, and read the ending five times; engagement beats order.', b3: 'Leave sturdy books within reach everywhere. Ambush reading is still reading.' },
+      p7: { e: '🎶', topic: 'play ideas', cat: 'music', title: 'Music play before music class', meta: '3 min read · play ideas', gist: ['Rhythm play builds language wiring', 'Your voice > any recording', 'Pots + spoon = percussion section'], b1: 'Banging a drum on the beat and babbling to a song exercise the same wiring language uses · music play is talk practice.', b2: 'She prefers your voice to any streaming playlist, off-key included.', b3: 'No instruments needed: pots, lids and a wooden spoon are a complete percussion section.' },
+      p8: { e: '🌳', topic: 'play ideas', cat: 'motor', title: 'Outside is a sensory gym', meta: '3 min read · play ideas', gist: ['Uneven ground = free physical therapy', 'Let her get dirty on purpose', 'Slow walks, toddler agenda'], b1: 'Grass, gravel, mud and slopes challenge her balance in ways no flat living room can.', b2: 'Dirt under the fingernails is the receipt for a full sensory session · dress for it and let go.', b3: 'Take the slow walk where she sets the route; twenty minutes to the corner is the workout.' },
+      p9: { e: '📮', topic: 'play ideas', cat: 'stacking', title: 'Posting games: the obsession', meta: '2 min read · play ideas', gist: ['Putting things IN things is a schema', 'Oatmeal can + pom-poms = hit toy', 'Graduate sizes to keep it hard'], b1: 'That drive to post everything into everything is the enveloping schema hard at work.', b2: 'A slot cut in an oatmeal can plus large pom-poms is a homemade toy with a week of mileage.', b3: 'Shrink the objects and the slot as she masters it · same game, fresh challenge.' },
+      p10: { e: '🔄', topic: 'play ideas', cat: 'stacking', title: 'Rotate toys like playpals does', meta: '3 min read · play ideas', gist: ['Out of sight = new again', '4–6 toys out at a time', 'Match the current schema'], b1: 'The magic behind every PlayPack works at home too: toys that disappear for two weeks come back brand new.', b2: 'Keep four to six toys out and the rest boxed; watch focus stretch almost immediately.', b3: 'When you rotate, lead with whatever schema she\u2019s deep in · that\u2019s the toy that will get the mileage.' },
+      f4: { e: '🥛', topic: 'feeding', cat: 'motor', title: 'Milk at 14 months: how much', meta: '3 min read · feeding', gist: ['~2 cups a day is the sweet spot', 'More milk can crowd out iron', 'Whole milk, open cup when you can'], b1: 'After one, milk demotes itself from meal to beverage · around two cups a day is plenty.', b2: 'Much more than that fills her up and quietly crowds out iron-rich foods, the actual nutrient of concern.', b3: 'Whole milk in an open cup at meals is the boring, correct answer.' },
+      f5: { e: '🥡', topic: 'feeding', cat: 'pretend', title: 'Restaurant survival kit', meta: '3 min read · feeding', gist: ['Order her food immediately', 'One quiet novelty toy, revealed late', 'Leave on a high note'], b1: 'Rule one of restaurants: ask for her food (or bread) the moment you sit down.', b2: 'Carry one small novelty · stickers, a tiny car · and reveal it only when the wheels wobble.', b3: 'Pay early and leave while it\u2019s still going well; a 40-minute win beats a 90-minute saga.' },
+      f6: { e: '🥩', topic: 'feeding', cat: 'motor', title: 'Iron: the nutrient to watch', meta: '4 min read · feeding', gist: ['Toddler iron needs are surprisingly high', 'Pair plant iron with vitamin C', 'Cast-iron pan: free bonus'], b1: 'Iron is the nutrient toddler diets most often miss, and it matters for exactly the brain-building underway right now.', b2: 'Meat, beans, lentils, fortified oats all work · pair the plant sources with vitamin C (beans + tomato) to boost absorption.', b3: 'If meals are hit-and-miss, mention it at the 15-month visit; a quick check beats guessing.' },
+      f7: { e: '🧀', topic: 'feeding', cat: 'motor', title: 'Snacks that buy 20 minutes', meta: '2 min read · feeding', gist: ['Slow snacks > fast snacks', 'Think peel, dip, pick', 'A snack tray is a tiny activity'], b1: 'The best travel snacks take work: mandarin segments to peel apart, cheese to nibble, peas to pick one by one.', b2: 'Anything with a dip doubles the duration and the fine-motor practice.', b3: 'A little compartment tray turns snack time into an activity · playpals-approved rotation, food edition.' },
+      f8: { e: '🍽', topic: 'feeding', cat: 'motor', title: 'Suction plates & gear that works', meta: '2 min read · feeding', gist: ['Suction buys weeks, not months', 'Tiny open cups over sippies', 'Skip most of the gadget aisle'], b1: 'A good suction plate delays the plate-flip era by a few glorious weeks · worth it, with realistic expectations.', b2: 'The rest of the winning kit is short: tiny open cup, chunky fork, silicone bib with a crumb pocket.', b3: 'Most of the gadget aisle is optional. Her hands, your patience and a floor mat do the real work.' },
+      f9: { e: '🚰', topic: 'feeding', cat: 'language', title: 'Water, juice & everything between', meta: '2 min read · feeding', gist: ['Water + milk cover it', 'Juice is a sometimes-food in a cup', 'Whole fruit beats fruit juice'], b1: 'The complete toddler drinks menu: water and milk. Truly, that\u2019s the list.', b2: 'Juice isn\u2019t evil, but it\u2019s dessert in a cup · small, occasional, with food.', b3: 'When she wants "juice," whole fruit plus water delivers the same win with fiber attached.' },
+      f10: { e: '🧁', topic: 'feeding', cat: 'pretend', title: 'Baking with a toddler (really)', meta: '3 min read · feeding', gist: ['Give her one real job', 'Expect 10 minutes, plan for flour', 'Exposure to foods without pressure'], b1: 'Baking with a 14-month-old is chaos with a curriculum: pouring, stirring and dumping are all on her syllabus anyway.', b2: 'Give one real job (dump the pre-measured flour), narrate it grandly, and expect ten good minutes.', b3: 'Bonus: kids who play with ingredients try more foods later · the mess is doing quiet exposure work.' }
+    };
+    const art = ART[s.article] || ART.schema;
+    const artKeys = ['schema', 'milestones', 'sleep', 'tantrums', 'snack', 'mile2', 'sleep2', 'beh3', 'play2', 'feed2', 'mile3', 'sleep3', 'beh2', 'play3', 'feed3', 'm4', 's4', 'b4', 'p4', 'f4', 'm5', 's5', 'b5', 'p5', 'f5', 'm6', 's6', 'b6', 'p6', 'f6', 'm7', 's7', 'b7', 'p7', 'f7', 'm8', 's8', 'b8', 'p8', 'f8', 'm9', 's9', 'b9', 'p9', 'f9', 'm10', 's10', 'b10', 'p10', 'f10', 'clean'];
+    return {
+      isStandalone: !this.props.embed,
+      phoneRef: this.phoneRef, takeOver: this.takeOver,
+      apTapOn: !!s.apTapOn, apTapX: s.apTapX || '0px', apTapY: s.apTapY || '0px',
+      apShowChip: !!s.apLabel, apLabel: s.apLabel || '',
+      stageClass: this.props.embed ? '' : 'ppx-stage',
+      stagePad: this.props.embed ? '0' : '24px 0',
+      isHome: s.screen==='home', isPacks: s.screen==='packs', isConfirmed: s.screen==='confirmed',
+      isLearn: s.screen==='learn', isAsk: s.screen==='ask', isParents: s.screen==='parents',
+      isPause: s.screen==='pause', isPaused: s.screen==='paused',
+      isArticle: s.screen==='article', isThread: s.screen==='thread',
+      isCompose: s.screen==='compose', isShelf: s.screen==='shelf',
+      goCompose: () => this.go('compose'), goShelf: () => this.go('shelf'),
+      composeText: s.composeText,
+      composeTextChange: (e) => this.setState({ composeText: e.target.value }),
+      composeTags: ['win 🎉', 'is this normal?', 'sleep', 'toy tips', 'age development', 'vent'].map(f => ({
+        label: f, bg: s.composeTag===f?'#1F2ED0':'transparent', c: s.composeTag===f?'#fff':'#3A3733',
+        on: () => this.setState({ composeTag: f }),
+      })),
+      composePost: () => { if (s.composeText.trim()) this.setState(st => ({ userPosts: [{ text: st.composeText.trim(), tag: st.composeTag }, ...st.userPosts], composeText: '', composePhotos: 0, screen: 'parents' })); },
+      canPost: !!s.composeText.trim(),
+      postBtnBg: s.composeText.trim() ? '#1F2ED0' : 'rgba(31,46,208,.35)',
+      tAnon: () => this.setState({ composeAnon: !s.composeAnon }),
+      anonBg: s.composeAnon ? '#1F2ED0' : 'rgba(31,46,208,.18)', anonLeft: s.composeAnon ? '19px' : '3px',
+      tAI: () => this.setState({ composeAI: !s.composeAI }),
+      aiBg: s.composeAI ? '#1F2ED0' : 'rgba(31,46,208,.18)', aiLeft: s.composeAI ? '19px' : '3px',
+      tNotify: () => this.setState({ composeNotify: !s.composeNotify }),
+      notifyBg: s.composeNotify ? '#1F2ED0' : 'rgba(31,46,208,.18)', notifyLeft: s.composeNotify ? '19px' : '3px',
+      addPhoto: () => this.setState(st => ({ composePhotos: Math.min(4, (st.composePhotos || 0) + 1) })),
+      composePhotoTiles: Array.from({ length: s.composePhotos || 0 }, (_, i) => ({ bg: ['#D8E2FC', '#FFEDB0', '#CFF4EC', '#FED9D0'][i % 4] })),
+      canAddPhoto: (s.composePhotos || 0) < 4,
+      parentFilters: ['all', 'wins 🎉', 'is this normal?', 'sleep', 'toy tips', 'age development'].map(f => ({
+        label: f, bg: s.parentsFilter===f?'#1F2ED0':'transparent', c: s.parentsFilter===f?'#fff':'#3A3733',
+        on: () => this.setState({ parentsFilter: f }),
+      })),
+      parentPosts: (() => {
+        const POSTS = [
+          { k: 'jess', a: 'j', abg: '#FED9D0', name: 'jess · 3:02am', badge: 'is this normal?', bbg: '#FED9D0', bc: '#FB523D', text: '14mo woke up screaming and only wants to be held standing up?? is this a phase or am I broken', replies: '💬 11 replies', tags: ['is this normal?', 'sleep', 'age development'], thread: true },
+          { k: 'priya', a: 'p', abg: '#E5C0FF', name: 'priya · 42m', badge: 'sleep', bbg: '#D8E2FC', bc: '#3559F3', text: 'the 2-to-1 nap transition is destroying our whole house. how long did it last for you??', replies: '💬 7 replies', tags: ['sleep', 'is this normal?', 'age development'], thread: false },
+          { k: 'marcus', a: 'm', abg: '#CFF4EC', name: 'marcus · 1h', badge: 'win 🎉', bbg: '#CFF4EC', bc: '#233AA2', text: 'the "yes-throw basket" from the hub actually worked. living room survived a whole day', replies: '💬 8 replies', tags: ['wins 🎉', 'toy tips'], thread: false },
+          { k: 'dev', a: 'd', abg: '#FFEDB0', name: 'dev · 2h', badge: 'win 🎉', bbg: '#CFF4EC', bc: '#233AA2', text: 'first unprompted "ta-da!!" after she stacked all five cups. instantly forgave the 5am wakeup', replies: '💬 12 replies', tags: ['wins 🎉', 'age development'], thread: false },
+          { k: 'amara', a: 'a', abg: '#D8E2FC', name: 'amara · 3h', badge: 'toy tip', bbg: '#D8E2FC', bc: '#3559F3', text: 'PSA: you can swap single toys from the Toy Shelf, not the whole PlayPack. found out embarrassingly late', replies: '💬 19 replies', tags: ['toy tips'], thread: false },
+          { k: 'sam', a: 's', abg: '#87E1D2', name: 'sam · 4h', badge: 'toy tip', bbg: '#CFF4EC', bc: '#233AA2', text: 'underrated: rotate the books too, not just the toys. our shelf feels like a new library every week', replies: '💬 5 replies', tags: ['toy tips'], thread: false },
+        ];
+        const list = s.parentsFilter === 'all' ? POSTS : POSTS.filter(p => p.tags.includes(s.parentsFilter));
+        return list.map(p => ({
+          ...p,
+          likeLabel: (s.liked[p.k] ? '💙 ' : '🤍 ') + s.likes[p.k],
+          onLike: () => this.like(p.k),
+          onOpen: p.thread ? () => this.go('thread') : () => {},
+          hasExtra: p.thread,
+        }));
+      })(),
+      shelfFilters: ['all', 'stacking', 'music', 'pretend', 'language', 'motor'].map(f => ({
+        label: f, bg: s.shelfFilter===f?'#1F2ED0':'transparent', c: s.shelfFilter===f?'#fff':'#3A3733',
+        on: () => this.setState({ shelfFilter: f }),
+      })),
+      shelfRows: (() => {
+        const SHELF = [
+          { k: 'stk1', e: '🪜', n: 'Rainbow step stacker', cat: 'stacking', tile: '#FFEDB0' },
+          { k: 'stk2', e: '🥣', n: 'Nesting cups', cat: 'stacking', tile: '#CFF4EC' },
+          { k: 'stk3', e: '🔔', n: 'Chime blocks', cat: 'stacking', tile: '#D8E2FC' },
+          { k: 'mus1', e: '🎹', n: 'Pop-up piano', cat: 'music', tile: '#FED9D0' },
+          { k: 'mus2', e: '🪇', n: 'Shaker trio', cat: 'music', tile: '#FFEDB0' },
+          { k: 'mus3', e: '🥁', n: 'Wooden drum', cat: 'music', tile: '#D8E2FC' },
+          { k: 'pre1', e: '🫖', n: 'Tiny tea set', cat: 'pretend', tile: '#E5C0FF' },
+          { k: 'pre2', e: '🥕', n: 'Veggie market crate', cat: 'pretend', tile: '#CFF4EC' },
+          { k: 'lan1', e: '📚', n: 'Touch-and-feel books', cat: 'language', tile: '#CFF4EC' },
+          { k: 'lan2', e: '🃏', n: 'First-words flip cards', cat: 'language', tile: '#FFEDB0' },
+          { k: 'mot1', e: '🎯', n: 'Bean bag toss', cat: 'motor', tile: '#FED9D0' },
+          { k: 'mot2', e: '🛒', n: 'Push walker', cat: 'motor', tile: '#D8E2FC' },
+        ];
+        const list = s.shelfFilter === 'all' ? SHELF : SHELF.filter(t => t.cat === s.shelfFilter);
+        return list.map(t => {
+          const added = !!s.shelfAdded[t.k];
+          return { ...t, added,
+            outline: added ? '2px solid #87E1D2' : '1px solid transparent',
+            btnBg: added ? '#CFF4EC' : 'transparent', btnC: added ? '#233AA2' : '#1F2ED0',
+            btnBorder: added ? '1.5px solid transparent' : '1.5px solid #1F2ED0',
+            btnLabel: added ? '✓ In next pack' : '+ Add to pack',
+            onToggle: () => this.setState(st => ({ shelfAdded: { ...st.shelfAdded, [t.k]: !st.shelfAdded[t.k] } })),
+          };
+        });
+      })(),
+      shelfCount: 'Added to next PlayPack: ' + Object.values(s.shelfAdded).filter(Boolean).length,
+      articleTitle: art.title, articleMeta: art.meta,
+      articleSections: art.secs.map((x, i) => ({ ...x, hasTip: !!x.tip, tip: x.tip || '', delay: (90 + i * 110) + 'ms' })),
+      articleG1: art.gist[0], articleG2: art.gist[1], articleG3: art.gist[2],
+      openSchema: () => this.setState({ article: 'schema', screen: 'article' }),
+      openMilestones: () => this.setState({ article: 'milestones', screen: 'article' }),
+      openTantrums: () => this.setState({ article: 'tantrums', screen: 'article' }),
+      goThread: () => this.go('thread'),
+      likeJess: () => this.like('jess'), likeMarcus: () => this.like('marcus'), likeAmara: () => this.like('amara'),
+      jessLikes: (s.liked.jess?'💙 ':'🤍 ') + s.likes.jess,
+      marcusLikes: (s.liked.marcus?'💙 ':'🤍 ') + s.likes.marcus,
+      amaraLikes: (s.liked.amara?'💙 ':'🤍 ') + s.likes.amara,
+      askExtra: s.askMsgs.map(m => {
+        const TOY = { stacker: { e: '🪜', n: 'Rainbow step stacker', d: 'gross motor · stacking', tile: '#FFEDB0' }, bean: { e: '🎯', n: 'Bean bag toss', d: 'trajectory · aim', tile: '#D8E2FC' }, piano: { e: '🎹', n: 'Pop-up piano', d: 'music · cause & effect', tile: '#FFEDB0' }, cups: { e: '🥣', n: 'Nesting cups', d: 'nesting · bath-safe', tile: '#CFF4EC' }, books: { e: '📚', n: 'Touch-and-feel books', d: 'language · sensory', tile: '#CFF4EC' }, tea: { e: '🫖', n: 'Tiny tea set', d: 'pretend play · social', tile: '#FED9D0' } };
+        const isAI = m.role === 'ai';
+        let intro = m.text, bullets = [], outro = '';
+        if (isAI && m.text.includes('\n- ')) {
+          const lines = m.text.split('\n').map(l => l.trim()).filter(Boolean);
+          intro = lines[0].startsWith('- ') ? '' : lines[0];
+          const rest = intro ? lines.slice(1) : lines;
+          bullets = rest.filter(l => l.startsWith('- ')).map(l => {
+            let body = l.slice(2);
+            const em = body.match(/^(\p{Extended_Pictographic}(?:\uFE0F)?\s*)/u);
+            const icon = em ? em[1].trim() : '✨';
+            if (em) body = body.slice(em[1].length);
+            const ci = body.indexOf(':');
+            return ci > 0 && ci < 40
+              ? { icon, lead: body.slice(0, ci), rest: body.slice(ci + 1).trim() }
+              : { icon, lead: '', rest: body };
+          });
+          outro = rest.filter(l => !l.startsWith('- ')).slice(intro ? 0 : 1).filter(l => l !== intro).pop() || '';
+          if (outro && rest.indexOf(outro) < rest.length - 1) outro = '';
+        }
+        const toy = isAI && m.toy && TOY[m.toy] ? TOY[m.toy] : null;
+        // rule: suggestion lists (things to get/try · toy intent) read as pickable cards → tinted tiles;
+        // advice steps read as prose you follow in order → plain list, no clickable-looking fill
+        const isItemList = !!m.itemList;
+        if (isAI && bullets.length && !intro) intro = isItemList ? 'A few favorites for this 🧸' : "Here's what I'd try ✨";
+        bullets = bullets.map(b => ({ ...b, tappable: isItemList, arrow: isItemList ? '→' : '', onTap: isItemList ? (() => this.go('shelf')) : (() => {}) }));
+        return { text: intro, hasBullets: bullets.length > 0, noBullets: bullets.length === 0, bullets,
+          bulletBg: isItemList ? '#F5F4F1' : 'transparent',
+          bulletPad: isItemList ? '10px 12px' : '0',
+          bulletGap: isItemList ? '8px' : '16px',
+          hasOutro: !!outro, outro,
+          hasToy: !!toy, toyE: toy?toy.e:'', toyN: toy?toy.n:'', toyD: toy?toy.d:'', toyTile: toy?toy.tile:'#FFEDB0',
+          align: isAI?'flex-start':'flex-end', bg: isAI?'#fff':'#1F2ED0', color: isAI?'#3A3733':'#fff', radius: isAI?'18px 18px 18px 4px':'18px 18px 4px 18px', shadow: isAI?'0 2px 8px rgba(31,46,208,.08)':'none' };
+      }),
+      askPrompts: (() => {
+        const msgs = s.askMsgs;
+        let base;
+        if (!msgs.length) {
+          base = ['what should her next pack focus on?', 'is she on track for 14 months?', 'bedtime is a battle · help', 'ideas for rainy-day play?'];
+        } else {
+          // context-aware follow-ups keyed off the conversation so far, minus anything already asked
+          const convo = msgs.map(m => m.text).join(' ').toLowerCase();
+          const asked = new Set(msgs.filter(m => m.role === 'user').map(m => m.text.toLowerCase()));
+          let pool;
+          if (/sleep|nap|bedtime|night|wake/.test(convo)) pool = ['what does a good wind-down look like?', 'how long will this phase last?', 'what about early morning wakes?', 'give me one thing to try tonight'];
+          else if (/tantrum|cry|meltdown|scream|hit|bite/.test(convo)) pool = ['what do I say in the moment?', 'is this normal for her age?', 'what if it happens in public?', 'how do I keep my own cool?'];
+          else if (/toy|pack|play|stack|throw|shelf|swap/.test(convo)) pool = ['what should her next pack focus on?', 'how do I set up her play space?', 'she ignores half her toys · why?', 'what milestone does this build?'];
+          else if (/eat|food|snack|meal|feed/.test(convo)) pool = ['ideas for self-feeding practice?', 'how much should she eat at 14 months?', 'she throws food · normal?', 'easy no-prep snack ideas?'];
+          else if (/talk|word|babble|language|speech/.test(convo)) pool = ['how can I encourage more words?', 'is she on track for 14 months?', 'does screen time hurt language?', 'best books for this stage?'];
+          else pool = ['tell me more', 'why does this happen?', 'is this normal for her age?', 'give me one thing to try today'];
+          // never exhaust: top up from an evergreen reserve when the topical pool runs dry
+          const reserve = ['what should we work on next month?', 'how was your day, actually?', 'plan a perfect rainy afternoon', 'what do parents ask you most?', 'surprise me with a Cleo fact', 'what\u2019s in her next PlayPack?', 'one tiny win we can try now?', 'how do I make cleanup fun?'];
+          base = pool.concat(reserve).filter(p => !asked.has(p.toLowerCase())).slice(0, 4);
+        }
+        return base.map(p => ({ label: p, on: () => { this.setState({ askInput: p }, () => this.sendAsk()); } }));
+      })(),
+      showAskPrompts: !s.askBusy,
+      askBusy: s.askBusy, askInput: s.askInput,
+      askInputChange: (e) => this.setState({ askInput: e.target.value }),
+      askKey: (e) => { if (e.key === 'Enter') this.sendAsk(); },
+      sendAskNow: () => this.sendAsk(),
+      notNow: () => this.setState(st => ({ askMsgs: [...st.askMsgs,
+        { role: 'user', text: 'not right now' },
+        { role: 'ai', text: "No rush · it'll be waiting in Packs whenever you're ready. While you're here: anything on your mind about Cleo this week? Sleep, tantrums, toy boredom · I've heard it all 💙" },
+      ] })),
+      parentInput: s.parentInput,
+      parentInputChange: (e) => this.setState({ parentInput: e.target.value }),
+      parentKey: (e) => { if (e.key === 'Enter' && s.parentInput.trim()) this.setState(st => ({ userPosts: [{ text: st.parentInput.trim() }, ...st.userPosts], parentInput: '' })); },
+      sendParent: () => { if (s.parentInput.trim()) this.setState(st => ({ userPosts: [{ text: st.parentInput.trim() }, ...st.userPosts], parentInput: '' })); },
+      userPostsView: s.userPosts,
+      replyInput: s.replyInput,
+      replyInputChange: (e) => this.setState({ replyInput: e.target.value }),
+      replyKey: (e) => { if (e.key === 'Enter' && s.replyInput.trim()) this.setState(st => ({ extraReplies: [...st.extraReplies, { text: st.replyInput.trim() }], replyInput: '' })); },
+      sendReply: () => { if (s.replyInput.trim()) this.setState(st => ({ extraReplies: [...st.extraReplies, { text: st.replyInput.trim() }], replyInput: '' })); },
+      extraRepliesView: s.extraReplies,
+      showAllReplies: () => this.setState({ repliesExpanded: true }),
+      showMoreLink: !s.repliesExpanded,
+      moreRepliesView: !s.repliesExpanded ? [] : [
+        { a: 'p', abg: '#E5C0FF', name: 'priya', time: '· 6:58am', text: 'we did 6 weeks of this exact thing. it ended as suddenly as it started', likes: '🤍 9' },
+        { a: 's', abg: '#87E1D2', name: 'sam', time: '· 7:12am', text: 'chair by the crib, hand on her back, podcast in one ear. survival mode is allowed', likes: '🤍 4' },
+        { a: 'd', abg: '#FFEDB0', name: 'dev', time: '· 7:30am', text: 'the standing thing!! ours would only settle upright like a little meerkat 😂', likes: '🤍 21' },
+        { a: 'n', abg: '#D8E2FC', name: 'nina', time: '· 8:02am', text: 'molars did this to us at 14mo · worth a flashlight check when she\u2019s calm', likes: '🤍 7' },
+        { a: 'k', abg: '#FED9D0', name: 'kat', time: '· 8:15am', text: 'no advice, just solidarity from the 3am club 🫡', likes: '🤍 16' },
+        { a: 'j', abg: '#CFF4EC', name: 'jordan', time: '· 8:40am', text: 'the Ask Playpals separation-anxiety article got us through this week, seconding it', likes: '🤍 5' },
+        { a: 'r', abg: '#E5C0FF', name: 'rosa', time: '· 9:03am', text: 'ours passed in ~3 weeks. you\u2019re mid-tunnel, not stuck', likes: '🤍 11' },
+        { a: 't', abg: '#FFEDB0', name: 'tom', time: '· 9:21am', text: 'earlier bedtime weirdly helped the night waking. counterintuitive but real', likes: '🤍 8' },
+        { a: 'l', abg: '#D8E2FC', name: 'lea', time: '· 9:47am', text: 'you are SO not broken. checking on you tomorrow jess 💙', likes: '🤍 24' },
+      ],
+      learnFilters: ['for Cleo', 'milestones', 'sleep', 'behavior', 'play ideas', 'feeding', 'saved'].map(f => ({
+        label: f, bg: s.learnFilter===f?BLUE:'transparent', c: s.learnFilter===f?'#fff':'#3A3733',
+        on: () => this.setState({ learnFilter: f }),
+      })),
+      learnArts: artKeys.filter(k => {
+        if (s.learnFilter === 'for Cleo' || s.learnFilter === 'stage') return true;
+        if (s.learnFilter === 'saved') return !!(s.savedArticles || {})[k];
+        return ART[k].topic === s.learnFilter;
+      }).map(k => ({
+        e: ART[k].e, title: ART[k].title, meta: ART[k].meta,
+        savedMark: (s.savedArticles || {})[k] ? '🔖' : '→',
+        onOpen: () => this.setState({ article: k, screen: 'article' }),
+      })),
+      noLearnArts: s.learnFilter === 'saved' && !Object.values(s.savedArticles || {}).some(Boolean),
+      saveLabel: (s.savedArticles || {})[s.article] ? '✓ Saved' : '🔖 Save',
+      saveBg: (s.savedArticles || {})[s.article] ? '#CFF4EC' : 'transparent',
+      saveC: (s.savedArticles || {})[s.article] ? '#233AA2' : '#1F2ED0',
+      toggleSave: () => this.setState(st => ({ savedArticles: { ...(st.savedArticles || {}), [st.article]: !(st.savedArticles || {})[st.article] } })),
+      goShelfForStage: () => this.setState({ shelfFilter: art.cat, screen: 'shelf', sheetOpen: false }),
+      pfNew: () => this.setState({ parentsFilter: 'new' }), pfAge: () => this.setState({ parentsFilter: 'age' }), pfSleep: () => this.setState({ parentsFilter: 'sleep' }),
+      pfNewBg: s.parentsFilter==='new'?BLUE:'transparent', pfNewC: s.parentsFilter==='new'?'#fff':'#3A3733',
+      pfAgeBg: s.parentsFilter==='age'?BLUE:'transparent', pfAgeC: s.parentsFilter==='age'?'#fff':'#3A3733',
+      pfSleepBg: s.parentsFilter==='sleep'?BLUE:'transparent', pfSleepC: s.parentsFilter==='sleep'?'#fff':'#3A3733',
+      sheetOpen: s.sheetOpen,
+      packRows: (() => {
+        const REPL = { piano: { e: '🎹', n: 'Pop-up piano', d: 'cause & effect · music' }, shaker: { e: '🪇', n: 'Shaker trio', d: 'rhythm · grasping' }, chime: { e: '🔔', n: 'Chime blocks', d: 'stacking · sound' }, bean: { e: '🎯', n: 'Bean bag toss', d: 'throwing · aim' }, cups: { e: '🥣', n: 'Nesting cups', d: 'stacking · bath-friendly' } };
+        const TOYS = [
+          { k: 'stacker', e: '🪜', n: 'Rainbow step stacker', d: 'gross motor · stacking', tile: '#FFEDB0' },
+          { k: 'tea', e: '🫖', n: 'Tiny tea set', d: 'pretend play · social', tile: '#FED9D0' },
+          { k: 'drum', e: '🥁', n: 'Wooden drum', d: 'rhythm · music', tile: '#D8E2FC', note: 'we suggest swapping · you own a similar one' },
+          { k: 'books', e: '📚', n: 'Touch-and-feel books', d: 'language · sensory', tile: '#CFF4EC' },
+          { k: 'cups', e: '🥣', n: 'Nesting cups', d: 'stacking · bath-friendly', tile: '#E5C0FF' },
+          { k: 'sorter', e: '🏠', n: 'Shape sorter house', d: 'problem solving · fine motor', tile: '#FFEDB0' },
+        ];
+        return TOYS.map(t => {
+          const r = s.swaps[t.k] && REPL[s.swaps[t.k]];
+          return {
+            key: t.k, tile: t.tile,
+            emoji: r ? r.e : t.e, name: r ? r.n : t.n,
+            desc: r ? 'swapped in ✓ · ' + r.d : t.d,
+            hasNote: !!t.note && !r, note: t.note || '',
+            outline: r ? '2px solid #87E1D2' : (t.note ? '1.5px dashed #FB523D' : '1px solid transparent'),
+            keepBg: r ? 'transparent' : '#CFF4EC', keepC: r ? '#6E6C7A' : '#233AA2',
+            swapBg: r ? '#1F2ED0' : 'transparent', swapC: r ? '#fff' : '#6E6C7A',
+            onKeep: () => this.setState(st => { const sp = { ...st.swaps }; delete sp[t.k]; return { swaps: sp }; }),
+            onSwap: () => this.setState({ sheetOpen: true, sheetToy: t.k, sheetPick: 'piano' }),
+          };
+        });
+      })(),
+      sheetToyLabel: ({ stacker: 'step stacker', tea: 'tea set', drum: 'wooden drum', books: 'books', cups: 'nesting cups', sorter: 'shape sorter' })[s.sheetToy] || 'wooden drum',
+      confirmedPackName: Object.keys(s.swaps).length ? 'The Little Musician (customized by you)' : 'The Little Stacker II',
+      confirmedToys: (() => {
+        const REPL = { piano: { e: '🎹', n: 'Pop-up piano' }, shaker: { e: '🪇', n: 'Shaker trio' }, chime: { e: '🔔', n: 'Chime blocks' }, bean: { e: '🎯', n: 'Bean bag toss' }, cups: { e: '🥣', n: 'Nesting cups' } };
+        const TOYS = [
+          { k: 'stacker', e: '🪜', n: 'Rainbow step stacker', tile: '#FFEDB0' },
+          { k: 'tea', e: '🫖', n: 'Tiny tea set', tile: '#FED9D0' },
+          { k: 'drum', e: '🥁', n: 'Wooden drum', tile: '#D8E2FC' },
+          { k: 'books', e: '📚', n: 'Touch-and-feel books', tile: '#CFF4EC' },
+          { k: 'cups', e: '🥣', n: 'Nesting cups', tile: '#E5C0FF' },
+          { k: 'sorter', e: '🏠', n: 'Shape sorter house', tile: '#FFEDB0' },
+        ];
+        return TOYS.map(t => {
+          const r = s.swaps[t.k] && REPL[s.swaps[t.k]];
+          return { e: r ? r.e : t.e, n: r ? r.n : t.n, tile: t.tile, tag: r ? 'NEW' : '' , hasTag: !!r };
+        });
+      })(),
+      goHome: () => this.go('home'), goPacks: () => this.go('packs'), goLearn: () => this.go('learn'),
+      goAsk: () => this.go('ask'), goParents: () => this.go('parents'), goPause: () => this.go('pause'),
+      confirmPack: () => this.go('confirmed'),
+      openSheet: () => this.setState({ sheetOpen: true }),
+      closeSheet: () => this.setState({ sheetOpen: false }),
+      ...(() => {
+        const BASE = ['stacker', 'tea', 'drum', 'books', 'cups', 'sorter'];
+        // what's currently in the pack, minus the slot being swapped
+        const contents = BASE.filter(k => k !== s.sheetToy).map(k => s.swaps[k] || k);
+        const NAMES = { stacker: 'Rainbow step stacker', tea: 'Tiny tea set', drum: 'Wooden drum', books: 'Touch-and-feel books', cups: 'Nesting cups', sorter: 'Shape sorter house', piano: 'Pop-up piano', shaker: 'Shaker trio', chime: 'Chime blocks', bean: 'Bean bag toss' };
+        const opts = [
+          { k: 'piano', e: '🎹', n: 'Pop-up piano', d: 'cause & effect · music', tile: '#FFEDB0' },
+          { k: 'shaker', e: '🪇', n: 'Shaker trio', d: 'rhythm · grasping', tile: '#CFF4EC' },
+          { k: 'chime', e: '🔔', n: 'Chime blocks', d: 'stacking · sound', tile: '#D8E2FC' },
+          { k: 'bean', e: '🎯', n: 'Bean bag toss', d: 'throwing · aim', tile: '#FED9D0' },
+          { k: 'cups', e: '🥣', n: 'Nesting cups', d: 'stacking · bath-friendly', tile: '#E5C0FF' },
+        ];
+        const pickDup = contents.includes(s.sheetPick);
+        return {
+          sheetOptions: opts.map(o => {
+            const dup = contents.includes(o.k);
+            return { ...o,
+              d: dup ? 'already in this PlayPack' : o.d,
+              dupBadge: dup, dc: dup ? '#8a6a1f' : '#6E6C7A',
+              outline: s.sheetPick===o.k ? (dup ? '#FFC724' : BLUE) : OFF,
+              dot: s.sheetPick===o.k ? BLUE : DIM,
+              on: () => this.setState({ sheetPick: o.k }),
+            };
+          }),
+          dupWarning: pickDup,
+          dupWarningText: 'The ' + (NAMES[s.sheetPick] || 'toy').toLowerCase() + ' is already in this PlayPack · pick a different toy so Cleo gets 6 unique ones.',
+          swapBtnLabel: pickDup ? 'Already In This Pack' : 'Swap It In',
+          swapBtnBg: pickDup ? 'rgba(31,46,208,.35)' : BLUE,
+          doSwap: () => { if (!pickDup) this.setState(st => ({ swaps: { ...st.swaps, [st.sheetToy || 'drum']: st.sheetPick }, sheetOpen: false })); },
+        };
+      })(),
+      pickPause: () => this.setState({ pausePick: 'pause' }),
+      pickFree: () => this.setState({ pausePick: 'free' }),
+      pickCancel: () => this.setState({ pausePick: 'cancel' }),
+      pauseOutline1: s.pausePick==='pause' ? BLUE : OFF, pauseDot1: s.pausePick==='pause' ? BLUE : DIM,
+      pauseOutline2: s.pausePick==='free' ? BLUE : OFF, pauseDot2: s.pausePick==='free' ? BLUE : DIM,
+      pauseOutline3: s.pausePick==='cancel' ? BLUE : OFF, pauseDot3: s.pausePick==='cancel' ? BLUE : DIM,
+      pauseCta: s.pausePick==='pause' ? 'Pause Until August' : (s.pausePick==='free' ? 'Switch to Free Plan' : 'Cancel Membership'),
+      confirmPause: () => this.go('paused'),
+      opHome: tab('home')?1:.55, opPacks: tab('packs')?1:.55, opLearn: tab('learn')?1:.55, opAsk: tab('ask')?1:.55, opParents: tab('parents')?1:.55,
+      cHome: tab('home')?BLUE:GRAY, cPacks: tab('packs')?BLUE:GRAY, cLearn: tab('learn')?BLUE:GRAY, cAsk: tab('ask')?BLUE:GRAY, cParents: tab('parents')?BLUE:GRAY,
+    };
+  }
+}
+</script>
+</body>
+</html>

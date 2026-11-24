@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Case study · Supercharge Bras</title>
+<script src="vendor/react.production.min.js"></script>
+<script src="vendor/react-dom.production.min.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap');
+body{margin:0;background:#fff}
+.cs{font-family:'Instrument Sans',sans-serif;color:#191b1f;max-width:1180px;margin:0 auto;background:#fff}
+.cs h1,.cs h2,.cs h3{font-family:'Instrument Sans',sans-serif;letter-spacing:-.02em;margin:0}
+.cs .sec{padding:56px 40px 0}
+.cs .eyebrow{font-size:12.5px;font-weight:600;color:#1a63e8;letter-spacing:.02em}
+.cs .muted{color:#5f6368}
+.cs .card{border:1px solid #e8eaed;border-radius:16px;background:#fff}
+.cs .fill{background:#FFF6D6;border:1px dashed #C9961A;border-radius:6px;padding:0 6px;color:#6b4e00;white-space:nowrap}
+.cs .wf{background:#eceef1;border-radius:6px}
+.cs{--acc:#1a63e8}
+.cs .ch{padding:88px 40px 0}
+.cs .ch.band{background:#F7F8F8;margin-top:88px;padding:80px 40px 88px}
+.cs .ch.band + .ch{padding-top:80px}
+.cs .chl{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--acc)}
+.cs .chn{color:var(--acc);border:1px solid var(--acc);border-radius:999px;padding:2px 9px;font-size:12px;letter-spacing:0}
+.cs .cht{font-size:40px;line-height:1.12;font-weight:600;margin-top:14px;max-width:860px;letter-spacing:-.025em}
+.cs .lead{font-size:18px;line-height:1.6;color:#3c4043;max-width:720px;margin:16px 0 0}
+.cs .h3{font-size:20px;font-weight:600;letter-spacing:-.01em;margin:0}
+.cs .p{font-size:14.5px;line-height:1.6;color:#5f6368;margin:6px 0 0}
+.cs .k{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#191b1f}
+.cs .ul{margin:14px 0 0;padding-left:18px;font-size:15px;line-height:1.65;color:#3c4043}
+.cs .ul li{margin-bottom:8px}
+.cs .cols2{display:grid;grid-template-columns:1fr 1fr;gap:56px}
+.cs .cols3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:40px}
+.cs .cols3>div{border-top:2px solid #191b1f;padding-top:14px}
+.cs .hmw{margin-top:48px;border-left:4px solid var(--acc);padding:4px 0 4px 24px}
+.cs .hmwl{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--acc)}
+.cs .hmwt{font-size:24px;line-height:1.35;font-weight:500;margin-top:8px;max-width:820px}
+.cs .ins{display:grid;grid-template-columns:1fr 1fr;gap:0 56px;margin-top:8px}
+.cs .in{display:flex;gap:18px;padding:22px 0;border-top:1px solid #dadce0}
+.cs .inn{font-size:28px;font-weight:600;color:var(--acc);line-height:1;width:24px;flex:none}
+.cs .int{font-size:18px;font-weight:600;line-height:1.3}
+.cs .note{font-size:12.5px;color:#5f6368;margin:28px 0 0}
+.cs .pc{background:#fff;border:1px solid #e8eaed;border-radius:16px;padding:28px}
+.cs .av{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:18px;flex:none}
+.cs .pn{font-size:20px;font-weight:600}
+.cs .q{margin:20px 0 0;font-size:20px;line-height:1.4;font-style:italic;color:#191b1f}
+.cs .dec{margin-top:36px}
+.cs .d{display:grid;grid-template-columns:96px 1fr;gap:24px;padding:32px 0;border-top:1px solid #dadce0}
+.cs .dn{font-size:44px;font-weight:600;color:var(--acc);line-height:1;letter-spacing:-.03em}
+.cs .dt{font-size:22px;font-weight:600;letter-spacing:-.015em;margin:0}
+.cs .dp{font-size:16px;line-height:1.6;color:#3c4043;margin:8px 0 0;max-width:720px}
+.cs .dx{font-size:14px;line-height:1.55;color:#5f6368;margin-top:12px;max-width:720px}
+.cs .dx span{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#191b1f;margin-right:8px}
+.cs .tbl{margin-top:32px;border-top:2px solid #191b1f}
+.cs .tr{display:grid;grid-template-columns:1fr 1.3fr 1.3fr;gap:24px;padding:18px 0;border-bottom:1px solid #dadce0;font-size:15px;line-height:1.5;color:#3c4043}
+.cs .tr.th{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#191b1f;padding:12px 0}
+.cs .mets{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:32px;margin-top:32px}
+.cs .mets>div{border-top:2px solid var(--acc);padding-top:14px}
+.cs .mv{font-size:19px;font-weight:600}
+.cs .pull{margin:64px 0 0;font-size:28px;line-height:1.4;font-weight:500;letter-spacing:-.015em;max-width:900px;color:#191b1f}
+.cs nav a{color:#3c4043;text-decoration:none;padding:4px 10px}
+.cs nav a:hover{color:var(--acc)}
+.cs .wflow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:16px}
+.cs .wfs{border:1.5px solid #5f6368;border-radius:6px;padding:9px 14px;font-size:14px;font-weight:600;background:#fff}
+.cs .wfa{color:#9aa0a6;font-size:18px}
+.cs .wbranch{display:flex;gap:18px;flex-wrap:wrap;align-items:center;margin-top:14px;font-size:13.5px;color:#3c4043}
+.cs .wdia{display:inline-block;border:1.5px dashed #5f6368;border-radius:6px;padding:6px 12px;font-weight:600;background:#f8f9fa}
+.cs .wgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px;margin-top:20px}
+.cs .wfph{border:2px solid #5f6368;border-radius:22px;padding:28px 14px 18px;height:330px;box-sizing:border-box;background:#fff;position:relative}
+.cs .wbox{border:1px solid #bdc1c6;border-radius:4px;background:#fff;position:relative}
+.cs .wrow{display:flex;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid #e8eaed;position:relative}
+.cs .wimg{width:30px;height:30px;border-radius:4px;background:#e8eaed;flex:none;background-image:linear-gradient(45deg,transparent 47%,#bdc1c6 47%,#bdc1c6 53%,transparent 53%)}
+.cs .wimgL{height:80px;border-radius:6px;background:#e8eaed;background-image:linear-gradient(45deg,transparent 49%,#bdc1c6 49%,#bdc1c6 51%,transparent 51%),linear-gradient(-45deg,transparent 49%,#bdc1c6 49%,#bdc1c6 51%,transparent 51%)}
+.cs .wchip{display:inline-block;border:1px solid #9aa0a6;border-radius:999px;height:12px;width:34px;margin:6px 4px 0 0}
+.cs .wm{position:absolute;right:-10px;top:-8px;width:18px;height:18px;border-radius:50%;background:var(--acc);color:#fff;font-size:10px;font-weight:700;display:grid;place-items:center;z-index:2}
+.cs .wft{font-size:16px;font-weight:600;margin-top:14px}
+.cs .wfl{list-style:none;padding:0;margin:8px 0 0}
+.cs .wfl li{display:flex;gap:8px;font-size:13.5px;line-height:1.5;color:#3c4043;margin-top:6px}
+.cs .wn{width:18px;height:18px;flex:none;border-radius:50%;background:var(--acc);color:#fff;font-size:10px;font-weight:700;display:grid;place-items:center;margin-top:2px}
+.cs .wdrop{display:flex;gap:16px;padding:20px;border:1.5px dashed #bdc1c6;border-radius:14px}
+.cs .wx{width:28px;height:28px;flex:none;border-radius:50%;background:#f1f3f4;color:#5f6368;display:grid;place-items:center;font-weight:700}
+
+@keyframes cs-nudge{0%,30%{opacity:0;transform:translateY(8px)}40%,85%{opacity:1;transform:none}100%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.cs *{animation:none!important}}
+</style>
+</helmet>
+<div class="cs">
+  <div style="display:flex;align-items:center;padding:20px 40px;border-bottom:1px solid #e8eaed">
+    <div style="display:flex;align-items:center;gap:10px"><span style="width:26px;height:26px;border-radius:8px;background:#1a63e8;display:grid;place-items:center;color:#fff;font-weight:700;font-size:13px">cb</span><span style="font-size:15px;font-weight:600;white-space:nowrap">Charline Bercasio</span></div>
+    <div style="margin-left:auto;display:flex;gap:26px;font-size:13.5px;font-weight:500;color:#5f6368;align-items:center"><a href="index.html#work" style="color:#1a63e8;text-decoration:none">Work</a><a href="about.html" style="color:inherit;text-decoration:none">About</a><a href="resume.html" style="color:inherit;text-decoration:none">Resume</a><a href="contact.html" style="background:#1a63e8;color:#fff;border-radius:999px;padding:8px 18px;font-weight:600;text-decoration:none">Get in touch</a></div>
+  </div>
+
+  <div style="padding:48px 40px 0">
+    <a href="index.html#work" style="display:inline-block;font-size:13px;font-weight:600;color:#5f6368;text-decoration:none">← All work</a>
+    <div style="display:flex;gap:8px;margin-top:20px"><span style="background:#e8f0fe;color:#1a63e8;border-radius:6px;padding:3px 10px;font-size:11.5px;font-weight:600">E-commerce · omnichannel</span><span style="background:#f1f3f4;color:#5f6368;border-radius:6px;padding:3px 10px;font-size:11.5px;font-weight:600">VS &amp; PINK · 2025</span><span style="background:#fce8e8;color:#c5221f;border-radius:6px;padding:3px 10px;font-size:11.5px;font-weight:600">Research → AI</span></div>
+    <h1 style="font-size:50px;line-height:1.1;margin-top:16px;font-weight:600;max-width:940px">Supercharge Bras: fit help at the exact moment shoppers hesitate.</h1>
+    <p class="muted" style="font-size:16px;line-height:1.6;max-width:700px;margin:18px 0 0">In-store research on where bra shoppers get stuck, from rack to fitting room to register, turned into a map of trigger points, brand-specific tonality for VS and PINK, and the behavior rules now guiding the AI shopping agent.</p>
+    <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin-top:32px;border-block:1px solid #e8eaed">
+      <div style="padding:16px 16px 16px 0"><div style="font-size:11px;font-weight:600;color:#5f6368;letter-spacing:.04em">ROLE</div><div style="font-size:14px;margin-top:4px">UX Designer · research + design</div></div>
+      <div style="padding:16px;border-left:1px solid #e8eaed"><div style="font-size:11px;font-weight:600;color:#5f6368;letter-spacing:.04em">TEAM</div><div style="font-size:14px;margin-top:4px">Me + UX lead + UX Research</div></div>
+      <div style="padding:16px;border-left:1px solid #e8eaed"><div style="font-size:11px;font-weight:600;color:#5f6368;letter-spacing:.04em">SCOPE</div><div style="font-size:14px;margin-top:4px">Shopping → fitting room → post-purchase</div></div>
+      <div style="padding:16px;border-left:1px solid #e8eaed"><div style="font-size:11px;font-weight:600;color:#5f6368;letter-spacing:.04em">IMPACT</div><div style="font-size:14px;margin-top:4px;color:#1a63e8;font-weight:600">Drives the AI shopping agent</div></div>
+    </div>
+    <div style="display:flex;gap:10px;align-items:center;background:#f8f9fa;border-radius:12px;padding:10px 14px;margin-top:18px;font-size:12.5px;color:#5f6368"><span>🔒</span><span>Screens, quotes and data are redrawn and abstracted to respect confidentiality.</span></div>
+  </div>
+
+  <nav aria-label="Case study sections" style="margin:56px 40px 0;display:flex;gap:6px;flex-wrap:wrap;padding:14px 0;border-block:1px solid #e8eaed;font-size:13px">
+    <a href="#b-problem">01 Problem</a>
+    <a href="#b-research">02 Research</a>
+    <a href="#b-map">03 Trigger map</a>
+    <a href="#b-wire">04 Wireframes</a>
+    <a href="#b-tone">05 Tonality</a>
+    <a href="#b-ai">06 Research → AI</a>
+    <a href="#b-outcomes">07 Outcomes</a>
+  </nav>
+
+  <section id="b-problem" class="ch">
+    <div class="chl"><span class="chn">01</span>The problem</div>
+    <h2 class="cht">Fit is the question behind almost every bra purchase.</h2>
+    <p class="lead">Help existed in pieces, a size guide here and an associate there, but it wasn’t timed to the moments shoppers actually doubted. And two brands needed to say it in two voices.</p>
+<div class="cols2" style="margin-top:36px"><div><h3 class="h3">For shoppers</h3><ul class="ul"><li>Sizes vary by style, so knowing your size isn’t knowing it in this style</li><li>Hesitation online, armfuls of “just in case” sizes in the fitting room</li><li>Second-guessing after purchase, once it’s actually worn</li></ul></div><div><h3 class="h3">For the business</h3><ul class="ul"><li>Fit help scattered across channels, not timed to doubt</li><li>VS and PINK customers trust different voices</li><li>Research needed to outlive a single project</li></ul></div></div>
+  </section>
+  <section id="b-research" class="ch band">
+    <div class="chl"><span class="chn">02</span>Research</div>
+    <h2 class="cht">We went where fit actually happens.</h2>
+    <p class="lead">With UX Research and my UX lead, I ran in-store studies: shoppers observed from rack to room to register, and associates interviewed about the questions they answer every day.</p>
+<div class="cols3" style="margin-top:36px"><div><div class="k">In-store observation</div><p class="p"><span class="fill">✎ n</span> shopping journeys across <span class="fill">✎ n</span> stores: every pause, swap and walk-away logged.</p></div><div><div class="k">Associate interviews</div><p class="p"><span class="fill">✎ n</span> associates: the fit questions they hear most, and how they answer.</p></div><div><div class="k">Synthesis</div><p class="p">Every hesitation clustered by journey stage, then turned into a designable moment: the trigger point.</p></div></div>
+    <p class="note">✎ yellow fields are placeholders · swap in your own numbers before publishing.</p>
+  </section>
+  <section id="b-map" class="ch">
+    <div class="chl"><span class="chn">03</span>The trigger-point map</div>
+    <h2 class="cht">Right message, right channel, never all at once.</h2>
+    <p class="lead">Each stage pairs the hesitation we observed with the moment we designed for it.</p>
+    <div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:0;margin-top:24px;position:relative">
+      <div aria-hidden="true" style="position:absolute;left:10%;right:10%;top:19px;height:2px;background:#d2e3fc"></div>
+      <div style="padding:0 8px;text-align:center;position:relative"><div style="width:40px;height:40px;border-radius:50%;background:#1a63e8;color:#fff;display:grid;place-items:center;margin:0 auto;font-weight:700">1</div><div style="font-size:14px;font-weight:600;margin-top:10px">Browse</div></div>
+      <div style="padding:0 8px;text-align:center;position:relative"><div style="width:40px;height:40px;border-radius:50%;background:#1a63e8;color:#fff;display:grid;place-items:center;margin:0 auto;font-weight:700">2</div><div style="font-size:14px;font-weight:600;margin-top:10px">Product page</div></div>
+      <div style="padding:0 8px;text-align:center;position:relative"><div style="width:40px;height:40px;border-radius:50%;background:#1a63e8;color:#fff;display:grid;place-items:center;margin:0 auto;font-weight:700">3</div><div style="font-size:14px;font-weight:600;margin-top:10px">Fitting room</div></div>
+      <div style="padding:0 8px;text-align:center;position:relative"><div style="width:40px;height:40px;border-radius:50%;background:#1a63e8;color:#fff;display:grid;place-items:center;margin:0 auto;font-weight:700">4</div><div style="font-size:14px;font-weight:600;margin-top:10px">Purchase</div></div>
+      <div style="padding:0 8px;text-align:center;position:relative"><div style="width:40px;height:40px;border-radius:50%;background:#1a63e8;color:#fff;display:grid;place-items:center;margin:0 auto;font-weight:700">5</div><div style="font-size:14px;font-weight:600;margin-top:10px">Post-purchase</div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-top:16px">
+      <div style="display:flex;flex-direction:column;gap:8px"><div style="background:#fce8e8;border-radius:12px;padding:12px;font-size:12.5px;line-height:1.45;color:#7a1d1d"><b>Heard:</b> "Is this style for me, or just for the model?"</div><div style="background:#e8f0fe;border-radius:12px;padding:12px;font-size:12.5px;line-height:1.45;color:#174ea6"><b>Designed:</b> fit-first filtering and style tags that explain who it's built for</div></div>
+      <div style="display:flex;flex-direction:column;gap:8px"><div style="background:#fce8e8;border-radius:12px;padding:12px;font-size:12.5px;line-height:1.45;color:#7a1d1d"><b>Heard:</b> "I'm a 34C… but in this style?"</div><div style="background:#e8f0fe;border-radius:12px;padding:12px;font-size:12.5px;line-height:1.45;color:#174ea6"><b>Designed:</b> PDP fit tips, specific to the style, right by the size picker</div></div>
+      <div style="display:flex;flex-direction:column;gap:8px"><div style="background:#fce8e8;border-radius:12px;padding:12px;font-size:12.5px;line-height:1.45;color:#7a1d1d"><b>Heard:</b> "I brought in three sizes just in case."</div><div style="background:#e8f0fe;border-radius:12px;padding:12px;font-size:12.5px;line-height:1.45;color:#174ea6"><b>Designed:</b> size-confidence nudges that make the right size the easy pick</div></div>
+      <div style="display:flex;flex-direction:column;gap:8px"><div style="background:#fce8e8;border-radius:12px;padding:12px;font-size:12.5px;line-height:1.45;color:#7a1d1d"><b>Heard:</b> "If it's wrong, I'm stuck with it."</div><div style="background:#e8f0fe;border-radius:12px;padding:12px;font-size:12.5px;line-height:1.45;color:#174ea6"><b>Designed:</b> reassurance at checkout, in the brand's voice, not a policy wall</div></div>
+      <div style="display:flex;flex-direction:column;gap:8px"><div style="background:#fce8e8;border-radius:12px;padding:12px;font-size:12.5px;line-height:1.45;color:#7a1d1d"><b>Heard:</b> "It felt different after a week."</div><div style="background:#e8f0fe;border-radius:12px;padding:12px;font-size:12.5px;line-height:1.45;color:#174ea6"><b>Designed:</b> post-purchase check-ins with fit tips for wearing it in</div></div>
+    </div>
+    <p class="note">Quotes are representative paraphrases.</p>
+  </section>
+  <section id="b-wire" class="ch band">
+    <div class="chl"><span class="chn">04</span>Wireframes</div>
+    <h2 class="cht">Structure before style.</h2>
+    <p class="lead">Grayscale frames for each trigger point, settling placement and timing before any brand styling.</p>
+    <h3 class="h3" style="margin-top:44px">Where help shows up</h3>
+    <div class="wflow"><div class="wfs">Browse</div><span class="wfa">→</span><div class="wfs">Product page</div><span class="wfa">→</span><div class="wfs">Fitting room</div><span class="wfa">→</span><div class="wfs">Purchase</div><span class="wfa">→</span><div class="wfs">Post-purchase</div></div>
+    <div class="wbranch"><span class="wdia">Hesitation?</span><span>→ the right message, in the right channel, at that stage only</span></div>
+    <h3 class="h3" style="margin-top:52px">Trigger points, annotated</h3>
+    <div class="wgrid"><div class="wfc"><div class="wfph"><div class="wimgL" style="height:90px"></div><div style="width:70%;height:8px;background:#5f6368;border-radius:3px;margin-top:10px"></div><div style="width:35%;height:6px;background:#dadce0;border-radius:3px;margin-top:5px"></div>
+<div style="display:flex;gap:4px;margin-top:10px;position:relative"><div class="wbox" style="flex:1;height:16px;"></div><div class="wbox" style="flex:1;height:16px;background:#5f6368"></div><div class="wbox" style="flex:1;height:16px;"></div><div class="wbox" style="flex:1;height:16px;"></div><span class="wm" style="">1</span></div>
+<div class="wbox" style="height:28px;margin-top:6px;background:#f1f3f4;border-style:dashed"><div style="width:80%;height:4px;background:#dadce0;border-radius:3px;margin-top:7px"></div><span class="wm" style="">2</span></div>
+<div style="height:20px;border-radius:10px;background:#5f6368;margin-top:12px;position:relative"><span class="wm" style="">3</span></div></div><div class="wft">Product page</div><ol class="wfl"><li><span class="wn">1</span>Size picker is where the doubt happens</li><li><span class="wn">2</span>Style-specific fit tip sits right beside it</li><li><span class="wn">3</span>Add to bag stays one step away</li></ol></div><div class="wfc"><div class="wfph"><div style="width:45%;height:10px;background:#5f6368;border-radius:3px;margin-top:0px"></div><div class="wrow"><span class="wimg"></span><div style="flex:1"><div style="width:70%;height:6px;background:#dadce0;border-radius:3px;margin-top:0px"></div><div style="width:40%;height:5px;background:#dadce0;border-radius:3px;margin-top:4px"></div></div></div>
+<div class="wbox" style="height:36px;margin-top:8px;background:#f1f3f4;border-color:#5f6368"><div style="width:55%;height:6px;background:#5f6368;border-radius:3px;margin-top:7px"></div><div style="width:70%;height:4px;background:#dadce0;border-radius:3px;margin-top:5px"></div><span class="wm" style="">1</span></div>
+<div style="display:flex;gap:4px;margin-top:8px;position:relative"><div class="wbox" style="flex:1;height:16px;"></div><div class="wbox" style="flex:1;height:16px;"></div><div class="wbox" style="flex:1;height:16px;background:#5f6368"></div><div class="wbox" style="flex:1;height:16px;"></div><span class="wm" style="">2</span></div>
+<div style="width:80%;height:5px;background:#dadce0;border-radius:3px;margin-top:10px"></div><div style="width:60%;height:5px;background:#dadce0;border-radius:3px;margin-top:5px"></div>
+<div style="height:20px;border-radius:10px;background:#5f6368;margin-top:12px;position:relative"><span class="wm" style="">3</span></div></div><div class="wft">Size confidence</div><ol class="wfl"><li><span class="wn">1</span>“Your best size” based on what was kept before</li><li><span class="wn">2</span>The suggested size is preselected, not forced</li><li><span class="wn">3</span>One tap adds the suggested size to the bag</li></ol></div><div class="wfc"><div class="wfph"><div style="width:40%;height:10px;background:#5f6368;border-radius:3px;margin-top:0px"></div><div class="wbox" style="height:44px;margin-top:10px"></div>
+<div class="wbox" style="height:26px;margin-top:8px;background:#f1f3f4"><div style="width:75%;height:5px;background:#dadce0;border-radius:3px;margin-top:9px"></div><span class="wm" style="">1</span></div>
+<div style="position:relative"><div style="width:85%;height:5px;background:#dadce0;border-radius:3px;margin-top:12px"></div><div style="width:70%;height:5px;background:#dadce0;border-radius:3px;margin-top:5px"></div><span class="wm" style="">2</span></div>
+<div style="height:20px;border-radius:10px;background:#5f6368;margin-top:14px;position:relative"><span class="wm" style="">3</span></div></div><div class="wft">Checkout</div><ol class="wfl"><li><span class="wn">1</span>Reassurance, not a policy wall</li><li><span class="wn">2</span>Exchange info in the brand’s voice</li><li><span class="wn">3</span>No extra step before paying</li></ol></div><div class="wfc"><div class="wfph"><div style="width:45%;height:10px;background:#5f6368;border-radius:3px;margin-top:0px"></div><div class="wbox" style="height:50px;margin-top:10px;background:#f1f3f4"><div style="width:60%;height:6px;background:#5f6368;border-radius:3px;margin-top:8px"></div><div style="width:80%;height:4px;background:#dadce0;border-radius:3px;margin-top:6px"></div><span class="wm" style="">1</span></div>
+<div style="display:flex;gap:4px;margin-top:8px;position:relative"><div style="flex:1;height:18px;border-radius:4px;background:#5f6368"></div><div class="wbox" style="flex:1;height:18px"></div><span class="wm" style="">2</span></div>
+<div class="wimgL" style="height:60px;margin-top:10px"></div><div style="position:relative"><div style="width:70%;height:5px;background:#dadce0;border-radius:3px;margin-top:8px"></div><span class="wm" style="">3</span></div></div><div class="wft">Post-purchase</div><ol class="wfl"><li><span class="wn">1</span>Check-in a week after wear, not at delivery</li><li><span class="wn">2</span>Quick “how’s the fit?” answer</li><li><span class="wn">3</span>Wear-in tips if the answer is “not quite”</li></ol></div></div>
+    <h3 class="h3" style="margin-top:52px">Explored and dropped</h3>
+    <div class="cols2" style="margin-top:14px;gap:32px"><div class="wdrop"><div class="wx">✕</div><div><div class="int">A fit quiz before browsing</div><p class="p">Gating the catalog behind questions slowed shoppers who already knew their size. Help moved to the moment of doubt instead.</p></div></div><div class="wdrop"><div class="wx">✕</div><div><div class="int">A chat pop-up on every product page</div><p class="p">Always-on prompts trained shoppers to ignore them. Trigger points show help only where the research found hesitation.</p></div></div></div>
+    <p class="note">Redrawn as lo-fi frames to respect confidentiality.</p>
+  </section>
+  <section id="b-tone" class="ch">
+    <div class="chl"><span class="chn">05</span>Tonality</div>
+    <h2 class="cht">Same help, two voices: VS ≠ PINK.</h2>
+    <p class="lead">VS and PINK customers trust differently, so every trigger point got guidance for both voices.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:22px">
+      <div style="border-radius:16px;padding:24px;background:#191b1f;color:#fff"><div style="font-size:12px;letter-spacing:.14em;font-weight:700;opacity:.7">VICTORIA'S SECRET</div><div style="font-size:20px;font-weight:600;margin-top:8px">Confident · expert · elevated</div><div style="background:rgba(255,255,255,.1);border-radius:12px;padding:14px;margin-top:14px;font-size:14px;line-height:1.5">"This style runs small in the band. For your best fit, size up one."</div></div>
+      <div style="border-radius:16px;padding:24px;background:#fde7ef;color:#7a1747"><div style="font-size:12px;letter-spacing:.14em;font-weight:700;opacity:.8">PINK</div><div style="font-size:20px;font-weight:600;margin-top:8px">Playful · friendly · peer-to-peer</div><div style="background:#fff;border-radius:12px;padding:14px;margin-top:14px;font-size:14px;line-height:1.5">"Heads up: this one runs a lil snug in the band · most people size up!"</div></div>
+    </div>
+    <p class="note">Illustrative copy written for this case study.</p>
+  </section>
+  <section id="b-ai" class="ch band">
+    <div class="chl"><span class="chn">06</span>From research to AI</div>
+    <h2 class="cht">The study didn’t get shelved. It became agent behavior.</h2>
+    
+<div class="dec"><div class="d"><div class="dn">01</div><div><h3 class="dt">When to help</h3><p class="dp">The mapped hesitation moments tell the AI shopping agent when offering fit help is welcome, and when it’s noise.</p><div class="dx"><span>From</span>trigger points → triggers</div></div></div><div class="d"><div class="dn">02</div><div><h3 class="dt">What to say</h3><p class="dp">The questions associates answer every day shaped the fit questions the agent should be ready for.</p><div class="dx"><span>From</span>associate know-how → answers</div></div></div><div class="d"><div class="dn">03</div><div><h3 class="dt">How to say it</h3><p class="dp">VS and PINK tonality guidance carries straight into how the agent speaks for each brand.</p><div class="dx"><span>From</span>tonality → brand voice</div></div></div></div>
+  </section>
+  <section id="b-outcomes" class="ch" style="padding-bottom:72px">
+    <div class="chl"><span class="chn">07</span>Outcomes</div>
+    <h2 class="cht">What came out of it.</h2>
+    
+<div class="mets"><div><div class="mv" style="font-size:26px">1 map</div><div class="p">the fit-help playbook, adopted</div></div><div><div class="mv" style="font-size:26px">2 voices</div><div class="p">VS ≠ PINK tonality guidance</div></div><div><div class="mv" style="font-size:26px">→ AI</div><div class="p">research reused by the shopping agent</div></div><div><div class="mv" style="font-size:26px"><span class="fill">✎ metric</span></div><div class="p">a shareable result, if you have one</div></div></div>
+    <blockquote class="pull">“Timing is a design material. The same fit tip is helpful at the size picker and annoying on the homepage.”</blockquote>
+    <div class="cols2" style="margin-top:32px"><div><h3 class="h3">Why it lasted</h3><p class="p" style="font-size:15px">Research framed as reusable rules (when, what, how) outlived the original project and found a second life in the AI agent.</p></div></div>
+  </section>
+  <div style="border-top:1px solid #e8eaed;padding:28px 40px;display:flex;align-items:center"><span style="font-size:13px;color:#5f6368">Next · <b style="color:#191b1f">Playpals</b> →</span><a href="mailto:charlinebercasio2021@gmail.com" style="margin-left:auto;background:#1a63e8;color:#fff;border-radius:999px;padding:11px 24px;font-size:13.5px;font-weight:600;white-space:nowrap;text-decoration:none">Email me</a></div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1180,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

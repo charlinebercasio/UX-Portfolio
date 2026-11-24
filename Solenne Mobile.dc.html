@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Solenne · mobile web and app</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap');
+body{margin:0}
+.sm{font-family:'DM Sans',system-ui,sans-serif;color:#1C1A17;font-size:14px}
+.sm *{box-sizing:border-box}
+.sm button{font-family:inherit;cursor:pointer;color:inherit}
+.sm input{font-family:inherit;font-size:14px;color:#1C1A17}
+.sm .serif{font-family:'Playfair Display',Georgia,serif;font-weight:400;letter-spacing:-.01em}
+.sm .logo{font-family:'Bodoni Moda',serif!important;font-weight:400;letter-spacing:.18em}
+.sm .cap{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:600}
+.sm .muted{color:#6B6359}
+.sm .btn{display:flex;align-items:center;justify-content:center;width:100%;border:1px solid #1C1A17;background:#1C1A17;color:#F6F1EA;padding:15px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:600}
+.sm .btn.ghost{background:transparent;color:#1C1A17}
+.sm .img{position:relative;background:#EDE6DC;display:grid;place-items:center;overflow:hidden}
+.sm .img svg{width:64%;height:auto;filter:drop-shadow(0 8px 12px rgba(60,40,20,.14))}
+.sm .heart{position:absolute;top:8px;right:8px;width:32px;height:32px;border-radius:50%;border:none;background:rgba(246,241,234,.85);font-size:14px}
+.sm .plus{position:absolute;bottom:8px;right:8px;width:32px;height:32px;border-radius:50%;border:none;background:rgba(246,241,234,.92);font-size:18px;line-height:1}
+.sm .badge{position:absolute;top:8px;left:8px;background:#F6F1EA;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;padding:3px 6px}
+.sm .sw{width:26px;height:26px;border-radius:50%;border:1px solid rgba(0,0,0,.15);padding:0}
+.sm .szb{flex:1;height:44px;border:1px solid #CFC5B8;background:#fff;font-weight:600;font-size:13px}
+.sm .hr{height:1px;background:#DDD3C6}
+.sm .field{display:flex;flex-direction:column;gap:5px;font-size:11.5px;font-weight:600;color:#4A443D}
+.sm .field input{border:1px solid #CFC5B8;background:#fff;padding:11px;font-weight:400;outline:none;width:100%}
+.sm .accb{display:flex;align-items:center;width:100%;background:none;border:none;border-top:1px solid #DDD3C6;padding:14px 0;font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;text-align:left}
+.sm .scrim{position:absolute;inset:0;background:rgba(28,26,23,.4);z-index:40}
+.sm .sheet{position:absolute;left:0;right:0;bottom:0;background:#F6F1EA;z-index:41;border-radius:18px 18px 0 0;padding:14px 18px 22px;max-height:82%;overflow:auto;animation:smUp .3s cubic-bezier(.2,.7,.3,1) both}
+@keyframes smUp{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+@keyframes smIn{from{opacity:0}to{opacity:1}}
+.sm .up{animation:smIn .3s ease both}
+.sm .grab{width:36px;height:4px;border-radius:999px;background:#CFC5B8;margin:0 auto 12px}
+.sm .hs{display:flex;gap:10px;overflow-x:auto;scrollbar-width:none}
+.sm .hs::-webkit-scrollbar{display:none}
+</style>
+</helmet>
+<div class="sm" style="display:flex;justify-content:center">
+<div style="position:relative;width:375px;height:812px;background:#F6F1EA;border:6px solid #1C1A17;border-radius:46px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 18px 50px rgba(28,26,23,.18)">
+  <div style="display:flex;justify-content:space-between;padding:12px 24px 4px;font-size:12px;font-weight:700;background:{{ barBg }}"><span>9:41</span><span>●●● ▲ ▮</span></div>
+
+  <sc-if value="{{ isWeb }}" hint-placeholder-val="{{ true }}">
+    <div style="background:#EDE6DC;padding:4px 12px 8px"><div style="display:flex;align-items:center;gap:6px;background:#fff;border-radius:10px;padding:7px 10px;font-size:12.5px;color:#4A443D"><span>🔒</span><span style="flex:1;text-align:center">solenne.com{{ urlPath }}</span><span>↻</span></div></div>
+    <header style="display:flex;align-items:center;padding:10px 14px;border-bottom:1px solid #DDD3C6;background:#F6F1EA">
+      <button onClick="{{ openMenu }}" aria-label="Menu" style="background:none;border:none;padding:6px;font-size:18px">☰</button>
+      <button onClick="{{ openSearch }}" aria-label="Search" style="background:none;border:none;padding:6px"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.3-4.3"/></svg></button>
+      <button onClick="{{ goHome }}" class="serif logo" style="flex:1;background:none;border:none;font-size:22px;letter-spacing:.18em">SOLENNE</button>
+      <button onClick="{{ goAccount }}" aria-label="Account" style="background:none;border:none;padding:6px"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></button>
+      <button onClick="{{ goBag }}" aria-label="Bag" style="background:none;border:none;padding:6px;position:relative"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 8h14l-1 13H6z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><sc-if value="{{ hasBag }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:0;right:0;font-size:9px;font-weight:700;background:#1C1A17;color:#fff;border-radius:999px;padding:1px 4px">{{ bagCount }}</span></sc-if></button>
+    </header>
+  </sc-if>
+  <sc-if value="{{ isApp }}" hint-placeholder-val="{{ false }}">
+    <header style="display:flex;align-items:center;padding:8px 18px 10px">
+      <sc-if value="{{ appBack }}" hint-placeholder-val="{{ false }}"><button onClick="{{ goBack }}" aria-label="Back" style="background:none;border:none;padding:4px 8px 4px 0;font-size:20px">‹</button></sc-if>
+      <span class="{{ titleClass }}" style="font-size:{{ titleSize }};flex:1;letter-spacing:{{ titleTrack }}">{{ appTitle }}</span>
+      <button onClick="{{ openSearch }}" aria-label="Search" style="background:none;border:none;padding:6px"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.3-4.3"/></svg></button>
+    </header>
+  </sc-if>
+
+  <div style="flex:1;min-height:0;overflow-y:auto;overflow-x:hidden">
+
+    <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+      <div class="up">
+        <sc-if value="{{ isApp }}" hint-placeholder-val="{{ false }}">
+          <button onClick="{{ goCircle }}" style="display:flex;align-items:center;gap:12px;margin:0 18px 14px;width:calc(100% - 36px);background:#1C1A17;color:#F6F1EA;border:none;padding:14px 16px;text-align:left"><span style="font-size:18px">✦</span><span style="flex:1"><span class="cap" style="color:#EFD9CF;display:block">{{ tierName }} · Solenne Circle</span><span style="font-size:15px;font-weight:600">{{ ptsLabel }} · {{ tierNext }}</span></span><span>›</span></button>
+        </sc-if>
+        <sc-if value="{{ heroA }}" hint-placeholder-val="{{ true }}">
+<div style="position:relative;height:430px;overflow:hidden;background:radial-gradient(120% 70% at 55% 42%,#EAE0D2 0%,#D9CBBA 55%,#C9B8A4 100%)">
+<div style="position:absolute;left:0;right:0;bottom:0;height:102px;background:#CDBDA9"></div>
+<div style="position:absolute;left:0;right:0;top:-6px;text-align:center;font-family:'Bodoni Moda',serif;font-size:142px;line-height:1">SOFT</div>
+<div style="position:absolute;left:50%;bottom:88px;width:200px;height:26px;margin-left:-100px;border-radius:50%;background:radial-gradient(closest-side,rgba(60,40,20,.35),rgba(60,40,20,0))"></div>
+<svg viewBox="0 0 200 240" aria-hidden="true" style="position:absolute;left:50%;top:46px;width:300px;margin-left:-150px;filter:drop-shadow(0 14px 18px rgba(60,40,20,.22))"><path d="M58 40 L84 30 Q100 44 116 30 L142 40 L172 152 L152 158 L140 92 L140 196 L60 196 L60 92 L48 158 L28 152 Z" fill="#F4EEE4"/><path d="M60 186 L140 186 M84 30 Q100 50 116 30" fill="none" stroke="rgba(0,0,0,.10)" stroke-width="1.5"/></svg>
+<div style="position:absolute;left:18px;top:150px;width:84px;font-size:9px;letter-spacing:.16em;text-transform:uppercase;line-height:1.5"><div>Nº 04</div><div style="color:#6B5B4E">Autumn</div><div style="margin-top:14px;font-family:'Playfair Display',serif;font-size:15px;line-height:1.15;letter-spacing:0;text-transform:none;font-style:italic">the art of slow dressing</div></div>
+<div style="position:absolute;right:18px;top:236px;text-align:right;font-size:9px;letter-spacing:.16em;text-transform:uppercase;line-height:1.5"><div>Look 01</div><div style="color:#6B5B4E">Odile knit</div><div style="color:#6B5B4E">$138</div></div>
+<div style="position:absolute;left:18px;right:18px;bottom:18px;display:flex;align-items:flex-end;justify-content:space-between"><div style="font-family:'Playfair Display',serif;font-size:24px;line-height:1.05">The Soft Edit,<br><i>on purpose.</i></div><button onClick="{{ goNew }}" style="border:none;cursor:pointer;background:#1C1A17;color:#F6F1EA;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;padding:12px 16px;display:inline-block">Shop new</button></div></div>
+        </sc-if>
+        <sc-if value="{{ heroB }}" hint-placeholder-val="{{ false }}">
+<div style="position:relative;height:470px;overflow:hidden;background:#1E1C1A;color:#F6F1EA;padding:18px;box-sizing:border-box">
+<div style="display:flex;justify-content:space-between;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:#BFB4A6"><span>Contact sheet</span><span>Roll 04 · Autumn</span></div>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px;background:#2A2724;padding:10px 8px 6px"><div style="position:relative"><div style="height:132px;background:#DCD0C0;display:flex;align-items:flex-end;justify-content:center;overflow:hidden"><svg viewBox="0 0 200 240" aria-hidden="true" style="width:120%;flex:none;margin-bottom:-14px"><path d="M58 40 L84 30 Q100 44 116 30 L142 40 L172 152 L152 158 L140 92 L140 196 L60 196 L60 92 L48 158 L28 152 Z" fill="#F4EEE4"/><path d="M60 186 L140 186 M84 30 Q100 50 116 30" fill="none" stroke="rgba(0,0,0,.10)" stroke-width="1.5"/></svg></div><div style="font-family:monospace;font-size:8px;color:#C9A227;margin-top:4px">▸ 01A</div></div><div style="position:relative"><div style="height:132px;background:#E6D8C8;display:flex;align-items:flex-end;justify-content:center;overflow:hidden"><svg viewBox="0 0 200 240" aria-hidden="true" style="width:120%;flex:none;margin-bottom:-14px"><path d="M78 22 L122 22 L130 62 L120 74 L152 226 L48 226 L80 74 L70 62 Z" fill="#B5502F"/><path d="M84 22 L84 8 M116 22 L116 8 M80 74 L120 74" fill="none" stroke="rgba(0,0,0,.10)" stroke-width="1.5"/></svg></div><div style="font-family:monospace;font-size:8px;color:#C9A227;margin-top:4px">▸ 02A</div><div style="position:absolute;inset:-7px -6px 6px -6px;border:2px solid #C2361C;border-radius:50%;transform:rotate(-4deg)"></div></div><div style="position:relative"><div style="height:132px;background:#D8CBBA;display:flex;align-items:flex-end;justify-content:center;overflow:hidden"><svg viewBox="0 0 200 240" aria-hidden="true" style="width:120%;flex:none;margin-bottom:-14px"><path d="M62 20 L138 20 L148 226 L110 226 L100 92 L90 226 L52 226 Z" fill="#5A3E33"/><path d="M62 34 L138 34 M100 34 L100 92" fill="none" stroke="rgba(0,0,0,.10)" stroke-width="1.5"/></svg></div><div style="font-family:monospace;font-size:8px;color:#C9A227;margin-top:4px">▸ 03A</div></div></div>
+<div style="margin-top:12px;font-family:monospace;font-size:9px;color:#BFB4A6">SELECT · 02A — THE SIENNA SLIP, TERRACOTTA</div>
+<div style="font-family:'Playfair Display',serif;font-size:46px;line-height:1;margin-top:40px">The pick of<br><i>the roll.</i></div>
+<div style="position:absolute;left:18px;right:18px;bottom:18px;display:flex;align-items:center;justify-content:space-between"><span style="font-size:12px;color:#BFB4A6">The Sienna Slip Dress · $128</span><button onClick="{{ goNew }}" style="border:none;cursor:pointer;background:#F6F1EA;color:#1C1A17;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;padding:12px 16px;display:inline-block">Shop the edit</button></div></div>
+        </sc-if>
+        <sc-if value="{{ heroC }}" hint-placeholder-val="{{ false }}">
+<div style="position:relative;height:470px;overflow:hidden;background:#EFE8DE">
+<div style="position:absolute;left:-8px;top:-34px;font-family:'Bodoni Moda',serif;font-size:270px;line-height:1;color:#B9A386;mix-blend-mode:multiply;z-index:2;pointer-events:none;opacity:.55;letter-spacing:-.04em">04</div>
+<div style="position:absolute;right:-6px;top:0;bottom:0;width:30px;display:flex;align-items:center;justify-content:center"><div style="transform:rotate(90deg);white-space:nowrap;font-size:9px;letter-spacing:.16em;text-transform:uppercase;font-size:10px;letter-spacing:.4em">The Soft Edit — Autumn</div></div>
+<div style="position:absolute;left:128px;top:44px;width:200px;height:296px;background:#A7B29A;display:flex;align-items:flex-end;justify-content:center;overflow:hidden"><svg viewBox="0 0 200 240" aria-hidden="true" style="width:118%;flex:none;margin-bottom:-16px"><path d="M70 26 L86 18 Q100 28 114 18 L130 26 L136 70 L122 80 L146 228 L54 228 L78 80 L64 70 Z" fill="#26231F"/><path d="M78 80 L122 80 M100 80 L100 228" fill="none" stroke="rgba(0,0,0,.10)" stroke-width="1.5"/></svg></div>
+<div style="position:absolute;left:18px;top:360px;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:#6B5B4E">Look 04 · Margot midi</div>
+<div style="position:absolute;left:18px;top:376px;font-family:'Playfair Display',serif;font-size:30px;line-height:1.05">Quiet colour,<br><i>loud cut.</i></div>
+<div style="position:absolute;right:30px;bottom:18px"><button onClick="{{ goNew }}" style="border:none;cursor:pointer;background:#1C1A17;color:#F6F1EA;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;padding:12px 16px;display:inline-block">Shop new</button></div></div>
+        </sc-if>
+        <sc-if value="{{ heroD }}" hint-placeholder-val="{{ false }}">
+<div style="position:relative;height:470px;overflow:hidden;background:radial-gradient(60% 45% at 50% 45%,#3A2A22 0%,#14110F 70%);color:#F3E9DA">
+<div style="position:absolute;left:18px;right:18px;top:16px;display:flex;justify-content:space-between;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:#A8998A"><span>After hours</span><span>Nº 04</span></div>
+<div style="position:absolute;left:50%;top:34px;width:0;height:0;box-shadow:0 0 120px 70px rgba(255,214,170,.18)"></div>
+<svg viewBox="0 0 200 240" aria-hidden="true" style="position:absolute;left:50%;top:40px;width:250px;margin-left:-125px;filter:drop-shadow(0 20px 30px rgba(0,0,0,.5))"><path d="M72 50 L128 50 L134 74 L140 190 L60 190 L66 74 Z" fill="#B5502F"/><path d="M78 50 L84 22 M122 50 L116 22 M66 74 Q100 86 134 74" fill="none" stroke="rgba(0,0,0,.2)" stroke-width="1.5"/></svg>
+<div style="position:absolute;left:0;right:0;top:282px;text-align:center;font-family:'Bodoni Moda',serif;font-style:italic;font-size:54px;line-height:1">Evening,</div>
+<div style="position:absolute;left:0;right:0;top:336px;text-align:center;font-size:9px;letter-spacing:.16em;text-transform:uppercase;font-size:11px;letter-spacing:.5em">softly</div>
+<div style="position:absolute;left:0;right:0;bottom:22px;display:flex;flex-direction:column;align-items:center;gap:10px"><span style="font-size:11.5px;color:#A8998A">The Clara Satin Cami · $58</span><button onClick="{{ goNew }}" style="border:none;cursor:pointer;background:#F3E9DA;color:#1C1A17;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;padding:12px 16px;display:inline-block">Shop evening</button></div></div>
+        </sc-if>
+        <sc-if value="{{ heroE }}" hint-placeholder-val="{{ false }}">
+<div style="position:relative;height:470px;overflow:hidden;background:repeating-linear-gradient(90deg,#E9E0D2 0 6px,#DDD2C2 6px 7px,#EEE6D9 7px 13px,#D6CAB9 13px 14px)">
+<div style="position:absolute;inset:0;background:radial-gradient(80% 60% at 50% 40%,rgba(255,255,255,.35),rgba(0,0,0,.08))"></div>
+<div style="position:absolute;left:18px;top:18px;font-size:9px;letter-spacing:.16em;text-transform:uppercase;font-size:10px">Touch first</div>
+<div style="position:absolute;right:18px;top:18px;font-size:9px;letter-spacing:.16em;text-transform:uppercase;font-size:10px">Brushed alpaca blend</div>
+<div style="position:absolute;left:50%;top:76px;width:236px;margin-left:-118px;background:#F6F1EA;padding:14px 14px 16px;box-shadow:0 18px 40px rgba(60,40,20,.18);box-sizing:border-box">
+<div style="height:200px;background:#E6DCCD;display:flex;align-items:flex-end;justify-content:center;overflow:hidden"><svg viewBox="0 0 200 240" aria-hidden="true" style="width:112%;flex:none;margin-bottom:-14px"><path d="M58 40 L84 30 Q100 44 116 30 L142 40 L172 152 L152 158 L140 92 L140 196 L60 196 L60 92 L48 158 L28 152 Z" fill="#F4EEE4"/><path d="M60 186 L140 186 M84 30 Q100 50 116 30" fill="none" stroke="rgba(0,0,0,.10)" stroke-width="1.5"/></svg></div>
+<div style="display:flex;justify-content:space-between;margin-top:10px;font-size:11.5px"><span>Odile Cloud Knit</span><span>$138</span></div>
+<div style="font-size:10px;color:#6B6359;margin-top:3px">Brushed, weightless, made for layering</div></div>
+<div style="position:absolute;left:18px;right:18px;bottom:18px;display:flex;align-items:flex-end;justify-content:space-between"><div style="font-family:'Playfair Display',serif;font-size:28px;line-height:1.02">Feel it<br><i>before you see it.</i></div><button onClick="{{ goNew }}" style="border:none;cursor:pointer;background:#1C1A17;color:#F6F1EA;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;padding:12px 16px;display:inline-block">Shop new</button></div></div>
+        </sc-if>
+        <sc-if value="{{ heroF }}" hint-placeholder-val="{{ false }}">
+<div style="position:relative;height:470px;overflow:hidden;background:#F2EBE1">
+<div style="position:absolute;left:18px;top:16px;font-size:9px;letter-spacing:.16em;text-transform:uppercase">Weekend notes · Nº 04</div>
+<div style="position:absolute;left:20px;top:48px;width:168px;background:#fff;padding:9px 9px 30px;box-shadow:0 10px 24px rgba(60,40,20,.18);transform:rotate(-6deg)"><div style="height:168px;background:#EADFD2;display:flex;align-items:flex-end;justify-content:center;overflow:hidden"><svg viewBox="0 0 200 240" aria-hidden="true" style="width:115%;flex:none;margin-bottom:-12px"><path d="M58 46 L84 36 L100 80 L116 36 L142 46 L172 150 L152 156 L140 96 L140 168 L60 168 L60 96 L48 156 L28 150 Z" fill="#E8C4B8"/><path d="M100 80 L100 168 M60 160 L140 160" fill="none" stroke="rgba(0,0,0,.10)" stroke-width="1.5"/></svg></div><div style="position:absolute;left:0;right:0;bottom:8px;text-align:center;font-family:'Playfair Display',serif;font-style:italic;font-size:13px">sat. market run</div><div style="position:absolute;left:50%;top:-9px;width:54px;height:18px;margin-left:-27px;background:rgba(232,196,184,.75);transform:rotate(9.0deg)"></div></div><div style="position:absolute;left:180px;top:92px;width:168px;background:#fff;padding:9px 9px 30px;box-shadow:0 10px 24px rgba(60,40,20,.18);transform:rotate(5deg)"><div style="height:168px;background:#E3DACB;display:flex;align-items:flex-end;justify-content:center;overflow:hidden"><svg viewBox="0 0 200 240" aria-hidden="true" style="width:115%;flex:none;margin-bottom:-12px"><path d="M70 36 L130 36 L162 206 L38 206 Z" fill="#A7B29A"/><path d="M70 50 L130 50 M84 50 L66 206 M100 50 L100 206 M116 50 L134 206" fill="none" stroke="rgba(0,0,0,.10)" stroke-width="1.5"/></svg></div><div style="position:absolute;left:0;right:0;bottom:8px;text-align:center;font-family:'Playfair Display',serif;font-style:italic;font-size:13px">sun. long lunch</div><div style="position:absolute;left:50%;top:-9px;width:54px;height:18px;margin-left:-27px;background:rgba(232,196,184,.75);transform:rotate(-7.5deg)"></div></div>
+<div style="position:absolute;left:18px;top:330px;font-family:'Playfair Display',serif;font-size:32px;line-height:1.02">Dressed for<br><i>doing nothing.</i></div>
+<div style="position:absolute;left:18px;right:18px;bottom:18px;display:flex;align-items:center;justify-content:space-between"><span style="font-size:11.5px;color:#6B6359">Bea cardigan · Lou skirt</span><button onClick="{{ goNew }}" style="border:none;cursor:pointer;background:#1C1A17;color:#F6F1EA;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;padding:12px 16px;display:inline-block">Shop the looks</button></div></div>
+        </sc-if>
+        <div class="hs" style="padding:16px 18px 0">
+          <sc-for list="{{ catChips }}" as="c" hint-placeholder-count="6"><button onClick="{{ c.go }}" style="flex:none;border:1px solid #1C1A17;background:{{ c.bg }};color:{{ c.c }};border-radius:999px;padding:8px 14px;font-size:12.5px;font-weight:600">{{ c.label }}</button></sc-for>
+        </div>
+        <div style="display:flex;align-items:baseline;padding:24px 18px 0"><span class="serif" style="font-size:24px">New arrivals</span><button onClick="{{ goNew }}" style="margin-left:auto;background:none;border:none;font-size:12.5px;text-decoration:underline">See all</button></div>
+        <div class="hs" style="padding:12px 18px 0">
+          <sc-for list="{{ newCards }}" as="p" hint-placeholder-count="4">
+            <div style="flex:none;width:150px;position:relative"><button onClick="{{ p.open }}" style="border:none;padding:0;background:none;text-align:left;width:100%"><div class="img" style="aspect-ratio:4/5"><svg viewBox="0 0 200 240" aria-hidden="true"><path d="{{ p.shape }}" fill="{{ p.hex }}"/></svg></div><div style="font-size:12.5px;font-weight:500;margin-top:8px">{{ p.name }}</div><div style="font-size:12.5px;color:#4A443D">{{ p.priceLabel }}</div></button><button class="heart" onClick="{{ p.toggleWish }}" aria-label="{{ p.wishAria }}">{{ p.heart }}</button></div>
+          </sc-for>
+        </div>
+        <sc-if value="{{ isWeb }}" hint-placeholder-val="{{ true }}">
+          <div style="margin:28px 18px 0;background:#1C1A17;color:#F6F1EA;padding:22px">
+            <div class="cap" style="color:#EFD9CF">Solenne Circle</div>
+            <div class="serif" style="font-size:26px;line-height:1.1;margin-top:8px">Earn on every piece.</div>
+            <div style="font-size:13px;opacity:.85;margin-top:8px">You have {{ ptsLabel }} · {{ tierName }}</div>
+            <button onClick="{{ goCircle }}" class="btn" style="margin-top:14px;background:#F6F1EA;color:#1C1A17;border-color:#F6F1EA">See rewards</button>
+          </div>
+          <div style="margin:18px;padding:16px;border:1px dashed #B5502F;display:flex;gap:12px;align-items:center"><span style="font-size:22px">📱</span><div style="flex:1;font-size:13px"><b>Get the Solenne app</b><div class="muted">1-tap checkout and early drop alerts</div></div></div>
+        </sc-if>
+        <div style="height:24px"></div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isPlp }}" hint-placeholder-val="{{ false }}">
+      <div class="up" style="padding:14px 14px 24px">
+        <div class="serif" style="font-size:30px;padding:0 4px">{{ plpTitle }}</div>
+        <div class="muted" style="font-size:12.5px;padding:2px 4px 0">{{ plpCount }}</div>
+        <div class="hs" style="margin-top:12px;padding:0 4px">
+          <sc-for list="{{ catChips }}" as="c" hint-placeholder-count="6"><button onClick="{{ c.go }}" style="flex:none;border:1px solid {{ c.border }};background:{{ c.bg }};color:{{ c.c }};border-radius:999px;padding:7px 12px;font-size:12px;font-weight:600">{{ c.label }}</button></sc-for>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:12px;position:sticky;top:0;background:#F6F1EA;z-index:3;padding:6px 4px">
+          <button onClick="{{ openFilter }}" style="flex:1;border:1px solid #1C1A17;background:#fff;padding:10px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:600">Filter{{ filterCount }}</button>
+          <button onClick="{{ openFilter }}" style="flex:1;border:1px solid #1C1A17;background:#fff;padding:10px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:600">Sort · {{ sortLabel }}</button>
+        </div>
+        <sc-if value="{{ noProducts }}" hint-placeholder-val="{{ false }}"><div style="padding:20px 0 4px">
+          <div class="serif" style="font-size:24px;line-height:1.1">Nothing in {{ nearSummary }}, <i>yet.</i></div>
+          <div class="muted" style="font-size:12.5px;margin-top:6px">Closest pieces instead. <button onClick="{{ clearFilters }}" style="background:none;border:none;padding:0;text-decoration:underline;font-size:12.5px;color:inherit">Clear filters</button></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px">
+            <sc-for list="{{ nearCards }}" as="p" hint-placeholder-count="4">
+              <button onClick="{{ p.open }}" style="border:none;padding:0;background:none;text-align:left"><div class="img" style="aspect-ratio:4/5"><svg viewBox="0 0 200 240" aria-hidden="true"><path d="{{ p.shape }}" fill="{{ p.hex }}"/></svg></div><div style="font-size:12.5px;margin-top:6px;font-weight:600">{{ p.name }}</div><div style="font-size:12px">{{ p.priceLabel }}</div><div style="font-size:11px;margin-top:4px;color:#3F5A3A">✓ {{ p.why }}</div><sc-if value="{{ p.hasMiss }}" hint-placeholder-val="{{ true }}"><div style="font-size:11px;color:#6B6359">{{ p.miss }}</div></sc-if></button>
+            </sc-for>
+          </div>
+        </div></sc-if>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px 10px;margin-top:10px">
+          <sc-for list="{{ plpCards }}" as="p" hint-placeholder-count="4">
+            <div style="position:relative">
+              <div style="position:relative">
+                <button onClick="{{ p.open }}" style="border:none;padding:0;background:none;text-align:left;width:100%;display:block"><div class="img" style="aspect-ratio:4/5"><svg viewBox="0 0 200 240" aria-hidden="true"><path d="{{ p.shape }}" fill="{{ p.hex }}"/><path d="{{ p.detail }}" fill="none" stroke="rgba(0,0,0,.14)" stroke-width="1.5"/></svg><sc-if value="{{ p.hasBadge }}" hint-placeholder-val="{{ false }}"><span class="badge" style="color:{{ p.badgeC }}">{{ p.badge }}</span></sc-if></div></button>
+                <button class="heart" onClick="{{ p.toggleWish }}" aria-label="{{ p.wishAria }}">{{ p.heart }}</button>
+                <button class="plus" onClick="{{ p.quick }}" aria-label="{{ p.quickAria }}">+</button>
+              </div>
+              <button onClick="{{ p.open }}" style="border:none;padding:0;background:none;text-align:left;width:100%"><div style="font-size:12.5px;font-weight:500;margin-top:8px">{{ p.name }}</div><div style="font-size:12.5px;color:#4A443D">{{ p.priceLabel }}<sc-if value="{{ p.onSale }}" hint-placeholder-val="{{ false }}"> <s class="muted">{{ p.wasLabel }}</s></sc-if></div></button>
+              <div style="display:flex;gap:5px;margin-top:6px"><sc-for list="{{ p.dots }}" as="d" hint-placeholder-count="2"><span style="width:10px;height:10px;border-radius:50%;background:{{ d.hex }};border:1px solid rgba(0,0,0,.15)"></span></sc-for></div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isPdp }}" hint-placeholder-val="{{ false }}">
+      <div class="up" style="padding-bottom:96px">
+        <div class="img" style="aspect-ratio:4/5;background:{{ mainBg }}"><svg viewBox="0 0 200 240" aria-hidden="true" style="transform:{{ mainTf }};transition:transform .35s ease"><path d="{{ pdShape }}" fill="{{ pdHex }}"/><path d="{{ pdDetail }}" fill="none" stroke="rgba(0,0,0,.14)" stroke-width="1.5"/></svg>
+          <button onClick="{{ pdToggleWish }}" class="heart" aria-label="{{ pdWishAria }}" style="top:12px;right:12px;width:38px;height:38px">{{ pdHeart }}</button>
+          <div style="position:absolute;bottom:12px;left:0;right:0;display:flex;justify-content:center;gap:6px"><sc-for list="{{ thumbs }}" as="t" hint-placeholder-count="3"><button onClick="{{ t.pick }}" aria-label="{{ t.aria }}" style="width:{{ t.w }};height:6px;border-radius:999px;border:none;padding:0;background:{{ t.bg }};transition:width .2s"></button></sc-for></div>
+        </div>
+        <div style="padding:16px 18px 0">
+          <div style="display:flex;align-items:baseline;gap:8px"><span class="serif" style="font-size:24px;flex:1;line-height:1.15">{{ pdName }}</span></div>
+          <div style="display:flex;align-items:baseline;gap:8px;margin-top:6px"><b style="font-size:16px">{{ pdPrice }}</b><sc-if value="{{ pdOnSale }}" hint-placeholder-val="{{ false }}"><s class="muted">{{ pdWas }}</s></sc-if><span style="margin-left:auto;font-size:12.5px">★ {{ pdRating }} ({{ pdReviews }})</span></div>
+          <div style="background:#EFD9CF;padding:8px 10px;margin-top:10px;font-size:12.5px">✦ Earn <b>{{ pdPts }} points</b></div>
+          <div style="margin-top:16px;font-size:12.5px"><span class="cap">Color</span> · {{ pdColorName }}</div>
+          <div style="display:flex;gap:10px;margin-top:8px"><sc-for list="{{ pdColors }}" as="c" hint-placeholder-count="2"><button class="sw" onClick="{{ c.pick }}" aria-label="{{ c.aria }}" style="background:{{ c.hex }};outline:{{ c.ring }};outline-offset:3px"></button></sc-for></div>
+          <div style="display:flex;align-items:baseline;margin-top:16px"><span class="cap">Size</span><button onClick="{{ openSize }}" style="margin-left:auto;background:none;border:none;font-size:12.5px;text-decoration:underline">Find my size</button></div>
+          <div class="muted" style="font-size:12px;margin-top:4px">{{ fitNote }}</div>
+          <div style="display:flex;gap:6px;margin-top:8px"><sc-for list="{{ pdSizes }}" as="z" hint-placeholder-count="5"><button class="szb" onClick="{{ z.pick }}" aria-pressed="{{ z.on }}" aria-label="{{ z.aria }}" style="border-color:{{ z.border }};background:{{ z.bg }};color:{{ z.c }};text-decoration:{{ z.strike }};opacity:{{ z.op }}">{{ z.label }}</button></sc-for></div>
+          <sc-if value="{{ sizeErr }}" hint-placeholder-val="{{ false }}"><div role="alert" style="font-size:12.5px;margin-top:8px;color:#A3341C">Please choose a size</div></sc-if>
+          <sc-if value="{{ hasRec }}" hint-placeholder-val="{{ false }}"><div style="font-size:12.5px;margin-top:8px;color:#3F5A3A">✓ Recommended for you</div></sc-if>
+          <div style="margin-top:18px"><sc-for list="{{ accs }}" as="a" hint-placeholder-count="3"><button class="accb" onClick="{{ a.toggle }}" aria-expanded="{{ a.open }}">{{ a.title }}<span style="margin-left:auto">{{ a.sign }}</span></button><sc-if value="{{ a.open }}" hint-placeholder-val="{{ false }}"><div class="muted" style="font-size:13.5px;line-height:1.6;padding-bottom:14px">{{ a.body }}</div></sc-if></sc-for><div class="hr"></div></div>
+          <div class="serif" style="font-size:20px;margin-top:22px">Complete the look</div>
+          <div class="hs" style="margin-top:10px"><sc-for list="{{ lookCards }}" as="p" hint-placeholder-count="3"><button onClick="{{ p.open }}" style="flex:none;width:120px;border:none;padding:0;background:none;text-align:left"><div class="img" style="aspect-ratio:4/5"><svg viewBox="0 0 200 240" aria-hidden="true"><path d="{{ p.shape }}" fill="{{ p.hex }}"/></svg></div><div style="font-size:12px;margin-top:6px">{{ p.name }}</div><div style="font-size:12px;color:#4A443D">{{ p.priceLabel }}</div></button></sc-for></div>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isBag }}" hint-placeholder-val="{{ false }}">
+      <div class="up" style="padding:14px 18px 24px">
+        <sc-if value="{{ isWeb }}" hint-placeholder-val="{{ true }}"><div class="serif" style="font-size:28px">Your bag</div></sc-if>
+        <div style="margin-top:8px;font-size:12.5px">{{ shipMsg }}</div>
+        <div style="height:3px;background:#DDD3C6;margin-top:6px"><div style="height:3px;width:{{ shipPct }};background:#1C1A17;transition:width .3s"></div></div>
+        <sc-if value="{{ bagEmpty }}" hint-placeholder-val="{{ false }}"><div class="muted" style="text-align:center;padding:50px 0">Your bag is empty.<div style="margin-top:14px"><button class="btn" onClick="{{ goNew }}">Shop new arrivals</button></div></div></sc-if>
+        <sc-for list="{{ bagRows }}" as="b" hint-placeholder-count="2">
+          <div style="display:flex;gap:12px;padding:14px 0;border-bottom:1px solid #DDD3C6">
+            <div class="img" style="width:76px;height:95px;flex:none"><svg viewBox="0 0 200 240" aria-hidden="true" style="width:78%"><path d="{{ b.shape }}" fill="{{ b.hex }}"/></svg></div>
+            <div style="flex:1;font-size:13px"><div style="display:flex"><b style="flex:1">{{ b.name }}</b><b>{{ b.line }}</b></div><div class="muted">{{ b.variant }}</div>
+              <div style="display:flex;align-items:center;gap:10px;margin-top:10px"><div style="display:flex;align-items:center;border:1px solid #CFC5B8;background:#fff"><button onClick="{{ b.dec }}" aria-label="Decrease" style="width:30px;height:30px;border:none;background:none">−</button><span style="min-width:16px;text-align:center">{{ b.qty }}</span><button onClick="{{ b.inc }}" aria-label="Increase" style="width:30px;height:30px;border:none;background:none">+</button></div><button onClick="{{ b.remove }}" style="background:none;border:none;font-size:12px;text-decoration:underline">Remove</button></div>
+            </div>
+          </div>
+        </sc-for>
+        <sc-if value="{{ hasBag }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;font-size:15px;font-weight:700;margin-top:16px"><span>Subtotal</span><span style="margin-left:auto">{{ subLabel }}</span></div>
+          <div style="font-size:12px;color:#7A3A22;margin-top:4px">✦ Earn {{ earnPts }} points</div>
+          <sc-if value="{{ isApp }}" hint-placeholder-val="{{ false }}">
+            <button onClick="{{ openExpress }}" style="width:100%;margin-top:14px;border:none;background:#1C1A17;color:#fff;padding:15px;font-weight:700;font-size:15px;border-radius:12px"> Pay · 1-tap checkout</button>
+            <button class="btn ghost" onClick="{{ goCheckout }}" style="margin-top:8px">Other ways to pay</button>
+          </sc-if>
+          <sc-if value="{{ isWeb }}" hint-placeholder-val="{{ true }}"><button class="btn" onClick="{{ goCheckout }}" style="margin-top:14px">Checkout</button></sc-if>
+        </sc-if>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isCheckout }}" hint-placeholder-val="{{ false }}">
+      <div class="up" style="padding:14px 18px 24px">
+        <button onClick="{{ toggleSummary }}" style="display:flex;width:100%;align-items:center;background:#EFE8DE;border:none;padding:12px 14px;font-size:13px"><span>{{ summaryLabel }}</span><b style="margin-left:auto">{{ totalLabel }}</b></button>
+        <sc-if value="{{ showSummary }}" hint-placeholder-val="{{ false }}"><div style="background:#EFE8DE;padding:4px 14px 12px;font-size:12.5px"><sc-for list="{{ bagRows }}" as="b" hint-placeholder-count="1"><div style="display:flex;padding:4px 0"><span style="flex:1">{{ b.name }} × {{ b.qty }}</span><span>{{ b.line }}</span></div></sc-for></div></sc-if>
+        <sc-for list="{{ coSteps }}" as="st" hint-placeholder-count="4">
+          <div style="border-bottom:1px solid #DDD3C6;padding:16px 0">
+            <div style="display:flex;align-items:center;gap:10px"><span style="width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:700;background:{{ st.dotBg }};color:{{ st.dotC }};border:1px solid #1C1A17">{{ st.mark }}</span><span class="cap" style="font-size:11.5px">{{ st.title }}</span><sc-if value="{{ st.done }}" hint-placeholder-val="{{ false }}"><button onClick="{{ st.edit }}" style="margin-left:auto;background:none;border:none;font-size:12px;text-decoration:underline">Edit</button></sc-if></div>
+            <sc-if value="{{ st.done }}" hint-placeholder-val="{{ false }}"><div class="muted" style="font-size:12.5px;margin:6px 0 0 32px">{{ st.summary }}</div></sc-if>
+            <sc-if value="{{ st.isContact }}" hint-placeholder-val="{{ false }}"><div style="margin-top:12px;display:grid;gap:10px"><label class="field">Email<input value="{{ coEmail }}" onChange="{{ chEmail }}" type="email"></label><button class="btn" onClick="{{ next1 }}">Continue</button></div></sc-if>
+            <sc-if value="{{ st.isDelivery }}" hint-placeholder-val="{{ false }}"><div style="margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:10px"><label class="field">First<input value="{{ coFirst }}" onChange="{{ chFirst }}"></label><label class="field">Last<input value="{{ coLast }}" onChange="{{ chLast }}"></label><label class="field" style="grid-column:1/-1">Address<input value="{{ coAddr }}" onChange="{{ chAddr }}"></label><label class="field">City<input value="{{ coCity }}" onChange="{{ chCity }}"></label><label class="field">ZIP<input value="{{ coZip }}" onChange="{{ chZip }}" inputmode="numeric"></label><button class="btn" onClick="{{ next2 }}" style="grid-column:1/-1">Continue</button></div></sc-if>
+            <sc-if value="{{ st.isShipping }}" hint-placeholder-val="{{ false }}"><div style="margin-top:12px;display:grid;gap:8px"><sc-for list="{{ shipOpts }}" as="o" hint-placeholder-count="3"><button onClick="{{ o.pick }}" role="radio" aria-checked="{{ o.on }}" style="display:flex;align-items:center;gap:10px;padding:12px;border:1px solid {{ o.border }};background:#fff;text-align:left;font-size:13px"><span style="width:14px;height:14px;border-radius:50%;border:1.5px solid #1C1A17;display:grid;place-items:center"><span style="width:6px;height:6px;border-radius:50%;background:{{ o.dot }}"></span></span><span style="flex:1"><b>{{ o.label }}</b> <span class="muted">· {{ o.eta }}</span></span><b>{{ o.price }}</b></button></sc-for><button class="btn" onClick="{{ next3 }}">Continue</button></div></sc-if>
+            <sc-if value="{{ st.isPayment }}" hint-placeholder-val="{{ false }}"><div style="margin-top:12px;display:grid;gap:10px">
+              <label class="field">Card number<input value="{{ coCard }}" onChange="{{ chCard }}" inputmode="numeric"></label>
+              <div style="display:flex;gap:8px"><input aria-label="Promo code" value="{{ promoInput }}" onChange="{{ chPromo }}" placeholder="Promo · try SOLENNE10" style="flex:1;border:1px solid #CFC5B8;background:#fff;padding:11px"><button class="btn ghost" onClick="{{ applyPromo }}" style="width:auto;padding:11px 14px">Apply</button></div>
+              <sc-if value="{{ promoErr }}" hint-placeholder-val="{{ false }}"><div role="alert" style="color:#A3341C;font-size:12px">That code isn't valid</div></sc-if>
+              <sc-if value="{{ promoOn }}" hint-placeholder-val="{{ false }}"><div style="color:#3F5A3A;font-size:12px">✓ SOLENNE10 applied</div></sc-if>
+              <button onClick="{{ togglePts }}" role="switch" aria-checked="{{ usePts }}" style="display:flex;align-items:center;gap:10px;padding:12px;border:1px solid {{ ptsBorder }};background:#fff;text-align:left;font-size:12.5px"><span>✦</span><span style="flex:1"><b>500 points · $10 off</b><span class="muted" style="display:block">you have {{ ptsLabel }}</span></span><span style="width:34px;height:20px;border-radius:999px;background:{{ ptsTrack }};position:relative"><span style="position:absolute;top:2px;left:{{ ptsKnob }};width:16px;height:16px;border-radius:50%;background:#fff;transition:left .2s"></span></span></button>
+              <div style="font-size:13px;display:grid;gap:6px;margin-top:4px"><div style="display:flex"><span class="muted">Subtotal</span><span style="margin-left:auto">{{ subLabel }}</span></div><sc-if value="{{ hasDisc }}" hint-placeholder-val="{{ false }}"><div style="display:flex;color:#3F5A3A"><span>Savings</span><span style="margin-left:auto">−{{ discLabel }}</span></div></sc-if><div style="display:flex"><span class="muted">Shipping</span><span style="margin-left:auto">{{ shipLabel }}</span></div><div style="display:flex"><span class="muted">Tax</span><span style="margin-left:auto">{{ taxLabel }}</span></div><div style="display:flex;font-weight:700;font-size:15px"><span>Total</span><span style="margin-left:auto">{{ totalLabel }}</span></div></div>
+              <button class="btn" onClick="{{ placeOrder }}">Place order · {{ totalLabel }}</button>
+            </div></sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isConfirm }}" hint-placeholder-val="{{ false }}">
+      <div class="up" style="padding:28px 20px 24px">
+        <div class="cap" style="color:#3F5A3A">Order confirmed · {{ lastId }}</div>
+        <div class="serif" style="font-size:34px;line-height:1.05;margin-top:10px">Thank you, Ana.<br><i>It's on its way soon.</i></div>
+        <p class="muted" style="font-size:13.5px;line-height:1.55;margin:12px 0 0">Arriving {{ etaLabel }}. {{ confirmNote }}</p>
+        <div style="background:#1C1A17;color:#F6F1EA;padding:20px;margin-top:20px"><div class="cap" style="color:#EFD9CF">Solenne Circle</div><div class="serif" style="font-size:32px;margin-top:6px">+{{ lastPts }} pts</div><div style="font-size:13px;opacity:.85">{{ ptsLabel }} · {{ tierNext }}</div><div style="height:4px;background:#3a3530;margin-top:12px"><div style="height:4px;width:{{ tierPct }};background:#EFD9CF"></div></div></div>
+        <button class="btn" onClick="{{ goOrders }}" style="margin-top:16px">Track order</button>
+        <button class="btn ghost" onClick="{{ goNew }}" style="margin-top:8px">Keep shopping</button>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isSaved }}" hint-placeholder-val="{{ false }}">
+      <div class="up" style="padding:14px 14px 24px">
+        <sc-if value="{{ isWeb }}" hint-placeholder-val="{{ true }}"><div class="serif" style="font-size:28px;padding:0 4px">Wishlist</div></sc-if>
+        <sc-if value="{{ noWish }}" hint-placeholder-val="{{ false }}"><p class="muted" style="padding:30px 4px;text-align:center">Nothing saved yet. Tap ♡ on any piece.</p></sc-if>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px 10px;margin-top:10px">
+          <sc-for list="{{ wishCards }}" as="p" hint-placeholder-count="2"><div style="position:relative"><button onClick="{{ p.open }}" style="border:none;padding:0;background:none;text-align:left;width:100%"><div class="img" style="aspect-ratio:4/5"><svg viewBox="0 0 200 240" aria-hidden="true"><path d="{{ p.shape }}" fill="{{ p.hex }}"/></svg></div><div style="font-size:12.5px;font-weight:500;margin-top:8px">{{ p.name }}</div><div style="font-size:12.5px">{{ p.priceLabel }}</div></button><button class="heart" onClick="{{ p.toggleWish }}" aria-label="{{ p.wishAria }}">{{ p.heart }}</button><sc-if value="{{ isApp }}" hint-placeholder-val="{{ false }}"><div style="font-size:11px;color:#7A3A22;margin-top:4px">🔔 we'll alert you if it goes on sale</div></sc-if></div></sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isCircle }}" hint-placeholder-val="{{ false }}">
+      <div class="up" style="padding:8px 18px 24px">
+        <div style="background:#1C1A17;color:#F6F1EA;padding:20px;border-radius:{{ cardRadius }}">
+          <div style="display:flex;align-items:center"><span class="serif logo" style="font-size:18px;letter-spacing:.18em">SOLENNE</span><span class="cap" style="margin-left:auto;color:#EFD9CF">{{ tierName }}</span></div>
+          <div class="serif" style="font-size:40px;margin-top:16px">{{ ptsLabel }}</div>
+          <div style="font-size:12.5px;opacity:.85">{{ tierNext }}</div>
+          <div style="height:4px;background:#3a3530;margin-top:12px"><div style="height:4px;width:{{ tierPct }};background:#EFD9CF"></div></div>
+          <sc-if value="{{ isApp }}" hint-placeholder-val="{{ false }}">
+            <div style="background:#F6F1EA;margin-top:16px;padding:10px 12px;display:flex;align-items:center;gap:12px"><div aria-hidden="true" style="flex:1;height:40px;background:repeating-linear-gradient(90deg,#1C1A17 0 2px,transparent 2px 4px,#1C1A17 4px 5px,transparent 5px 8px,#1C1A17 8px 11px,transparent 11px 13px)"></div><div style="color:#1C1A17;font-size:11px;font-weight:700;text-align:right">Scan in store<br><span style="font-weight:500">Ana Ruiz · 4021</span></div></div>
+          </sc-if>
+        </div>
+        <sc-if value="{{ isApp }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:16px;background:#fff">
+            <sc-for list="{{ appToggles }}" as="t" hint-placeholder-count="3"><button onClick="{{ t.toggle }}" role="switch" aria-checked="{{ t.on }}" style="display:flex;align-items:center;width:100%;border:none;border-bottom:1px solid #EFE8DE;background:none;padding:14px;text-align:left"><span style="flex:1;font-size:13px"><b>{{ t.title }}</b><span class="muted" style="display:block;font-size:12px">{{ t.sub }}</span></span><span style="width:38px;height:22px;border-radius:999px;background:{{ t.track }};position:relative"><span style="position:absolute;top:3px;left:{{ t.knob }};width:16px;height:16px;border-radius:50%;background:#fff;transition:left .2s"></span></span></button></sc-for>
+          </div>
+        </sc-if>
+        <div class="serif" style="font-size:20px;margin-top:22px">Redeem</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px"><sc-for list="{{ redeem }}" as="r" hint-placeholder-count="3"><button onClick="{{ r.go }}" style="background:#fff;border:1px solid {{ r.border }};padding:12px 8px;text-align:left;opacity:{{ r.op }}"><div class="serif" style="font-size:20px">{{ r.value }}</div><div class="muted" style="font-size:11px">{{ r.cost }}</div><div style="font-size:11px;font-weight:700;margin-top:6px">{{ r.cta }}</div></button></sc-for></div>
+        <div class="serif" style="font-size:20px;margin-top:22px">Your perks as {{ tierName }}</div>
+        <div style="margin-top:8px;font-size:13.5px;line-height:1.9">✦ 1.5 points per $1<br>✦ Free 30-day returns<br>✦ 24-hour early access to drops<br>✦ $20 birthday reward</div>
+        <div class="serif" style="font-size:20px;margin-top:22px">Orders</div>
+        <sc-for list="{{ orderRows }}" as="o" hint-placeholder-count="2"><div style="display:flex;align-items:center;padding:12px 0;border-bottom:1px solid #DDD3C6;font-size:13px"><div style="flex:1"><b>{{ o.id }}</b><div class="muted" style="font-size:12px">{{ o.date }} · {{ o.total }}</div></div><span style="background:{{ o.sbg }};font-size:11px;font-weight:700;padding:3px 8px">{{ o.status }}</span></div></sc-for>
+      </div>
+    </sc-if>
+
+  </div>
+
+  <sc-if value="{{ showStickyAdd }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;left:0;right:0;bottom:{{ stickyBottom }};background:rgba(246,241,234,.95);backdrop-filter:blur(8px);padding:10px 14px;border-top:1px solid #DDD3C6;display:flex;gap:10px;align-items:center;z-index:20"><div style="font-size:12px;flex:none"><b>{{ pdPrice }}</b><div class="muted">{{ stickySize }}</div></div><button class="btn" onClick="{{ addToBag }}" style="padding:14px">Add to bag</button></div>
+  </sc-if>
+
+  <sc-if value="{{ isApp }}" hint-placeholder-val="{{ false }}">
+    <nav aria-label="App" style="display:flex;justify-content:space-around;border-top:1px solid #DDD3C6;padding:8px 4px 16px;background:#F6F1EA;position:relative;z-index:21">
+      <sc-for list="{{ appTabs }}" as="t" hint-placeholder-count="5"><button onClick="{{ t.go }}" style="background:none;border:none;min-width:58px;padding:4px 0;color:{{ t.c }};position:relative"><span style="display:block;font-size:18px;line-height:1.2">{{ t.icon }}</span><span style="font-size:10.5px;font-weight:700">{{ t.label }}</span><sc-if value="{{ t.hasBadge }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:0;right:12px;font-size:9px;font-weight:700;background:#B5502F;color:#fff;border-radius:999px;padding:1px 5px">{{ t.badge }}</span></sc-if></button></sc-for>
+    </nav>
+  </sc-if>
+
+  <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+    <div class="scrim" onClick="{{ closeAll }}"></div>
+    <div role="dialog" aria-label="Menu" style="position:absolute;top:0;left:0;bottom:0;width:300px;background:#F6F1EA;z-index:41;padding:58px 22px 20px;animation:smIn .25s ease both">
+      <button onClick="{{ closeAll }}" aria-label="Close menu" style="position:absolute;top:50px;right:16px;background:none;border:none;font-size:20px">✕</button>
+      <sc-for list="{{ menuTabs }}" as="t" hint-placeholder-count="7"><button onClick="{{ t.go }}" class="serif" style="display:block;width:100%;text-align:left;background:none;border:none;border-bottom:1px solid #DDD3C6;padding:14px 0;font-size:22px;color:{{ t.c }}">{{ t.label }}</button></sc-for>
+      <div style="display:flex;flex-direction:column;gap:12px;margin-top:20px;font-size:13.5px"><button onClick="{{ goCircle }}" style="background:none;border:none;text-align:left">✦ Solenne Circle · {{ ptsLabel }}</button><button onClick="{{ goSaved }}" style="background:none;border:none;text-align:left">♡ Wishlist · {{ wishCount }}</button><button onClick="{{ goAccount }}" style="background:none;border:none;text-align:left">Account &amp; orders</button></div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ filterOpen }}" hint-placeholder-val="{{ false }}">
+    <div class="scrim" onClick="{{ closeAll }}"></div>
+    <div class="sheet" role="dialog" aria-label="Filter and sort">
+      <div class="grab"></div>
+      <div style="display:flex;align-items:baseline"><span class="serif" style="font-size:22px">Filter &amp; sort</span><button onClick="{{ clearFilters }}" style="margin-left:auto;background:none;border:none;font-size:12.5px;text-decoration:underline">Clear</button></div>
+      <div class="cap" style="margin-top:16px">Sort</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px"><sc-for list="{{ sorts }}" as="o" hint-placeholder-count="5"><button onClick="{{ o.pick }}" style="border:1px solid {{ o.border }};background:{{ o.bg }};color:{{ o.c }};border-radius:999px;padding:7px 12px;font-size:12.5px">{{ o.label }}</button></sc-for></div>
+      <div class="cap" style="margin-top:16px">Size</div>
+      <div style="display:flex;gap:6px;margin-top:8px"><sc-for list="{{ fSizes }}" as="z" hint-placeholder-count="5"><button onClick="{{ z.toggle }}" aria-pressed="{{ z.on }}" style="flex:1;height:40px;border:1px solid {{ z.border }};background:{{ z.bg }};color:{{ z.c }};font-weight:600">{{ z.label }}</button></sc-for></div>
+      <div class="cap" style="margin-top:16px">Color</div>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:8px"><sc-for list="{{ fColors }}" as="c" hint-placeholder-count="5"><button onClick="{{ c.toggle }}" aria-pressed="{{ c.on }}" aria-label="{{ c.label }}" class="sw" style="width:30px;height:30px;background:{{ c.hex }};outline:{{ c.ring }};outline-offset:3px"></button></sc-for></div>
+      <div class="cap" style="margin-top:16px">Price</div>
+      <div style="display:flex;gap:6px;margin-top:8px"><sc-for list="{{ fPrices }}" as="r" hint-placeholder-count="3"><button onClick="{{ r.pick }}" style="flex:1;height:40px;border:1px solid {{ r.border }};background:{{ r.bg }};color:{{ r.c }};font-size:12px;font-weight:600">{{ r.label }}</button></sc-for></div>
+      <button class="btn" onClick="{{ closeAll }}" style="margin-top:20px">Show {{ plpCount }}</button>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ quickOpen }}" hint-placeholder-val="{{ false }}">
+    <div class="scrim" onClick="{{ closeAll }}"></div>
+    <div class="sheet" role="dialog" aria-label="Quick add">
+      <div class="grab"></div>
+      <div style="display:flex;gap:12px;align-items:center"><div class="img" style="width:60px;height:75px"><svg viewBox="0 0 200 240" aria-hidden="true" style="width:78%"><path d="{{ qkShape }}" fill="{{ qkHex }}"/></svg></div><div><b>{{ qkName }}</b><div class="muted" style="font-size:13px">{{ qkPrice }} · {{ qkFit }}</div></div></div>
+      <div class="cap" style="margin-top:16px">Choose a size</div>
+      <div style="display:flex;gap:6px;margin-top:8px"><sc-for list="{{ qkSizes }}" as="z" hint-placeholder-count="5"><button class="szb" onClick="{{ z.add }}" aria-label="{{ z.aria }}" style="text-decoration:{{ z.strike }};opacity:{{ z.op }}">{{ z.label }}</button></sc-for></div>
+      <button onClick="{{ qkOpenPdp }}" style="margin-top:14px;background:none;border:none;font-size:12.5px;text-decoration:underline">See full details</button>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ sizeOpen }}" hint-placeholder-val="{{ false }}">
+    <div class="scrim" onClick="{{ closeAll }}"></div>
+    <div class="sheet" role="dialog" aria-label="Find my size">
+      <div class="grab"></div>
+      <div class="serif" style="font-size:22px">Find my size</div>
+      <div class="cap" style="margin-top:14px">Your usual size</div>
+      <div style="display:flex;gap:6px;margin-top:8px"><sc-for list="{{ fitUsual }}" as="u" hint-placeholder-count="5"><button class="szb" onClick="{{ u.pick }}" style="border-color:{{ u.border }};background:{{ u.bg }};color:{{ u.c }}">{{ u.label }}</button></sc-for></div>
+      <div class="cap" style="margin-top:14px">Preferred fit</div>
+      <div style="display:flex;gap:6px;margin-top:8px"><sc-for list="{{ fitPref }}" as="u" hint-placeholder-count="3"><button onClick="{{ u.pick }}" style="flex:1;height:42px;border:1px solid {{ u.border }};background:{{ u.bg }};color:{{ u.c }};font-weight:600;font-size:12.5px">{{ u.label }}</button></sc-for></div>
+      <div style="background:#fff;padding:14px;margin-top:14px;display:flex;gap:14px;align-items:center"><div class="serif" style="font-size:34px">{{ fitRec }}</div><div class="muted" style="font-size:12.5px;line-height:1.45">{{ fitWhy }}</div></div>
+      <button class="btn" onClick="{{ useRec }}" style="margin-top:14px">Select {{ fitRec }}</button>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ expressOpen }}" hint-placeholder-val="{{ false }}">
+    <div class="scrim" onClick="{{ closeAll }}"></div>
+    <div class="sheet" role="dialog" aria-label="1-tap checkout" style="background:#fff">
+      <div class="grab"></div>
+      <div style="display:flex;align-items:center"><span style="font-weight:700;font-size:17px"> Pay</span><button onClick="{{ closeAll }}" style="margin-left:auto;background:none;border:none;color:#2F6FDE;font-size:14px">Cancel</button></div>
+      <div style="margin-top:12px;font-size:13px">
+        <div style="display:flex;padding:10px 0;border-bottom:1px solid #eee"><span class="muted" style="width:80px">Card</span><span>Visa ·· 4242</span></div>
+        <div style="display:flex;padding:10px 0;border-bottom:1px solid #eee"><span class="muted" style="width:80px">Ship to</span><span>Ana Ruiz, 1428 Rosewood Ave</span></div>
+        <div style="display:flex;padding:10px 0;border-bottom:1px solid #eee"><span class="muted" style="width:80px">Delivery</span><span>Standard · {{ shipLabel }}</span></div>
+        <div style="display:flex;padding:10px 0;border-bottom:1px solid #eee"><span class="muted" style="width:80px">Circle</span><button onClick="{{ togglePts }}" style="background:none;border:none;padding:0;text-align:left;font-size:13px;color:#2F6FDE">{{ expressPtsLabel }}</button></div>
+        <div style="display:flex;padding:12px 0;font-weight:700;font-size:15px"><span style="width:80px">Pay</span><span>SOLENNE · {{ totalLabel }}</span></div>
+      </div>
+      <button onClick="{{ placeOrder }}" style="width:100%;margin-top:6px;border:none;background:#1C1A17;color:#fff;padding:15px;font-weight:700;font-size:15px;border-radius:12px">Confirm with Face ID</button>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ searchOpen }}" hint-placeholder-val="{{ false }}">
+    <div role="dialog" aria-label="Search" style="position:absolute;inset:44px 0 0;background:#F6F1EA;z-index:42;padding:12px 16px;animation:smIn .2s ease both;overflow:auto">
+      <div style="display:flex;gap:10px;align-items:center;border-bottom:1.5px solid #1C1A17;padding-bottom:8px"><input aria-label="Search" value="{{ q }}" onChange="{{ chQ }}" placeholder="Search Solenne" class="serif" style="flex:1;border:none;background:transparent;outline:none;font-size:20px"><button onClick="{{ closeAll }}" style="background:none;border:none;font-size:13px;text-decoration:underline">Cancel</button></div>
+      <div class="hs" style="margin-top:12px"><sc-for list="{{ qChips }}" as="c" hint-placeholder-count="4"><button onClick="{{ c.pick }}" style="flex:none;border:1px solid #CFC5B8;background:#fff;border-radius:999px;padding:6px 12px;font-size:12.5px">{{ c.label }}</button></sc-for></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px 10px;margin-top:14px"><sc-for list="{{ qResults }}" as="p" hint-placeholder-count="4"><button onClick="{{ p.open }}" style="border:none;padding:0;background:none;text-align:left"><div class="img" style="aspect-ratio:4/5"><svg viewBox="0 0 200 240" aria-hidden="true"><path d="{{ p.shape }}" fill="{{ p.hex }}"/></svg></div><div style="font-size:12.5px;margin-top:6px">{{ p.name }}</div><div style="font-size:12px">{{ p.priceLabel }}</div></button></sc-for></div>
+      <sc-if value="{{ qNone }}" hint-placeholder-val="{{ false }}"><p class="muted" style="margin-top:16px">No pieces match. Try dress, knit or linen.</p></sc-if>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}"><div role="status" style="position:absolute;left:16px;right:16px;top:96px;z-index:60;background:#1C1A17;color:#F6F1EA;padding:12px 14px;font-size:13px;animation:smIn .2s ease both">{{ toast }}</div></sc-if>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":420,"height":860},"mode":{"editor":"enum","default":"web","options":["web","app"],"tsType":"string"},"hero":{"editor":"enum","default":"A","options":["A","B","C","D","E","F"],"tsType":"string"}}'>
+class Component extends DCLogic {
+  state = {
+    screen: 'home', hist: [], cat: 'new', f: { sizes: [], colors: [], price: '' }, sort: 'featured',
+    pid: 'sienna', pColor: 0, pSize: '', pImg: 0, sizeErr: false, acc: { details: true }, recUsed: false,
+    bag: [], wish: { odile: true, ada: true }, modal: '', quickId: '', fitUsual: 'M', fitPref: 'true', q: '',
+    co: { step: 0, email: 'ana.ruiz@email.com', first: 'Ana', last: 'Ruiz', addr: '1428 Rosewood Ave', city: 'Los Angeles', zip: '90046', ship: 'std', card: '4242 4242 4242 4242', promoInput: '', promo: false, promoErr: false, usePts: false },
+    points: 860, orders: [], toast: '', showSummary: false, toggles: { drops: true, restock: true, sale: false },
+  };
+  flash(t) { this.setState({ toast: t }); clearTimeout(this._t); this._t = setTimeout(() => this.setState({ toast: '' }), 2000); }
+  componentWillUnmount() { clearTimeout(this._t); }
+  nav(screen, extra) { this.setState((st) => ({ hist: st.screen === screen ? st.hist : [...st.hist, st.screen].slice(-12), screen, modal: '', ...(extra || {}) })); }
+  setCo(k, v) { this.setState((st) => ({ co: { ...st.co, [k]: v } })); }
+  renderVals() {
+    const s = this.state;
+    const app = this.props.mode === 'app';
+    const INK = '#1C1A17';
+    const C = { Ecru: '#EFE6D6', Black: '#26231F', Terracotta: '#B5502F', Sage: '#A7B29A', Butter: '#EAD9A2', Blush: '#E8C4B8', Navy: '#2E3A55', Chocolate: '#5A3E33', Denim: '#5B7197' };
+    const SH = {
+      dress: ['M78 22 L122 22 L130 62 L120 74 L152 226 L48 226 L80 74 L70 62 Z', 'M84 22 L84 8 M116 22 L116 8 M80 74 L120 74'],
+      midi: ['M70 26 L86 18 Q100 28 114 18 L130 26 L136 70 L122 80 L146 228 L54 228 L78 80 L64 70 Z', 'M78 80 L122 80 M100 80 L100 228'],
+      top: ['M60 40 L85 30 Q100 42 115 30 L140 40 L170 75 L150 92 L138 80 L138 180 L62 180 L62 80 L50 92 L30 75 Z', 'M85 30 Q100 50 115 30'],
+      cami: ['M72 50 L128 50 L134 74 L140 190 L60 190 L66 74 Z', 'M78 50 L84 22 M122 50 L116 22 M66 74 Q100 86 134 74'],
+      shirt: ['M62 38 L86 28 L100 44 L114 28 L138 38 L170 128 L150 134 L138 92 L140 200 L60 200 L62 92 L50 134 L30 128 Z', 'M100 44 L100 200 M86 28 L94 52 M114 28 L106 52'],
+      knit: ['M58 40 L84 30 Q100 44 116 30 L142 40 L172 152 L152 158 L140 92 L140 196 L60 196 L60 92 L48 158 L28 152 Z', 'M60 186 L140 186 M84 30 Q100 50 116 30'],
+      cardi: ['M58 46 L84 36 L100 80 L116 36 L142 46 L172 150 L152 156 L140 96 L140 168 L60 168 L60 96 L48 156 L28 150 Z', 'M100 80 L100 168 M60 160 L140 160'],
+      turtle: ['M58 44 L82 34 L82 20 L118 20 L118 34 L142 44 L172 156 L152 162 L140 96 L140 200 L60 200 L60 96 L48 162 L28 156 Z', 'M82 26 L118 26 M60 190 L140 190'],
+      pants: ['M62 20 L138 20 L148 226 L110 226 L100 92 L90 226 L52 226 Z', 'M62 34 L138 34 M100 34 L100 92'],
+      jean: ['M64 22 L136 22 L142 226 L108 226 L100 96 L92 226 L58 226 Z', 'M64 36 L136 36 M76 36 Q80 60 66 64 M124 36 Q120 60 134 64'],
+      skirt: ['M70 36 L130 36 L162 206 L38 206 Z', 'M70 50 L130 50 M84 50 L66 206 M100 50 L100 206 M116 50 L134 206'],
+      set: ['M64 18 L88 10 Q100 20 112 10 L136 18 L148 58 L134 64 L132 98 L68 98 L66 64 L52 58 Z M66 116 L134 116 L140 208 L106 208 L100 164 L94 208 L60 208 Z', 'M66 128 L134 128'],
+      blazer: ['M56 40 L84 30 L100 96 L116 30 L144 40 L172 160 L152 166 L142 100 L142 206 L58 206 L58 100 L48 166 L28 160 Z', 'M84 30 L92 78 L100 96 M116 30 L108 78 L100 96 M100 96 L100 206 M70 150 L86 150'],
+    };
+    const P = [
+      { id: 'sienna', name: 'The Sienna Slip Dress', cat: 'dresses', sh: 'dress', price: 128, colors: ['Terracotta', 'Black', 'Butter'], badge: 'Bestseller', rank: 1, isNew: false, out: { 'Terracotta-XS': 1 }, fit: 'Runs true to size', fitPos: 50, fabric: 'Washed satin with a fluid drape. Bias cut, adjustable straps, midi length.', rating: 4.8, reviews: 312 },
+      { id: 'margot', name: 'Margot Midi Dress', cat: 'dresses', sh: 'midi', price: 148, colors: ['Sage', 'Navy'], badge: 'New', rank: 6, isNew: true, out: {}, fit: 'Runs slightly small', fitPos: 35, fabric: 'Crinkled cotton voile, fully lined. Tie back, hidden pockets.', rating: 4.6, reviews: 48 },
+      { id: 'wren', name: 'Wren Shirt Dress', cat: 'dresses', sh: 'midi', price: 118, colors: ['Ecru', 'Navy'], badge: '', rank: 9, isNew: false, out: { 'Navy-L': 1 }, fit: 'Relaxed fit', fitPos: 62, fabric: 'Crisp organic poplin with a self-tie belt.', rating: 4.5, reviews: 96 },
+      { id: 'elle', name: 'Elle Knit Midi Dress', cat: 'dresses', sh: 'dress', price: 138, colors: ['Chocolate', 'Black'], badge: 'New', rank: 5, isNew: true, out: {}, fit: 'Runs true to size', fitPos: 50, fabric: 'Rib-knit with stretch recovery. Scoop back.', rating: 4.7, reviews: 61, tags: 'knit' },
+      { id: 'ines', name: 'Ines Linen Tee', cat: 'tops', sh: 'top', price: 48, colors: ['Ecru', 'Black', 'Blush'], badge: 'Bestseller', rank: 2, isNew: false, out: {}, fit: 'Relaxed fit', fitPos: 60, fabric: 'Linen-cotton jersey. Boxy, slightly cropped.', rating: 4.7, reviews: 540, tags: 'linen' },
+      { id: 'clara', name: 'Clara Satin Cami', cat: 'tops', sh: 'cami', price: 58, was: 78, colors: ['Butter', 'Black'], badge: 'Sale', rank: 8, isNew: false, out: { 'Butter-S': 1 }, fit: 'Runs true to size', fitPos: 50, fabric: 'Washed satin, adjustable straps.', rating: 4.4, reviews: 133 },
+      { id: 'romy', name: 'Romy Poplin Shirt', cat: 'tops', sh: 'shirt', price: 88, colors: ['Ecru', 'Navy'], badge: 'New', rank: 7, isNew: true, out: {}, fit: 'Oversized · size down for closer fit', fitPos: 72, fabric: 'Organic cotton poplin, dropped shoulder.', rating: 4.6, reviews: 37 },
+      { id: 'vera', name: 'Vera Tailored Blazer', cat: 'tops', sh: 'blazer', price: 188, colors: ['Black', 'Chocolate'], badge: '', rank: 10, isNew: false, out: {}, fit: 'Runs true to size', fitPos: 50, fabric: 'Wool-blend suiting, single button.', rating: 4.8, reviews: 89 },
+      { id: 'odile', name: 'Odile Cloud Knit', cat: 'knitwear', sh: 'knit', price: 138, colors: ['Ecru', 'Chocolate', 'Sage'], badge: 'New', rank: 3, isNew: true, out: {}, fit: 'Relaxed fit', fitPos: 64, fabric: 'Brushed alpaca-blend, airy and warm.', rating: 4.9, reviews: 74, tags: 'knit' },
+      { id: 'bea', name: 'Bea Cropped Cardigan', cat: 'knitwear', sh: 'cardi', price: 98, colors: ['Blush', 'Butter'], badge: 'Bestseller', rank: 4, isNew: false, out: { 'Blush-M': 1 }, fit: 'Runs small · size up for layering', fitPos: 30, fabric: 'Cotton-cashmere, pearl buttons.', rating: 4.7, reviews: 201, tags: 'knit' },
+      { id: 'noor', name: 'Noor Rib Turtleneck', cat: 'knitwear', sh: 'turtle', price: 59, was: 78, colors: ['Black', 'Ecru'], badge: 'Sale', rank: 11, isNew: false, out: {}, fit: 'Slim fit', fitPos: 40, fabric: 'Fine merino rib.', rating: 4.6, reviews: 158, tags: 'knit' },
+      { id: 'ada', name: 'Ada Wide-Leg Trouser', cat: 'bottoms', sh: 'pants', price: 118, colors: ['Black', 'Chocolate', 'Ecru'], badge: 'Bestseller', rank: 2, isNew: false, out: { 'Ecru-XS': 1 }, fit: 'True to size · long inseam', fitPos: 50, fabric: 'Fluid crepe, pressed creases, high rise.', rating: 4.8, reviews: 402 },
+      { id: 'lou', name: 'Lou Pleated Midi Skirt', cat: 'bottoms', sh: 'skirt', price: 98, colors: ['Sage', 'Black'], badge: '', rank: 12, isNew: false, out: {}, fit: 'Runs true to size', fitPos: 50, fabric: 'Pressed satin pleats, elastic back.', rating: 4.5, reviews: 77 },
+      { id: 'june', name: 'June Relaxed Jean', cat: 'bottoms', sh: 'jean', price: 108, colors: ['Denim'], badge: 'New', rank: 9, isNew: true, out: {}, fit: 'Relaxed · true to size', fitPos: 55, fabric: 'Rigid organic denim, mid rise.', rating: 4.6, reviews: 52 },
+      { id: 'celine', name: 'Celine Lounge Set', cat: 'sets', sh: 'set', price: 158, colors: ['Blush', 'Sage'], badge: 'New', rank: 6, isNew: true, out: {}, fit: 'Relaxed fit', fitPos: 62, fabric: 'Modal-cotton tee and shorts.', rating: 4.8, reviews: 29 },
+      { id: 'tess', name: 'Tess Linen Set', cat: 'sets', sh: 'set', price: 126, was: 168, colors: ['Ecru'], badge: 'Sale', rank: 10, isNew: false, out: { 'Ecru-XL': 1 }, fit: 'Runs true to size', fitPos: 50, fabric: 'European linen camp top and short.', rating: 4.5, reviews: 64, tags: 'linen' },
+    ];
+    const byId = {}; P.forEach((p) => { byId[p.id] = p; });
+    const SIZES = ['XS', 'S', 'M', 'L', 'XL'];
+    const money = (n) => '$' + n.toFixed(2);
+    const money0 = (n) => '$' + (Math.round(n) === n ? n : n.toFixed(2));
+    const tierOf = (pts) => (pts >= 1500 ? 'Atelier' : pts >= 500 ? 'Icon' : 'Muse');
+    const tier = tierOf(s.points);
+    const mult = { Muse: 1, Icon: 1.5, Atelier: 2 }[tier];
+    const addLine = (id, ci, size) => this.setState((st) => { const k = id + '|' + ci + '|' + size; const ex = st.bag.find((b) => b.k === k); return { bag: ex ? st.bag.map((b) => (b.k === k ? { ...b, qty: b.qty + 1 } : b)) : [...st.bag, { k, id, ci, size, qty: 1 }] }; });
+    const cardOf = (p, ci) => { const col = p.colors[ci || 0]; return { id: p.id, name: p.name, shape: SH[p.sh][0], detail: SH[p.sh][1], hex: C[col], priceLabel: money0(p.price), wasLabel: p.was ? money0(p.was) : '', onSale: !!p.was, badge: p.badge, hasBadge: !!p.badge, badgeC: p.badge === 'Sale' ? '#A3341C' : INK,
+      heart: s.wish[p.id] ? '♥' : '♡', wishAria: (s.wish[p.id] ? 'Remove ' : 'Save ') + p.name,
+      toggleWish: () => { const on = !s.wish[p.id]; this.setState((st) => ({ wish: { ...st.wish, [p.id]: on } })); this.flash(on ? 'Saved ♥' + (app ? ' · we’ll alert you on price drops' : '') : 'Removed from wishlist'); },
+      open: () => this.nav('pdp', { pid: p.id, pColor: ci || 0, pSize: '', pImg: 0, sizeErr: false, recUsed: false }),
+      dots: p.colors.map((c) => ({ hex: C[c] })) }; };
+    const TABS = [['new', 'New'], ['dresses', 'Dresses'], ['tops', 'Tops'], ['knitwear', 'Knitwear'], ['bottoms', 'Bottoms'], ['sets', 'Sets'], ['sale', 'Sale']];
+    const goCat = (c) => () => this.nav('plp', { cat: c, f: { sizes: [], colors: [], price: '' } });
+    const inCat = (p) => (s.cat === 'new' ? p.isNew : s.cat === 'sale' ? !!p.was : p.cat === s.cat);
+    const PR = { u75: ['Under $75', (x) => x < 75], m: ['$75–125', (x) => x >= 75 && x <= 125], o: ['$125+', (x) => x > 125] };
+    let list = P.filter(inCat);
+    const catColors = [...new Set(list.flatMap((p) => p.colors))];
+    list = list.filter((p) => (!s.f.colors.length || p.colors.some((c) => s.f.colors.includes(c))) && (!s.f.price || PR[s.f.price][1](p.price)) && (!s.f.sizes.length || s.f.sizes.some((z) => p.colors.some((c) => !p.out[c + '-' + z]))));
+    const SORTS = { featured: ['Featured', (a, b) => a.rank - b.rank], new: ['Newest', (a, b) => (b.isNew - a.isNew) || (a.rank - b.rank)], best: ['Bestselling', (a, b) => b.reviews - a.reviews], low: ['Price ↑', (a, b) => a.price - b.price], high: ['Price ↓', (a, b) => b.price - a.price] };
+    list = list.slice().sort(SORTS[s.sort][1]);
+    const tog = (arr, v) => (arr.includes(v) ? arr.filter((x) => x !== v) : [...arr, v]);
+    const setF = (patch) => this.setState((st) => ({ f: { ...st.f, ...patch } }));
+    const nF = s.f.sizes.length + s.f.colors.length + (s.f.price ? 1 : 0);
+    // pdp
+    const pd = byId[s.pid] || P[0];
+    const pdCol = pd.colors[s.pColor] || pd.colors[0];
+    const order = { XS: 0, S: 1, M: 2, L: 3, XL: 4 };
+    const fitShift = pd.fitPos <= 35 ? 1 : pd.fitPos >= 70 ? -1 : 0;
+    const prefShift = s.fitPref === 'relaxed' && pd.fitPos < 60 ? 1 : s.fitPref === 'fitted' && pd.fitPos > 60 ? -1 : 0;
+    const rec = SIZES[Math.max(0, Math.min(4, order[s.fitUsual] + fitShift + prefShift))];
+    const fitWhy = (fitShift > 0 ? 'Runs small, so we sized up. ' : fitShift < 0 ? 'Cut oversized, so we sized down. ' : 'Runs true to size. ') + (s.fitPref === 'relaxed' ? 'Sized for a relaxed fit.' : s.fitPref === 'fitted' ? 'Sized for a closer fit.' : '');
+    const VIEWS = [{ bg: '#EDE6DC', tf: 'none' }, { bg: '#E6DED2', tf: 'scale(1.9) translate(0,8%)' }, { bg: '#D9CFC2', tf: 'rotate(-6deg) scale(.92)' }];
+    const addToBag = () => { if (!s.pSize) { this.setState({ sizeErr: true }); return; } addLine(pd.id, s.pColor, s.pSize); this.setState({ sizeErr: false }); this.flash('Added to bag · ' + pd.name + ' · ' + s.pSize); };
+    // bag + checkout
+    const lines = s.bag.map((b) => { const p = byId[b.id]; return { ...b, p, col: p.colors[b.ci], line: p.price * b.qty }; });
+    const sub = lines.reduce((a, l) => a + l.line, 0);
+    const count = s.bag.reduce((a, b) => a + b.qty, 0);
+    const setQty = (k, d) => this.setState((st) => ({ bag: st.bag.map((b) => (b.k === k ? { ...b, qty: b.qty + d } : b)).filter((b) => b.qty > 0) }));
+    const co = s.co;
+    const promoAmt = co.promo ? sub * 0.1 : 0;
+    const ptsAmt = co.usePts ? 10 : 0;
+    const after = Math.max(0, sub - promoAmt - ptsAmt);
+    const shipCost = co.ship === 'exp' ? 15 : co.ship === 'next' ? 25 : (sub >= 100 ? 0 : 8);
+    const tax = after * 0.095; const total = after + shipCost + tax; const earn = Math.round(after * mult);
+    const placeOrder = () => {
+      if (!lines.length) return;
+      const id = 'SL-' + (20840 + s.orders.length + 1);
+      this.setState((st) => ({ orders: [{ id, date: 'Today', total, status: 'Processing', pts: earn }, ...st.orders], bag: [], points: st.points - (co.usePts ? 500 : 0) + earn, screen: 'confirm', hist: [], modal: '', co: { ...st.co, step: 0, promo: false, promoInput: '', usePts: false } }));
+    };
+    const STEPS = [['Contact', 'isContact', co.email], ['Delivery', 'isDelivery', co.addr + ', ' + co.city], ['Shipping', 'isShipping', { std: 'Standard', exp: 'Express', next: 'Next day' }[co.ship]], ['Payment', 'isPayment', '']];
+    const nextAt = tier === 'Muse' ? 500 : tier === 'Icon' ? 1500 : null;
+    const tierNext = nextAt ? (nextAt - s.points) + ' pts to ' + (tier === 'Muse' ? 'Icon' : 'Atelier') : 'Top tier ✦';
+    const tierPct = nextAt ? Math.round((tier === 'Muse' ? s.points / 500 : (s.points - 500) / 1000) * 100) + '%' : '100%';
+    const allOrders = [...s.orders, { id: 'SL-20711', date: 'Oct 28', total: 166, status: 'Delivered' }, { id: 'SL-20544', date: 'Sep 12', total: 128, status: 'Delivered' }];
+    const wishList = P.filter((p) => s.wish[p.id]);
+    const q = (s.q || '').trim().toLowerCase();
+    const qRes = q ? P.filter((p) => (p.name + ' ' + p.cat + ' ' + (p.tags || '') + ' ' + p.colors.join(' ')).toLowerCase().includes(q)).slice(0, 6) : P.filter((p) => p.isNew).slice(0, 4);
+    const qk = byId[s.quickId] || P[0];
+    const titles = { home: 'SOLENNE', plp: 'Shop', pdp: '', bag: 'Bag', checkout: 'Checkout', confirm: 'Confirmed', saved: 'Saved', circle: 'Circle' };
+    const tabFor = { home: 'home', plp: 'shop', pdp: 'shop', bag: 'bag', checkout: 'bag', confirm: 'bag', saved: 'saved', circle: 'circle' };
+    const urlPaths = { home: '', plp: '/' + s.cat, pdp: '/p/' + pd.id, bag: '/bag', checkout: '/checkout', confirm: '/thanks', saved: '/wishlist', circle: '/account' };
+    const big = s.screen === 'home';
+    const satF = (p) => { const okC = !s.f.colors.length || p.colors.some((c) => s.f.colors.includes(c)); const okP = !s.f.price || PR[s.f.price][1](p.price); const okZ = !s.f.sizes.length || s.f.sizes.some((z) => p.colors.some((c) => !p.out[c + '-' + z])); return { okC, okP, okZ, n: okC + okP + okZ }; };
+    const nearPool = (list.length ? [] : P.filter(inCat).length ? P.filter(inCat) : P);
+    const nearCards = nearPool.map((p) => ({ p, ...satF(p) })).sort((a, b) => b.n - a.n || a.p.rank - b.p.rank).slice(0, 4).map(({ p, okC, okP, okZ }) => {
+      const ci = s.f.colors.length ? Math.max(0, p.colors.findIndex((c) => s.f.colors.includes(c))) : 0;
+      const miss = !okC ? 'In ' + p.colors.join(', ').toLowerCase() : !okZ ? 'Not in size ' + s.f.sizes.join('/') + ' yet' : !okP ? 'Priced at ' + money0(p.price) : '';
+      const hit = okC && s.f.colors.length ? 'Comes in ' + p.colors[ci] : okZ && s.f.sizes.length ? 'In your size' : okP && s.f.price ? 'In your price range' : 'Bestseller in ' + p.cat;
+      return { ...cardOf(p, ci), why: hit, miss, hasMiss: !!miss };
+    });
+    const nearSummary = [s.f.colors.join(' or '), s.f.sizes.length ? 'size ' + s.f.sizes.join('/') : '', s.f.price ? PR[s.f.price][0].toLowerCase() : ''].filter(Boolean).join(', ');
+    return {
+      isWeb: !app, isApp: app, barBg: app ? '#F6F1EA' : '#EDE6DC', urlPath: urlPaths[s.screen] || '',
+      appTitle: titles[s.screen], titleClass: big ? 'serif logo' : '', titleSize: big ? '24px' : '17px', titleTrack: big ? '.18em' : '0', appBack: s.hist.length > 0 && ['pdp', 'checkout'].includes(s.screen),
+      goBack: () => this.setState((st) => { const h = st.hist.slice(); const prev = h.pop() || 'home'; return { screen: prev, hist: h, modal: '' }; }),
+      isHome: s.screen === 'home', isPlp: s.screen === 'plp', isPdp: s.screen === 'pdp', isBag: s.screen === 'bag', isCheckout: s.screen === 'checkout', isConfirm: s.screen === 'confirm', isSaved: s.screen === 'saved', isCircle: s.screen === 'circle',
+      goHome: () => this.nav('home'), goNew: goCat('new'), goBag: () => this.nav('bag'), goSaved: () => this.nav('saved'), goCircle: () => this.nav('circle'), goAccount: () => this.nav('circle'), goOrders: () => this.nav('circle'),
+      goCheckout: () => this.nav('checkout'),
+      hasBag: count > 0, bagCount: String(count), ptsLabel: s.points.toLocaleString() + ' pts', tierName: tier, tierNext, tierPct, wishCount: String(wishList.length),
+      heroShape: SH.knit[0], heroHex: C.Ecru,
+      heroA: (this.props.hero || 'A') === 'A', heroB: this.props.hero === 'B', heroC: this.props.hero === 'C', heroD: this.props.hero === 'D', heroE: this.props.hero === 'E', heroF: this.props.hero === 'F',
+      heroDetail: SH.knit[1], heroGo: () => this.nav('pdp', { pid: 'odile', pColor: 0, pSize: '', pImg: 0, sizeErr: false, recUsed: false }),
+      catChips: TABS.map(([k, l]) => { const on = s.screen === 'plp' && s.cat === k; return { label: l, go: goCat(k), bg: on ? INK : 'transparent', c: on ? '#fff' : (k === 'sale' ? '#A3341C' : INK), border: on ? INK : '#CFC5B8' }; }),
+      newCards: P.filter((p) => p.isNew).map((p) => cardOf(p)),
+      plpTitle: s.cat === 'new' ? 'New arrivals' : TABS.find((t) => t[0] === s.cat)[1], plpCount: list.length + (list.length === 1 ? ' piece' : ' pieces'),
+      filterCount: nF ? ' (' + nF + ')' : '', sortLabel: SORTS[s.sort][0], noProducts: list.length === 0, nearCards, nearSummary,
+      clearFilters: () => setF({ sizes: [], colors: [], price: '' }),
+      plpCards: list.map((p) => { const ci = s.f.colors.length ? Math.max(0, p.colors.findIndex((c) => s.f.colors.includes(c))) : 0; return { ...cardOf(p, ci), quickAria: 'Quick add ' + p.name, quick: () => this.setState({ modal: 'quick', quickId: p.id, quickCi: ci }) }; }),
+      openFilter: () => this.setState({ modal: 'filter' }), filterOpen: s.modal === 'filter',
+      sorts: Object.keys(SORTS).map((k) => ({ label: SORTS[k][0], bg: s.sort === k ? INK : '#fff', c: s.sort === k ? '#fff' : INK, border: s.sort === k ? INK : '#CFC5B8', pick: () => this.setState({ sort: k }) })),
+      fSizes: SIZES.map((z) => { const on = s.f.sizes.includes(z); return { label: z, on, bg: on ? INK : '#fff', c: on ? '#fff' : INK, border: on ? INK : '#CFC5B8', toggle: () => setF({ sizes: tog(s.f.sizes, z) }) }; }),
+      fColors: catColors.map((c) => { const on = s.f.colors.includes(c); return { label: c, hex: C[c], on, ring: on ? '1.5px solid ' + INK : '1.5px solid transparent', toggle: () => setF({ colors: tog(s.f.colors, c) }) }; }),
+      fPrices: Object.keys(PR).map((k) => { const on = s.f.price === k; return { label: PR[k][0], bg: on ? INK : '#fff', c: on ? '#fff' : INK, border: on ? INK : '#CFC5B8', pick: () => setF({ price: on ? '' : k }) }; }),
+      quickOpen: s.modal === 'quick', qkName: qk.name, qkShape: SH[qk.sh][0], qkHex: C[qk.colors[s.quickCi || 0]], qkPrice: money0(qk.price), qkFit: qk.fit,
+      qkSizes: SIZES.map((z) => { const out = !!qk.out[qk.colors[s.quickCi || 0] + '-' + z]; return { label: z, strike: out ? 'line-through' : 'none', op: out ? 0.4 : 1, aria: 'Add size ' + z + (out ? ', sold out' : ''), add: () => { if (out) return; addLine(qk.id, s.quickCi || 0, z); this.setState({ modal: '' }); this.flash('Added ' + qk.name + ' · ' + z); } }; }),
+      qkOpenPdp: () => this.nav('pdp', { pid: qk.id, pColor: s.quickCi || 0, pSize: '', pImg: 0 }),
+      // pdp
+      pdName: pd.name, pdShape: SH[pd.sh][0], pdDetail: SH[pd.sh][1], pdHex: C[pdCol], pdPrice: money0(pd.price), pdWas: pd.was ? money0(pd.was) : '', pdOnSale: !!pd.was,
+      pdRating: pd.rating.toFixed(1), pdReviews: String(pd.reviews), pdPts: String(Math.round(pd.price * mult)), pdColorName: pdCol, fitNote: pd.fit,
+      mainBg: VIEWS[s.pImg].bg, mainTf: VIEWS[s.pImg].tf,
+      thumbs: VIEWS.map((v, i) => ({ aria: ['Front', 'Fabric detail', 'Styled'][i], w: s.pImg === i ? '20px' : '6px', bg: s.pImg === i ? INK : 'rgba(28,26,23,.3)', pick: () => this.setState({ pImg: i }) })),
+      pdColors: pd.colors.map((c, i) => ({ hex: C[c], aria: c, ring: s.pColor === i ? '1.5px solid ' + INK : '1.5px solid transparent', pick: () => this.setState({ pColor: i, pSize: pd.out[c + '-' + s.pSize] ? '' : s.pSize }) })),
+      pdSizes: SIZES.map((z) => { const out = !!pd.out[pdCol + '-' + z]; const on = s.pSize === z; return { label: z, on, aria: 'Size ' + z + (out ? ', sold out' : ''), border: on ? INK : '#CFC5B8', bg: on ? INK : '#fff', c: on ? '#fff' : INK, strike: out ? 'line-through' : 'none', op: out ? 0.4 : 1, pick: () => { if (!out) this.setState({ pSize: z, sizeErr: false }); } }; }),
+      sizeErr: s.sizeErr, hasRec: s.recUsed && s.pSize === rec,
+      pdHeart: s.wish[pd.id] ? '♥' : '♡', pdWishAria: 'Save ' + pd.name, pdToggleWish: cardOf(pd).toggleWish,
+      accs: [['details', 'Details', pd.fabric], ['care', 'Fabric & care', 'Cold wash on gentle, hang to dry.'], ['ship', 'Shipping & returns', 'Free shipping over $100. Free returns for Icon members.']].map(([k, t, b]) => ({ title: t, body: b, open: !!s.acc[k], sign: s.acc[k] ? '−' : '+', toggle: () => this.setState((st) => ({ acc: { ...st.acc, [k]: !st.acc[k] } })) })),
+      lookCards: P.filter((p) => p.cat !== pd.cat).sort((a, b) => a.rank - b.rank).slice(0, 4).map((p) => cardOf(p)),
+      showStickyAdd: s.screen === 'pdp' && !s.modal, stickyBottom: app ? '66px' : '0', stickySize: s.pSize ? 'Size ' + s.pSize : 'Choose a size', addToBag,
+      sizeOpen: s.modal === 'size', openSize: () => this.setState({ modal: 'size' }),
+      fitUsual: SIZES.map((z) => { const on = s.fitUsual === z; return { label: z, bg: on ? INK : '#fff', c: on ? '#fff' : INK, border: on ? INK : '#CFC5B8', pick: () => this.setState({ fitUsual: z }) }; }),
+      fitPref: [['fitted', 'Fitted'], ['true', 'As designed'], ['relaxed', 'Relaxed']].map(([k, l]) => { const on = s.fitPref === k; return { label: l, bg: on ? INK : '#fff', c: on ? '#fff' : INK, border: on ? INK : '#CFC5B8', pick: () => this.setState({ fitPref: k }) }; }),
+      fitRec: rec, fitWhy, useRec: () => { const out = !!pd.out[pdCol + '-' + rec]; this.setState({ pSize: out ? '' : rec, modal: '', recUsed: true, sizeErr: false }); if (out) this.flash(rec + ' is sold out in ' + pdCol); },
+      // bag
+      bagEmpty: count === 0, subLabel: money(sub), earnPts: String(earn),
+      shipMsg: sub >= 100 ? '✓ Free shipping unlocked' : money(100 - sub) + ' away from free shipping', shipPct: Math.min(100, Math.round(sub)) + '%',
+      bagRows: lines.map((l) => ({ name: l.p.name, variant: l.col + ' · ' + l.size, qty: l.qty, line: money(l.line), shape: SH[l.p.sh][0], hex: C[l.col], inc: () => setQty(l.k, 1), dec: () => setQty(l.k, -1), remove: () => setQty(l.k, -l.qty) })),
+      expressOpen: s.modal === 'express', openExpress: () => this.setState({ modal: 'express' }),
+      expressPtsLabel: co.usePts ? '✓ 500 pts applied · −$10' : 'Use 500 pts for $10 off',
+      // checkout
+      showSummary: s.showSummary, toggleSummary: () => this.setState({ showSummary: !s.showSummary }), summaryLabel: (s.showSummary ? 'Hide' : 'Show') + ' order summary · ' + count + ' items',
+      coSteps: STEPS.map(([t, flag, sum], i) => ({ title: t, mark: i < co.step ? '✓' : String(i + 1), dotBg: i < co.step ? INK : '#fff', dotC: i < co.step ? '#fff' : INK, done: i < co.step, summary: sum, edit: () => this.setCo('step', i), isContact: co.step === i && i === 0, isDelivery: co.step === i && i === 1, isShipping: co.step === i && i === 2, isPayment: co.step === i && i === 3 })),
+      coEmail: co.email, coFirst: co.first, coLast: co.last, coAddr: co.addr, coCity: co.city, coZip: co.zip, coCard: co.card,
+      chEmail: (e) => this.setCo('email', e.target.value), chFirst: (e) => this.setCo('first', e.target.value), chLast: (e) => this.setCo('last', e.target.value), chAddr: (e) => this.setCo('addr', e.target.value), chCity: (e) => this.setCo('city', e.target.value), chZip: (e) => this.setCo('zip', e.target.value), chCard: (e) => this.setCo('card', e.target.value),
+      next1: () => { if (co.email.includes('@')) this.setCo('step', 1); else this.flash('Please enter a valid email'); },
+      next2: () => { if ([co.first, co.last, co.addr, co.city, co.zip].every((x) => x.trim())) this.setCo('step', 2); else this.flash('Please fill in every field'); },
+      next3: () => this.setCo('step', 3),
+      shipOpts: [['std', 'Standard', '3–5 days', sub >= 100 ? 'Free' : '$8'], ['exp', 'Express', '2 days', '$15'], ['next', 'Next day', 'by 2pm', '$25']].map(([k, l, e, p]) => ({ label: l, eta: e, price: p, on: co.ship === k, border: co.ship === k ? INK : '#CFC5B8', dot: co.ship === k ? INK : 'transparent', pick: () => this.setCo('ship', k) })),
+      promoInput: co.promoInput, chPromo: (e) => this.setState((st) => ({ co: { ...st.co, promoInput: e.target.value, promoErr: false } })),
+      applyPromo: () => { const ok = co.promoInput.trim().toUpperCase() === 'SOLENNE10'; this.setState((st) => ({ co: { ...st.co, promo: ok || st.co.promo, promoErr: !ok } })); },
+      promoErr: co.promoErr, promoOn: co.promo, usePts: co.usePts,
+      togglePts: () => { if (s.points < 500) { this.flash('You need 500 points'); return; } this.setCo('usePts', !co.usePts); },
+      ptsBorder: co.usePts ? INK : '#CFC5B8', ptsTrack: co.usePts ? INK : '#CFC5B8', ptsKnob: co.usePts ? '16px' : '2px',
+      hasDisc: promoAmt + ptsAmt > 0, discLabel: money(promoAmt + ptsAmt), shipLabel: shipCost ? money(shipCost) : 'Free', taxLabel: money(tax), totalLabel: money(total), placeOrder,
+      lastId: s.orders[0] ? s.orders[0].id : '', lastPts: s.orders[0] ? String(s.orders[0].pts) : '0',
+      etaLabel: co.ship === 'next' ? 'tomorrow' : co.ship === 'exp' ? 'in 2 days' : 'in 3–5 days',
+      confirmNote: app ? 'We’ll send a push notification when it ships.' : 'A confirmation is on its way to ' + co.email + '.',
+      // saved + circle
+      noWish: wishList.length === 0, wishCards: wishList.map((p) => cardOf(p)),
+      cardRadius: app ? '14px' : '0',
+      appToggles: [['drops', 'Early drop alerts', 'Push 24 hours before a drop opens for Icon'], ['restock', 'Restock alerts', 'When a saved size comes back'], ['sale', 'Price-drop alerts', 'When a saved piece goes on sale']].map(([k, t, sub]) => ({ title: t, sub, on: !!s.toggles[k], track: s.toggles[k] ? INK : '#CFC5B8', knob: s.toggles[k] ? '19px' : '3px', toggle: () => this.setState((st) => ({ toggles: { ...st.toggles, [k]: !st.toggles[k] } })) })),
+      redeem: [[500, '$10'], [1000, '$25'], [1500, '$40']].map(([c, v]) => { const locked = s.points < c; return { value: v, cost: c.toLocaleString() + ' pts', op: locked ? 0.45 : 1, border: locked ? '#DDD3C6' : INK, cta: locked ? (c - s.points) + ' to go' : 'Use at checkout', go: () => { if (locked) return; this.setCo('usePts', true); this.flash('Reward saved for checkout'); } }; }),
+      orderRows: allOrders.map((o) => ({ id: o.id, date: o.date, total: money(o.total), status: o.status, sbg: o.status === 'Delivered' ? '#E6EEE2' : '#EFE8DE' })),
+      // nav
+      appTabs: [['home', '⌂', 'Home', () => this.nav('home')], ['shop', '◫', 'Shop', goCat('new')], ['saved', '♡', 'Saved', () => this.nav('saved')], ['circle', '✦', 'Circle', () => this.nav('circle')], ['bag', '◰', 'Bag', () => this.nav('bag')]].map(([k, icon, label, go]) => ({ icon, label, go, c: tabFor[s.screen] === k ? INK : '#8A8178', hasBadge: (k === 'bag' && count > 0) || (k === 'saved' && wishList.length > 0), badge: k === 'bag' ? String(count) : String(wishList.length) })),
+      menuOpen: s.modal === 'menu', openMenu: () => this.setState({ modal: 'menu' }),
+      menuTabs: TABS.map(([k, l]) => ({ label: l, go: goCat(k), c: k === 'sale' ? '#A3341C' : INK })),
+      closeAll: () => this.setState({ modal: '' }),
+      searchOpen: s.modal === 'search', openSearch: () => this.setState({ modal: 'search' }),
+      q: s.q, chQ: (e) => this.setState({ q: e.target.value }), qChips: ['dress', 'knit', 'linen', 'satin'].map((x) => ({ label: x, pick: () => this.setState({ q: x }) })),
+      qResults: qRes.map((p) => cardOf(p)), qNone: !!q && qRes.length === 0,
+      hasToast: !!s.toast, toast: s.toast,
+    };
+  }
+}
+</script>
+</body>
+</html>

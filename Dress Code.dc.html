@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dress Code · a Y2K styling game</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&display=swap');
+body{margin:0}
+.yk{font-family:Tahoma,Verdana,'Segoe UI',sans-serif;font-size:12px;color:#1E1424}
+.yk-stage{background:#E9D7F5;min-height:100vh;box-sizing:border-box}
+.yk button{font-family:inherit;cursor:pointer;color:inherit}
+.yk .px{font-family:'Silkscreen',monospace}
+.yk .vt{font-family:'VT323',monospace}
+.yk .desk{background-color:#F6A9CB;background-image:radial-gradient(rgba(255,255,255,.45) 1.2px,transparent 1.4px);background-size:7px 7px}
+.yk .win{background:#EEE9F4;border:2px solid;border-color:#FFFFFF #6E6478 #6E6478 #FFFFFF;box-shadow:1px 1px 0 #2A2030,4px 4px 0 rgba(42,32,48,.25)}
+.yk .ttl{background:linear-gradient(90deg,#FF6FAE,#B98CFF);color:#fff;height:24px;display:flex;align-items:center;gap:6px;padding:0 4px 0 6px;font-weight:700;font-size:12px;text-shadow:1px 1px 0 rgba(0,0,0,.25)}
+.yk .tb{width:18px;height:16px;background:#EEE9F4;border:1.5px solid;border-color:#fff #6E6478 #6E6478 #fff;display:grid;place-items:center;font-size:10px;font-weight:700;color:#1E1424;text-shadow:none;padding:0;line-height:1}
+.yk .bev{background:#EEE9F4;border:2px solid;border-color:#FFFFFF #6E6478 #6E6478 #FFFFFF}
+.yk .bev:active,.yk .bev.on{border-color:#6E6478 #FFFFFF #FFFFFF #6E6478;background:#E2DAEC}
+.yk .sunk{border:2px solid;border-color:#6E6478 #FFFFFF #FFFFFF #6E6478;background:#fff}
+.yk .menu{display:flex;gap:12px;padding:3px 8px;font-size:12px;border-bottom:1px solid #CFC6DA}
+.yk canvas{display:block}
+@keyframes ykUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.yk .up{animation:ykUp .35s steps(5) both}
+@keyframes ykPop{0%{transform:scale(.5);opacity:0}100%{transform:scale(1);opacity:1}}
+.yk .pop{animation:ykPop .3s steps(4) both}
+@keyframes ykBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@keyframes ykWalk{0%,100%{transform:translateY(0)}25%{transform:translateY(-4px)}50%{transform:translateY(0)}75%{transform:translateY(-4px)}}
+@keyframes ykFlash{0%,100%{opacity:0}8%{opacity:.95}16%{opacity:0}}
+@keyframes ykBlink{0%,49%{opacity:1}50%,100%{opacity:0}}
+@keyframes ykFall{0%{transform:translateY(-20px);opacity:1}100%{transform:translateY(560px);opacity:0}}
+@keyframes ykToast{0%{opacity:0}10%{opacity:1}85%{opacity:1}100%{opacity:0}}
+@keyframes ykMarq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+</style>
+</helmet>
+<div class="yk {{ stageClass }}" style="display:flex;justify-content:center;padding:{{ stagePad }}">
+<div class="desk" style="position:relative;width:375px;height:812px;border:6px solid #1E1424;border-radius:46px;overflow:hidden;display:flex;flex-direction:column">
+  <div style="height:44px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 26px;font-size:13px;font-weight:700;color:#fff;text-shadow:1px 1px 0 rgba(0,0,0,.2)"><span>9:41</span><span style="font-size:11px">●●● ▮</span></div>
+
+  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+    <div style="flex:1;position:relative;padding:4px 14px 0;overflow:hidden">
+      <div class="win up" style="margin-top:2px">
+        <div class="ttl"><span>✿</span><span style="flex:1">welcome.exe</span><span class="tb">_</span><span class="tb">□</span><span class="tb">×</span></div>
+        <div style="padding:14px 12px 12px;text-align:center;background:#FFF5FB">
+          <div class="px" style="font-size:40px;line-height:.95;font-weight:700;color:#FF4F9A;text-shadow:3px 3px 0 #B98CFF,5px 5px 0 #1E1424;letter-spacing:1px">DRESS<br>CODE</div>
+          <div class="vt" style="font-size:20px;margin-top:8px;color:#5A4A66">read the room ✧ raid the closet ✧ walk</div>
+          <div style="display:flex;justify-content:center;gap:8px;margin-top:10px"><span class="sunk vt" style="padding:1px 8px;font-size:18px">🪙 {{ coins }}</span><span class="sunk vt" style="padding:1px 8px;font-size:18px">★ {{ totalStars }}/25</span></div>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:12px;align-items:flex-start">
+        <div class="win up" style="width:150px;flex:none">
+          <div class="ttl"><span>🖼</span><span style="flex:1">me.bmp</span><span class="tb">×</span></div>
+          <div style="background:linear-gradient(#F7F8FF,#EDE3F7);padding:6px 0 0;display:flex;justify-content:center;position:relative"><div style="position:relative;height:276px;width:64px"><img src="dresscode/doll.webp" alt="Your doll" style="position:absolute;left:0;top:0;width:100%;height:100%"><sc-for list="{{ homeLayers }}" as="dl" hint-placeholder-count="3"><img src="{{ dl.src }}" alt="{{ dl.alt }}" style="position:absolute;left:{{ dl.l }};top:{{ dl.t }};width:{{ dl.w }};height:{{ dl.h }}"></sc-for></div><span class="vt" style="position:absolute;left:6px;top:4px;font-size:15px;color:#B04A82">u, today ✧</span></div>
+          <div style="display:flex;gap:4px;padding:5px;justify-content:center;border-top:1px solid #CFC6DA"><sc-for list="{{ homeLooks }}" as="hl" hint-placeholder-count="3"><button class="bev {{ hl.cls }}" onClick="{{ hl.pick }}" style="padding:1px 6px;font-size:10.5px">{{ hl.label }}</button></sc-for></div>
+        </div>
+        <div style="flex:1;min-width:0">
+          <div class="px" style="font-size:11px;color:#fff;text-shadow:1px 1px 0 #B04A82">MY INVITES (5)</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 4px;margin-top:6px">
+            <sc-for list="{{ events }}" as="e" hint-placeholder-count="5">
+              <button onClick="{{ e.open }}" style="background:none;border:none;padding:3px 0;text-align:center;color:#fff">
+                <div style="width:48px;height:48px;margin:0 auto;background:#fff;border:2px solid #1E1424;display:grid;place-items:center;font-size:26px;box-shadow:3px 3px 0 #1E1424;position:relative">{{ e.icon }}<span class="vt" style="position:absolute;right:-9px;top:-9px;background:{{ e.badgeBg }};color:#1E1424;border:1.5px solid #1E1424;font-size:14px;padding:0 3px;line-height:1.1">{{ e.badge }}</span></div>
+                <div style="font-size:10.5px;margin-top:6px;line-height:1.2;text-shadow:1px 1px 0 #B04A82;font-weight:700">{{ e.file }}</div>
+              </button>
+            </sc-for>
+            <button onClick="{{ reset }}" style="background:none;border:none;padding:3px 0;text-align:center;color:#fff"><div style="width:48px;height:48px;margin:0 auto;display:grid;place-items:center;font-size:28px">🗑</div><div style="font-size:10.5px;margin-top:6px;text-shadow:1px 1px 0 #B04A82;font-weight:700">Reset game</div></button>
+          </div>
+        </div>
+      </div>
+      <div class="win" style="position:absolute;left:14px;right:14px;bottom:12px">
+        <div class="ttl" style="background:linear-gradient(90deg,#7C6CFF,#FF8BC2)"><span>💬</span><span style="flex:1">AIM · bff_gigi</span><span class="tb">×</span></div>
+        <div style="padding:8px 10px;background:#fff;font-size:12px;line-height:1.45"><b style="color:#E0367F">bff_gigi:</b> omg u got 5 invites this week 😭 dress codes r no joke. read them first!!</div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isBrief }}" hint-placeholder-val="{{ false }}">
+    <div style="flex:1;padding:6px 14px 0;display:flex;flex-direction:column">
+      <div class="win pop">
+        <div class="ttl"><span>📩</span><span style="flex:1">{{ evFile }}</span><button class="tb" onClick="{{ goHome }}" aria-label="Close invite">×</button></div>
+        <div style="padding:16px 14px;background:{{ evBg }}">
+          <div class="px" style="font-size:11px;letter-spacing:1px">YOU'RE INVITED!!</div>
+          <div style="font-size:54px;margin-top:8px">{{ evIcon }}</div>
+          <div class="px" style="font-size:26px;line-height:1;font-weight:700;margin-top:8px">{{ evName }}</div>
+          <div class="sunk" style="margin-top:14px;padding:8px 10px">
+            <div class="px" style="font-size:10px;color:#6B5A75">DRESS CODE</div>
+            <div class="vt" style="font-size:28px;line-height:1">{{ evCode }}</div>
+            <div style="display:flex;gap:3px;margin-top:6px;align-items:center"><sc-for list="{{ formalityDots }}" as="fd" hint-placeholder-count="5"><span style="width:22px;height:10px;background:{{ fd.bg }};border:1.5px solid #1E1424"></span></sc-for><span class="px" style="font-size:9px;margin-left:6px">FORMALITY</span></div>
+          </div>
+          <div style="display:flex;gap:6px;margin-top:10px"><sc-for list="{{ evVibes }}" as="v" hint-placeholder-count="2"><span class="bev vt" style="padding:0 8px;font-size:18px">#{{ v }}</span></sc-for></div>
+          <div class="vt" style="font-size:19px;line-height:1.15;margin-top:12px">“{{ evHint }}”</div>
+        </div>
+        <div style="display:flex;gap:8px;justify-content:flex-end;padding:10px">
+          <button class="bev" onClick="{{ goHome }}" style="padding:6px 14px">Decline</button>
+          <button class="bev" onClick="{{ startDress }}" style="padding:6px 14px;font-weight:700;outline:1px dotted #1E1424;outline-offset:-5px">Raid closet ⏱ 90s</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isDress }}" hint-placeholder-val="{{ false }}">
+    <div style="flex:1;padding:2px 6px 0;display:flex;flex-direction:column;min-height:0">
+      <div class="win" style="flex:1;display:flex;flex-direction:column;min-height:0">
+        <div class="ttl"><span>🎀</span><span style="flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ evFileShort }} - dresscode</span><button class="tb" onClick="{{ goHome }}" aria-label="Quit to invites">×</button></div>
+        <div class="menu"><span>File</span><span>Edit</span><span>View</span><span><u>C</u>loset</span><span>Help</span><span style="margin-left:auto;font-weight:700;color:{{ timerC }};animation:{{ timerBlink }}">⏱ {{ timeLabel }}</span></div>
+        <div style="flex:1;display:flex;min-height:0">
+          <div style="width:34px;flex:none;padding:4px 3px;display:flex;flex-direction:column;gap:3px;border-right:1px solid #CFC6DA">
+            <sc-for list="{{ cats }}" as="ct" hint-placeholder-count="5"><button class="bev {{ ct.cls }}" onClick="{{ ct.go }}" aria-label="{{ ct.label }}" title="{{ ct.label }}" style="width:26px;height:26px;padding:0;font-size:14px;display:grid;place-items:center;position:relative">{{ ct.icon }}<sc-if value="{{ ct.has }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;right:-3px;top:-3px;width:7px;height:7px;background:#FF4F9A;border:1px solid #1E1424"></span></sc-if></button></sc-for>
+          </div>
+          <div style="width:86px;flex:none;overflow-y:auto;padding:4px;background:#DDE3F5;border-right:1px solid #CFC6DA">
+            <div class="px" style="font-size:9px;text-align:center;margin-bottom:4px">{{ catLabel }}</div>
+            <sc-for list="{{ closet }}" as="it" hint-placeholder-count="5">
+              <button class="bev {{ it.cls }}" onClick="{{ it.pick }}" aria-pressed="{{ it.pressed }}" aria-label="{{ it.aria }}" style="width:100%;margin-bottom:4px;padding:3px 2px 4px;background:{{ it.tile }};position:relative">
+                <img src="{{ it.src }}" alt="" style="display:block;width:72px;height:72px;object-fit:contain;margin:0 auto;opacity:{{ it.op }}">
+                <div style="font-size:10px;line-height:1.15;margin-top:2px">{{ it.name }}</div>
+                <sc-if value="{{ it.locked }}" hint-placeholder-val="{{ false }}"><span class="vt" style="position:absolute;left:3px;top:3px;background:#1E1424;color:#FFE07A;font-size:14px;padding:0 3px;line-height:1.1">🔒{{ it.cost }}</span></sc-if>
+                <sc-if value="{{ it.on }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;right:3px;top:3px;background:#FF4F9A;color:#fff;font-size:10px;font-weight:700;width:14px;height:14px;display:grid;place-items:center;border:1px solid #1E1424">✓</span></sc-if>
+              </button>
+            </sc-for>
+          </div>
+          <div style="flex:1;position:relative;background:#F7F8FF;overflow:hidden;min-width:0">
+            <div style="position:absolute;left:0;right:0;bottom:0;height:60px;background:linear-gradient(#F7F8FF,#E9E1F5)"></div>
+            <div style="position:absolute;left:0;right:0;top:8px;display:flex;justify-content:center;animation:ykBob 2.4s ease-in-out infinite"><div style="position:relative;height:486px;width:112px"><img src="dresscode/doll.webp" alt="Your doll" style="position:absolute;left:0;top:0;width:100%;height:100%"><sc-for list="{{ dollLayers }}" as="dl" hint-placeholder-count="3"><img src="{{ dl.src }}" alt="{{ dl.alt }}" style="position:absolute;left:{{ dl.l }};top:{{ dl.t }};width:{{ dl.w }};height:{{ dl.h }}"></sc-for></div></div>
+            <div class="sunk vt" style="position:absolute;left:6px;bottom:6px;padding:0 6px;font-size:15px;line-height:1.25;background:rgba(255,255,255,.9);z-index:2">{{ lookA }}<br>{{ lookB }}<br>{{ lookC }}</div>
+          </div>
+        </div>
+        <div style="padding:4px 6px 6px"><button class="bev" onClick="{{ submit }}" style="width:100%;padding:9px;font-weight:700;font-size:13px;background:#FFE3F0">✨ Walk the runway ✨</button></div>
+        <div style="border-top:1px solid #CFC6DA;padding:3px 6px;font-size:11px;color:#5A4A66;display:flex;gap:6px"><span class="sunk" style="flex:1;padding:0 4px;background:transparent">{{ evCode }} · #{{ evVibe1 }} #{{ evVibe2 }}</span><span class="sunk" style="padding:0 4px;background:transparent">🪙 {{ coins }}</span></div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isRunway }}" hint-placeholder-val="{{ false }}">
+    <div style="flex:1;padding:2px 6px 0;overflow-y:auto">
+      <div class="win">
+        <div class="ttl"><span>📸</span><span style="flex:1">runway.exe</span><span class="tb">×</span></div>
+        <div style="position:relative;height:336px;background:#120C18;overflow:hidden">
+          <div style="position:absolute;left:50%;top:-30px;width:240px;height:380px;margin-left:-120px;background:radial-gradient(50% 50% at 50% 50%,rgba(255,200,235,.35),rgba(255,200,235,0) 70%)"></div>
+          <div style="position:absolute;left:0;right:0;bottom:0;height:40px;background:repeating-linear-gradient(90deg,#2A1E33 0 12px,#33263D 12px 24px)"></div>
+          <div style="position:absolute;left:0;right:0;top:6px;display:flex;justify-content:center;animation:ykWalk 1s ease-in-out infinite"><div style="position:relative;height:322px;width:74px"><img src="dresscode/doll.webp" alt="Your doll" style="position:absolute;left:0;top:0;width:100%;height:100%"><sc-for list="{{ dollLayers }}" as="dl" hint-placeholder-count="3"><img src="{{ dl.src }}" alt="{{ dl.alt }}" style="position:absolute;left:{{ dl.l }};top:{{ dl.t }};width:{{ dl.w }};height:{{ dl.h }}"></sc-for></div></div>
+          <div style="position:absolute;inset:0;background:#fff;animation:ykFlash 2.4s steps(3) both;pointer-events:none"></div>
+          <div class="px" style="position:absolute;left:8px;top:8px;color:#FF8BC2;font-size:10px">{{ evNameCaps }}</div>
+          <div class="px" style="position:absolute;right:8px;top:8px;color:#FF4F9A;font-size:10px;animation:ykBlink 1s steps(1) infinite">● REC</div>
+        </div>
+        <div style="padding:10px;text-align:center;background:#FFF5FB">
+          <div class="px pop" style="font-size:26px;color:#FFB300;text-shadow:2px 2px 0 #1E1424;letter-spacing:2px">{{ starRow }}</div>
+          <div class="px" style="font-size:16px;font-weight:700;margin-top:4px">{{ verdict }}</div>
+          <sc-for list="{{ scoreRows }}" as="sr" hint-placeholder-count="3"><div style="display:flex;align-items:center;gap:6px;margin-top:6px;text-align:left"><span style="width:96px;font-size:11px;font-weight:700">{{ sr.label }}</span><div class="sunk" style="flex:1;height:12px;padding:1px"><div style="height:100%;width:{{ sr.pct }};background:repeating-linear-gradient(90deg,{{ sr.c }} 0 6px,transparent 6px 8px)"></div></div><span class="vt" style="width:34px;font-size:16px">{{ sr.val }}</span></div></sc-for>
+        </div>
+      </div>
+      <div class="win" style="margin-top:8px">
+        <div class="ttl" style="background:linear-gradient(90deg,#7C6CFF,#FF8BC2)"><span>💬</span><span style="flex:1">Buddy Chat · the judges (3)</span><span class="tb">×</span></div>
+        <div style="background:#fff;padding:8px 10px;font-size:12px;line-height:1.45">
+          <sc-for list="{{ judges }}" as="j" hint-placeholder-count="3"><div class="up" style="margin-bottom:5px"><b style="color:{{ j.c }}">{{ j.sn }}</b> <span style="color:#B0A2BC;font-size:10.5px">({{ j.stars }})</span>: {{ j.say }}</div></sc-for>
+          <div style="margin-top:4px;color:#6B5A75"><i>*** you earned 🪙 {{ earned }} coins {{ bonusLabel }} ***</i></div>
+        </div>
+        <div style="display:flex;gap:6px;padding:8px">
+          <button class="bev" onClick="{{ retry }}" style="flex:1;padding:8px;font-weight:700">↺ Restyle</button>
+          <button class="bev" onClick="{{ nextEvent }}" style="flex:1.4;padding:8px;font-weight:700;background:#FFE3F0">{{ nextLabel }}</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <div style="height:34px;flex:none;margin-top:6px;background:#EEE9F4;border-top:2px solid #fff;display:flex;align-items:center;gap:6px;padding:0 6px 6px">
+    <button class="bev" onClick="{{ goHome }}" style="padding:2px 8px;font-weight:700;font-size:12px;display:flex;align-items:center;gap:4px"><span style="color:#FF4F9A">✿</span>start</button>
+    <span class="sunk" style="flex:1;padding:1px 6px;font-size:11px;background:transparent;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ taskLabel }}</span>
+    <span class="sunk vt" style="padding:0 6px;font-size:15px;background:transparent">9:41 PM</span>
+  </div>
+
+  <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}"><div role="status" class="win" style="position:absolute;left:50%;top:56px;transform:translateX(-50%);z-index:50;padding:6px 10px;font-size:12px;font-weight:700;white-space:nowrap;animation:ykToast 2.2s steps(4) both;background:#FFF5FB">{{ toast }}</div></sc-if>
+  <sc-if value="{{ hasBurst }}" hint-placeholder-val="{{ false }}"><div aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;z-index:45;overflow:hidden"><sc-for list="{{ confetti }}" as="cf" hint-placeholder-count="24"><span style="position:absolute;left:{{ cf.x }};top:-20px;font-size:{{ cf.size }};animation:ykFall {{ cf.d }} steps(12) {{ cf.delay }} both">{{ cf.icon }}</span></sc-for></div></sc-if>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":420,"height":860},"embed":{"editor":"boolean","default":false,"tsType":"boolean"}}'>
+class Component extends DCLogic {
+  state = this._init();
+  _init() { return { screen: 'home', ev: 0, coins: 40, best: {}, eq: { acc: [] }, cat: 'tops', skin: 1, hair: 0, hairStyle: 'long', owned: {}, time: 90, result: null, toast: '', burst: 0 }; }
+  componentWillUnmount() { clearInterval(this._iv); clearTimeout(this._t); clearTimeout(this._b); }
+  _flash(t) { this.setState({ toast: t }); clearTimeout(this._t); this._t = setTimeout(() => this.setState({ toast: '' }), 2200); }
+  _startTimer() { clearInterval(this._iv); this._iv = setInterval(() => { const t = this.state.time - 1; if (t <= 0) { clearInterval(this._iv); this.setState({ time: 0 }); this._flash('⏰ time!! walking anyway'); this._submit(); } else this.setState({ time: t }); }, 1000); }
+
+  // ---------- data ----------
+  _data() {
+    const EV = [
+      ['Gallery opening', '🖼', 'Creative cocktail', 3, ['artsy', 'bold'], 'interesting, not try-hard. one statement piece is plenty.', '#E3D9FF', 'gallery.inv'],
+      ['Garden wedding', '💐', 'Garden formal', 4, ['romantic', 'soft'], 'florals welcome. nothing u could wear to brunch.', '#D3F5E6', 'wedding.inv'],
+      ['First day, new job', '💼', 'Business casual', 3, ['polished', 'classic'], 'polished but approachable. shoes u can walk in.', '#FFF0B3', 'new_job.inv'],
+      ['Rooftop birthday', '🥂', 'Going-out', 3, ['bold', 'fun'], 'main character energy. it’s her bday so maybe not white.', '#FFD0E3', 'bday.inv'],
+      ['Farmers market', '🍑', 'Casual', 1, ['relaxed', 'fun'], 'easy, sunny, walkable. room for peaches in ur bag.', '#FFE2C7', 'market.inv'],
+    ];
+    const IT = [
+      ['babytee', 'tops', 'Star girl tee', 'dresscode/babytee.webp', '#D81E2A', [2.86, 18.63, 94.29, 14.99], 1, ["fun", "relaxed"], 0],
+      ['corset', 'tops', 'Lace corset', 'dresscode/corset.webp', '#1A1418', [16.29, 21.0, 67.43, 20.41], 3, ["bold", "romantic"], 40],
+      ['hoodie', 'tops', 'Velour zip-up', 'dresscode/hoodie.webp', '#F2B6C8', [-3.14, 18.49, 106.29, 24.97], 1, ["relaxed", "fun"], 0],
+      ['tube', 'tops', 'Leopard tube', 'dresscode/tube.webp', '#C98A3E', [17.71, 23.25, 64.57, 11.89], 2, ["bold", "fun"], 0],
+      ['shorts', 'bottoms', 'Studded shorts', 'dresscode/shorts.webp', '#1A1418', [11.71, 39.5, 76.57, 9.31], 1, ["bold", "relaxed"], 0],
+      ['plaid', 'bottoms', 'Plaid mini', 'dresscode/plaid.webp', '#B3141E', [8.57, 39.1, 82.86, 13.41], 2, ["fun", "artsy"], 0],
+      ['flares', 'bottoms', 'Low-rise flares', 'dresscode/flares.webp', '#9DB9DC', [-8.57, 38.97, 117.14, 54.82], 2, ["classic", "fun"], 0],
+      ['slip', 'dresses', 'Satin slip', 'dresscode/slip.webp', '#141012', [12.29, 18.89, 75.43, 63.8], 4, ["romantic", "classic"], 0],
+      ['platforms', 'shoes', 'Buckle platforms', 'dresscode/platforms.webp', '#141012', [23.43, 70.01, 56.0, 31.04], 2, ["bold", "artsy"], 0],
+      ['brownboots', 'shoes', 'Knee boots', 'dresscode/brownboots.webp', '#7A3E1C', [23.43, 70.01, 56.0, 31.04], 3, ["classic", "polished"], 0],
+      ['bag', 'accessories', 'Buckle bag', 'dresscode/bag.webp', '#141012', [62.0, 19.82, 42.86, 13.28], 3, ["polished", "bold"], 0],
+      ['shades', 'accessories', 'Pink shades', 'dresscode/shades.webp', '#F2A6C8', [25.71, 8.45, 48.57, 4.23], 2, ["fun", "bold"], 0],
+    ].map(([id, cat, name, src, color, pl, f, vibes, cost]) => ({ id, cat, name, src, color, pl, f, vibes, cost }));
+    return { EV, IT };
+  }
+
+  // ---------- doll layers ----------
+  _layers(eq) {
+    const { IT } = this._data(); const get = (id) => IT.find((x) => x.id === id);
+    const ids = ['bottom', 'top', 'dress', 'shoes'].map((k) => eq[k]).filter(Boolean).concat(eq.acc || []);
+    const order = { bottoms: 1, tops: 2, dresses: 2, shoes: 3, accessories: 4 };
+    return ids.map(get).filter(Boolean).sort((a, b) => order[a.cat] - order[b.cat]).map((it) => ({ src: it.src, l: it.pl[0] + '%', t: it.pl[1] + '%', w: it.pl[2] + '%', h: it.pl[3] + '%', alt: it.name }));
+  }
+  _homeEq() { return [{ top: 'babytee', bottom: 'flares', shoes: 'platforms', acc: ['bag'] }, { top: 'corset', bottom: 'plaid', shoes: 'brownboots', acc: ['shades'] }, { dress: 'slip', shoes: 'brownboots', acc: [] }][this.state.homeLook || 0]; }
+
+  // ---------- scoring ----------
+  _items() { const { IT } = this._data(); const e = this.state.eq; return [e.top, e.bottom, e.dress, e.shoes, ...(e.acc || [])].filter(Boolean).map((id) => IT.find((x) => x.id === id)); }
+  _score() {
+    const s = this.state; const { EV } = this._data(); const ev = EV[s.ev]; const items = this._items();
+    const hasBody = !!s.eq.dress || (!!s.eq.top && !!s.eq.bottom); const complete = hasBody && !!s.eq.shoes;
+    if (!items.length) return { code: 0, vibe: 0, color: 0, total: 0, complete: false, hasBody, diff: -ev[3] };
+    let w = 0, fs = 0; items.forEach((it) => { const k = it.cat === 'accessories' ? 0.5 : 1; w += k; fs += it.f * k; });
+    const diff = fs / w - ev[3];
+    let code = Math.max(0, Math.min(5, 5 - Math.abs(diff) * 2.2));
+    const match = items.filter((it) => it.vibes.some((v) => ev[4].includes(v))).length;
+    let vibe = 1 + 4 * (match / items.length);
+    const cols = new Set(items.filter((it) => it.cat !== 'accessories').map((it) => it.color)).size;
+    const nAcc = (s.eq.acc || []).length;
+    let color = (cols <= 3 ? 4 : cols === 4 ? 3.2 : 2) + (nAcc >= 1 ? 0.6 : 0) + (nAcc >= 2 ? 0.4 : 0) - (nAcc >= 4 ? 1 : 0);
+    color = Math.max(0, Math.min(5, color));
+    if (!complete) { code *= 0.6; vibe *= 0.6; color *= 0.6; }
+    const total = Math.round((code * 0.45 + vibe * 0.35 + color * 0.2) * 2) / 2;
+    return { code, vibe, color, total, complete, hasBody, diff, nAcc };
+  }
+  _submit() {
+    clearInterval(this._iv);
+    const r = this._score(); const stars = Math.max(1, Math.round(r.total)); const speed = this.state.time > 45 ? 10 : 0; const earned = stars * 10 + speed;
+    const best = { ...this.state.best, [this.state.ev]: Math.max(this.state.best[this.state.ev] || 0, stars) };
+    this.setState({ screen: 'runway', result: { ...r, stars, earned, speed }, coins: this.state.coins + earned, best, burst: stars >= 4 ? this.state.burst + 1 : this.state.burst });
+    if (stars >= 4) { clearTimeout(this._b); this._b = setTimeout(() => this.setState({ burst: 0 }), 2200); }
+  }
+
+  renderVals() {
+    const s = this.state; const { EV, IT } = this._data(); const ev = EV[s.ev];
+    const SKINS = ['#FBD9C4', '#EDB892', '#C98A5E', '#9A6240', '#6A3F2A'];
+    const HAIRS = ['#2A1A14', '#6B3E22', '#F2D27A', '#FF8EC6', '#B48CFF'];
+    const CATS = [['tops', 'Tops', '👚', 'top'], ['bottoms', 'Bottoms', '👖', 'bottom'], ['dresses', 'Dresses', '👗', 'dress'], ['shoes', 'Shoes', '👢', 'shoes'], ['accessories', 'Accessories', '🎀', 'acc']];
+    const slotOf = { tops: 'top', bottoms: 'bottom', dresses: 'dress', shoes: 'shoes', accessories: 'acc' };
+    const isOn = (it) => it.cat === 'accessories' ? (s.eq.acc || []).includes(it.id) : s.eq[slotOf[it.cat]] === it.id;
+    const pick = (it) => () => {
+      const owned = !it.cost || s.owned[it.id];
+      if (!owned) { if (s.coins >= it.cost) { this.setState({ coins: s.coins - it.cost, owned: { ...s.owned, [it.id]: true } }); this._flash('🔓 unlocked ' + it.name.toLowerCase() + '!!'); } else this._flash('need ' + (it.cost - s.coins) + ' more coins 🪙'); return; }
+      const eq = { ...s.eq, acc: [...(s.eq.acc || [])] };
+      if (it.cat === 'accessories') { if (eq.acc.includes(it.id)) eq.acc = eq.acc.filter((x) => x !== it.id); else if (eq.acc.length >= 3) { this._flash('3 accessories max, bestie'); return; } else eq.acc.push(it.id); }
+      else { const slot = slotOf[it.cat]; if (eq[slot] === it.id) delete eq[slot]; else { eq[slot] = it.id; if (slot === 'dress') { delete eq.top; delete eq.bottom; } if (slot === 'top' || slot === 'bottom') delete eq.dress; } }
+      this.setState({ eq });
+    };
+    const r = s.result; const sc = this._score();
+    const stars = (n) => '★'.repeat(n) + '☆'.repeat(5 - n);
+    const judges = () => {
+      if (!r) return [];
+      const code = ev[2].toLowerCase();
+      const a = !r.hasBody ? 'um where is… the rest of the outfit??' : r.code >= 4 ? 'perfect for ' + code + '. u actually read the invite 💯' : r.diff < 0 ? 'cute but this is ' + code + ', not a coffee run. dress it up!' : 'stunning but a lil much for ' + code + '. pull it back one notch';
+      const b = r.vibe >= 4 ? 'the #' + ev[4][0] + ' energy is SO right omg' : 'fun look, wrong mood. think #' + ev[4][0] + ' + #' + ev[4][1];
+      const c = r.hasBody && !r.complete ? 'babe u forgot shoes 😭 barefoot is a choice' : r.color >= 4.5 ? 'colour story + accessories = chef’s kiss 💋' : r.nAcc ? 'cute palette. one more accessory would finish it' : 'no accessories?? add a lil something ✨';
+      return [['xX_mx_rhee_Xx', '#2B5BD7', r.code, a], ['bff_gigi', '#E0367F', r.vibe, b], ['coco*stylist', '#7A3BD1', r.color, c]].map(([sn, col, v, say]) => ({ sn, c: col, say, stars: stars(Math.max(0, Math.min(5, Math.round(v)))) }));
+    };
+    const total = Object.values(s.best).reduce((a, b) => a + b, 0);
+    const confetti = s.burst ? Array.from({ length: 22 }, (_, i) => ({ x: ((i * 37 + s.burst * 11) % 94) + '%', size: (14 + (i % 3) * 6) + 'px', icon: ['✨', '💖', '⭐', '🦋', '💿', '🎀'][i % 6], d: (1.3 + (i % 4) * 0.15) + 's', delay: (i % 6) * 0.05 + 's' })) : [];
+    const look = [sc.hasBody ? '☑ outfit' : '☐ outfit', s.eq.shoes ? '☑ shoes' : '☐ shoes', (s.eq.acc || []).length ? '☑ accs (' + s.eq.acc.length + '/3)' : '☐ accs'];
+    return {
+      stageClass: this.props.embed ? '' : 'yk-stage', stagePad: this.props.embed ? '0' : '24px 0',
+      isHome: s.screen === 'home', isBrief: s.screen === 'brief', isDress: s.screen === 'dress', isRunway: s.screen === 'runway',
+      coins: String(s.coins), totalStars: String(total),
+      events: EV.map((e, i) => ({ icon: e[1], file: e[7], badge: s.best[i] ? '★' + s.best[i] : 'new', badgeBg: s.best[i] ? '#FFE07A' : '#B8F5D8', open: () => this.setState({ screen: 'brief', ev: i }) })),
+      reset: () => { clearInterval(this._iv); this.setState(this._init()); },
+      goHome: () => { clearInterval(this._iv); this.setState({ screen: 'home' }); },
+      taskLabel: s.screen === 'home' ? '🖥 desktop' : s.screen === 'brief' ? '📩 ' + ev[7] : s.screen === 'dress' ? '🎀 dresscode — ' + ev[0].toLowerCase() : '📸 runway.exe',
+      evName: ev[0], evNameCaps: ev[0].toUpperCase(), evIcon: ev[1], evCode: ev[2], evVibes: ev[4], evVibe1: ev[4][0], evVibe2: ev[4][1], evHint: ev[5], evBg: ev[6], evFile: ev[7] + ' - Notepad', evFileShort: ev[7],
+      formalityDots: [1, 2, 3, 4, 5].map((n) => ({ bg: n <= ev[3] ? '#FF4F9A' : '#fff' })),
+      startDress: () => { this.setState({ screen: 'dress', eq: { acc: [] }, time: 90, result: null, cat: 'tops' }); this._startTimer(); },
+      timeLabel: s.time + 's', timerC: s.time <= 15 ? '#E0367F' : '#1E1424', timerBlink: s.time <= 15 ? 'ykBlink 1s steps(1) infinite' : 'none',
+      cats: CATS.map(([k, label, icon, slot]) => ({ label, icon, cls: s.cat === k ? 'on' : '', has: slot === 'acc' ? (s.eq.acc || []).length > 0 : !!s.eq[slot], go: () => this.setState({ cat: k }) })),
+      catLabel: CATS.find((c) => c[0] === s.cat)[1].toUpperCase(),
+      closet: IT.filter((it) => it.cat === s.cat).map((it) => { const owned = !it.cost || !!s.owned[it.id]; const on = isOn(it); return { src: it.src, name: it.name, locked: !owned, cost: String(it.cost), on, cls: on ? 'on' : '', pressed: on ? 'true' : 'false', aria: it.name + (owned ? '' : ', locked, ' + it.cost + ' coins'), tile: on ? '#FFE3F0' : '#EEE9F4', op: owned ? 1 : 0.45, pick: pick(it) }; }),
+      dollLayers: this._layers(s.eq), homeLayers: this._layers(this._homeEq()),
+      homeLooks: ['chill', 'night', 'date'].map((label, i) => ({ label, cls: (s.homeLook || 0) === i ? 'on' : '', pick: () => this.setState({ homeLook: i }) })),
+      lookA: look[0], lookB: look[1], lookC: look[2],
+      submit: () => this._submit(),
+      starRow: r ? stars(r.stars) : '', verdict: r ? ['', 'back 2 the closet', 'it’s giving… almost', 'cute!! solid look', 'SERVE!!', 'best dressed 👑'][r.stars] : '',
+      scoreRows: r ? [['Dress code', r.code, '#2B5BD7'], ['Vibe match', r.vibe, '#FF4F9A'], ['Colour + accs', r.color, '#9B6BFF']].map(([label, v, c]) => ({ label, val: v.toFixed(1), pct: Math.round((v / 5) * 100) + '%', c })) : [],
+      judges: judges(),
+      earned: r ? String(r.earned) : '0', bonusLabel: r && r.speed ? '(incl. +10 speed bonus ⚡)' : '',
+      retry: () => { this.setState({ screen: 'dress', time: 90, result: null }); this._startTimer(); },
+      nextLabel: s.ev < EV.length - 1 ? 'Next invite →' : 'Back to desktop',
+      nextEvent: () => { if (s.ev < EV.length - 1) this.setState({ screen: 'brief', ev: s.ev + 1 }); else this.setState({ screen: 'home' }); },
+      hasToast: !!s.toast, toast: s.toast, hasBurst: !!s.burst, confetti,
+    };
+  }
+}
+</script>
+</body>
+</html>

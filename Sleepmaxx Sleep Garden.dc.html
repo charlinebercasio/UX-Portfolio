@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sleepmaxx Sleep Garden prototype</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap');
+body{margin:0}
+.sg{font-family:'Instrument Sans',system-ui,sans-serif;color:#ECEBFA}
+.sg-stage{background:#0B0C1A;min-height:100vh;box-sizing:border-box}
+.sg button{font-family:inherit;cursor:pointer;color:inherit}
+.sg .serif{font-family:'Instrument Serif',serif}
+.sg .tap{transition:transform .12s ease}
+.sg .tap:active{transform:scale(.97)}
+@keyframes sgUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.sg .up{animation:sgUp .45s cubic-bezier(.2,.7,.3,1) both}
+@keyframes sgTwinkle{0%,100%{opacity:.25}50%{opacity:1}}
+@keyframes sgSway{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(2deg)}}
+@keyframes sgGrow{from{transform:scale(0)}to{transform:scale(1)}}
+@keyframes sgBloom{0%{transform:scale(0) rotate(-60deg)}100%{transform:scale(1) rotate(0)}}
+@keyframes sgGlow{0%,100%{box-shadow:0 0 18px 4px rgba(185,167,255,.35)}50%{box-shadow:0 0 30px 10px rgba(185,167,255,.6)}}
+</style>
+</helmet>
+<div class="sg {{ stageClass }}" style="display:flex;justify-content:center;padding:{{ stagePad }}">
+<div style="position:relative;width:375px;height:812px;background:#14162B;border:6px solid #050611;border-radius:46px;overflow:hidden;display:flex;flex-direction:column">
+  <div style="height:44px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 26px;font-size:13px;font-weight:600"><span>9:41</span><span style="font-size:11px">●●● ▮</span></div>
+  <div style="flex:1;overflow-y:auto;padding:4px 18px 24px">
+    <div style="display:flex;align-items:baseline"><div><div style="font-size:12px;color:#9C9AC4;font-weight:600">Sleep Garden</div><div class="serif" style="font-size:30px;line-height:1.05">Your {{ seedName }}</div></div><div style="margin-left:auto;font-size:12px;color:#9C9AC4">Night {{ nightNum }} of 7</div></div>
+
+    <div style="position:relative;height:300px;margin-top:14px;border-radius:22px;overflow:hidden;background:radial-gradient(90% 70% at 70% 0%,#2E3366 0%,#1B1E3D 55%,#121429 100%)">
+      <sc-for list="{{ starsBg }}" as="st" hint-placeholder-count="14"><span style="position:absolute;left:{{ st.x }};top:{{ st.y }};width:{{ st.s }};height:{{ st.s }};border-radius:50%;background:#fff;animation:sgTwinkle {{ st.d }} ease-in-out infinite"></span></sc-for>
+      <div style="position:absolute;right:28px;top:24px;width:38px;height:38px;border-radius:50%;background:#FFD58A;box-shadow:0 0 30px rgba(255,213,138,.45)"></div>
+      <div style="position:absolute;right:20px;top:20px;width:38px;height:38px;border-radius:50%;background:#26295A"></div>
+      <div style="position:absolute;left:0;right:0;bottom:0;height:46px;background:#1A1C38"></div>
+      <div style="position:absolute;left:50%;bottom:46px;width:0;height:0">
+        <div style="position:absolute;left:0;bottom:0;width:0;height:0;transform:rotate({{ wilt }});transform-origin:0 0;transition:transform 1s cubic-bezier(.2,.7,.3,1)">
+          <div style="position:absolute;left:-2px;bottom:0;width:4px;height:{{ stemH }};background:{{ stemC }};border-radius:3px;transition:height .9s cubic-bezier(.2,.7,.3,1),background .6s"></div>
+          <sc-for list="{{ leaves }}" as="lf" hint-placeholder-count="4"><div style="position:absolute;left:{{ lf.x }};bottom:{{ lf.y }};width:30px;height:15px;background:{{ leafC }};border-radius:{{ lf.r }};transform:rotate({{ lf.rot }});transform-origin:{{ lf.origin }};animation:sgGrow .6s cubic-bezier(.2,.7,.3,1.3) both;transition:background .6s"></div></sc-for>
+          <sc-if value="{{ hasBud }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;left:-8px;bottom:{{ topY }};width:16px;height:20px;border-radius:50% 50% 45% 45%;background:{{ petalC }};animation:sgGrow .6s ease both"></div></sc-if>
+          <sc-if value="{{ hasFlower }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;left:0;bottom:{{ topY }};width:0;height:0;animation:sgBloom 1s cubic-bezier(.2,.7,.3,1.2) both">
+            <sc-for list="{{ petals }}" as="pt" hint-placeholder-count="8"><div style="position:absolute;left:-9px;top:-30px;width:18px;height:30px;border-radius:50%;background:{{ petalC }};transform:rotate({{ pt.rot }});transform-origin:9px 30px;opacity:.95"></div></sc-for>
+            <div style="position:absolute;left:-10px;top:-10px;width:20px;height:20px;border-radius:50%;background:#FFD58A;animation:sgGlow 2.4s ease-in-out infinite"></div>
+          </div></sc-if>
+        </div>
+        <div style="position:absolute;left:-36px;bottom:-30px;width:72px;height:44px;background:#C9775A;clip-path:polygon(0 0,100% 0,86% 100%,14% 100%)"></div>
+        <div style="position:absolute;left:-40px;bottom:6px;width:80px;height:10px;background:#B0634A;border-radius:3px"></div>
+      </div>
+    </div>
+    <div style="font-size:12.5px;color:#C9C6EE;text-align:center;margin-top:10px;min-height:34px;line-height:1.4">{{ caption }}</div>
+
+    <div style="display:flex;gap:6px;margin-top:6px">
+      <sc-for list="{{ nights }}" as="n" hint-placeholder-count="7"><div style="flex:1;text-align:center"><div style="height:36px;border-radius:10px;background:{{ n.bg }};border:1.5px solid {{ n.border }};display:grid;place-items:center;font-size:15px">{{ n.icon }}</div><div style="font-size:10px;color:#9C9AC4;margin-top:4px">{{ n.label }}</div></div></sc-for>
+    </div>
+
+    <sc-if value="{{ weekOpen }}" hint-placeholder-val="{{ true }}">
+      <div style="margin-top:16px;background:#1F2245;border-radius:18px;padding:16px">
+        <div style="font-weight:600;font-size:15px">How did tonight go?</div>
+        <div style="font-size:12px;color:#9C9AC4;margin-top:2px">Your plan: wind down at 12:45, lights out 1:15</div>
+        <button class="tap" onClick="{{ logDone }}" style="width:100%;margin-top:12px;border:none;background:#B9A7FF;color:#14162B;border-radius:999px;padding:14px;font-weight:700;font-size:14px">🌙 I did my wind-down</button>
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <button class="tap" onClick="{{ logRest }}" disabled="{{ restUsed }}" style="flex:1;border:1px solid #3A3F75;background:transparent;border-radius:999px;padding:11px;font-size:12.5px;font-weight:600;opacity:{{ restOp }}">🌧 {{ restLabel }}</button>
+          <button class="tap" onClick="{{ logMissed }}" style="flex:1;border:1px solid #3A3F75;background:transparent;border-radius:999px;padding:11px;font-size:12.5px;font-weight:600">Skipped tonight</button>
+        </div>
+      </div>
+    </sc-if>
+    <sc-if value="{{ weekDone }}" hint-placeholder-val="{{ false }}">
+      <div class="up" style="margin-top:16px;background:#1F2245;border-radius:18px;padding:16px">
+        <div class="serif" style="font-size:24px">{{ doneTitle }}</div>
+        <div style="font-size:12.5px;color:#C9C6EE;margin-top:4px">{{ doneSub }}</div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#9C9AC4;margin-top:14px">Plant next week's seed</div>
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <sc-for list="{{ seeds }}" as="sd" hint-placeholder-count="3"><button class="tap" onClick="{{ sd.pick }}" style="flex:1;border:1px solid #3A3F75;background:#14162B;border-radius:14px;padding:10px 4px"><div style="width:18px;height:18px;border-radius:50%;background:{{ sd.c }};margin:0 auto"></div><div style="font-size:11.5px;font-weight:600;margin-top:6px">{{ sd.name }}</div></button></sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <div style="margin-top:18px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#9C9AC4">Your garden</div>
+    <div style="display:flex;gap:10px;margin-top:10px;overflow-x:auto">
+      <sc-for list="{{ shelf }}" as="sh" hint-placeholder-count="2"><div class="up" style="flex:none;width:92px;background:#1F2245;border-radius:16px;padding:12px 8px;text-align:center"><div style="position:relative;height:46px"><div style="position:absolute;left:50%;bottom:10px;width:3px;height:30px;margin-left:-1.5px;background:#6FB394"></div><div style="position:absolute;left:50%;top:0;width:18px;height:18px;margin-left:-9px;border-radius:50%;background:{{ sh.c }};box-shadow:0 0 12px {{ sh.c }}"></div><div style="position:absolute;left:50%;bottom:0;width:30px;height:12px;margin-left:-15px;background:#C9775A;clip-path:polygon(0 0,100% 0,85% 100%,15% 100%)"></div></div><div style="font-size:11.5px;font-weight:600;margin-top:6px">{{ sh.name }}</div><div style="font-size:10px;color:#9C9AC4">{{ sh.meta }}</div></div></sc-for>
+    </div>
+    <div style="margin-top:16px;padding:12px;border:1px dashed #3A3F75;border-radius:14px;font-size:11.5px;color:#9C9AC4;line-height:1.5">Plants droop on a missed night but never die. One rain day a week lets you rest without it counting.</div>
+    <button onClick="{{ reset }}" style="display:block;margin:16px auto 0;background:none;border:none;font-size:11px;color:#6E6C9A;text-decoration:underline">Reset demo</button>
+  </div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":420,"height":860},"embed":{"editor":"boolean","default":false,"tsType":"boolean"}}'>
+class Component extends DCLogic {
+  state = this._init();
+  _init() { return { nights: ['done', 'done', 'missed', 'done', '', '', ''], restUsed: false, seed: 'moon', shelf: [['Lavender', '#A98BEA', 'Oct · 6 nights'], ['Night jasmine', '#F4F1FF', 'Sep · 5 nights']], last: '' }; }
+  _log(kind) { const n = [...this.state.nights]; const k = n.indexOf(''); if (k < 0) return; n[k] = kind; this.setState({ nights: n, last: kind, restUsed: this.state.restUsed || kind === 'rest' }); }
+  renderVals() {
+    const s = this.state;
+    const SEEDS = { moon: ['Moonflower', '#B9A7FF'], jasmine: ['Night jasmine', '#F4F1FF'], poppy: ['Blue poppy', '#7FA8FF'] };
+    const seed = SEEDS[s.seed];
+    const growth = s.nights.filter((x) => x === 'done').length;
+    const filled = s.nights.filter(Boolean).length;
+    const lastFilled = s.nights[Math.max(0, filled - 1)];
+    const wilted = lastFilled === 'missed';
+    const stemH = 26 + growth * 24;
+    const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    const leaves = Array.from({ length: Math.min(growth, 5) }, (_, i) => { const left = i % 2 === 0; return { x: left ? '-30px' : '0px', y: (18 + i * 22) + 'px', r: left ? '100% 0 100% 0' : '0 100% 0 100%', rot: left ? '-22deg' : '22deg', origin: left ? '100% 100%' : '0 100%' }; });
+    const caption = s.last === 'done' ? 'Nice. Your ' + seed[0].toLowerCase() + ' grew overnight.' : s.last === 'missed' ? 'Rough night? It’s drooping a little, not dying. One good night perks it up.' : s.last === 'rest' ? 'Rain day used. Your plant rested too.' : growth + ' good nights so far this week';
+    const complete = filled === 7;
+    const starsBg = Array.from({ length: 14 }, (_, i) => ({ x: ((i * 29) % 92 + 4) + '%', y: ((i * 47) % 55 + 4) + '%', s: (i % 3 === 0 ? 3 : 2) + 'px', d: (2 + (i % 4) * 0.6) + 's' }));
+    return {
+      stageClass: this.props.embed ? '' : 'sg-stage', stagePad: this.props.embed ? '0' : '24px 0',
+      seedName: seed[0].toLowerCase(), nightNum: String(Math.min(7, filled + (complete ? 0 : 1))),
+      starsBg, wilt: wilted ? '16deg' : '0deg', stemH: stemH + 'px', stemC: wilted ? '#7C8270' : '#6FB394', leafC: wilted ? '#7C8270' : '#7FC8A9',
+      leaves, hasBud: growth === 5, hasFlower: growth >= 6, topY: stemH + 'px', petalC: wilted ? '#8E86A8' : seed[1],
+      petals: Array.from({ length: 8 }, (_, i) => ({ rot: i * 45 + 'deg' })),
+      caption,
+      nights: s.nights.map((x, i) => ({ label: DAYS[i], icon: x === 'done' ? '🌙' : x === 'missed' ? '·' : x === 'rest' ? '🌧' : '', bg: x === 'done' ? '#2E2A5E' : x === 'rest' ? '#1E2A44' : x === 'missed' ? '#1B1D33' : '#181A33', border: i === filled && !complete ? '#B9A7FF' : 'transparent' })),
+      weekOpen: !complete, weekDone: complete,
+      logDone: () => this._log('done'), logMissed: () => this._log('missed'), logRest: () => { if (!s.restUsed) this._log('rest'); },
+      restUsed: s.restUsed, restOp: s.restUsed ? 0.4 : 1, restLabel: s.restUsed ? 'Rain day used' : 'Use rain day',
+      doneTitle: growth >= 6 ? 'Full bloom 🌸' : growth >= 4 ? 'A sturdy little plant' : 'It made it through',
+      doneSub: growth + ' good nights this week. It’s moving to your garden, and every plant counts, not just the perfect ones.',
+      seeds: Object.keys(SEEDS).map((k) => ({ name: SEEDS[k][0], c: SEEDS[k][1], pick: () => this.setState({ shelf: [[seed[0], seed[1], 'Nov · ' + growth + ' nights'], ...s.shelf], nights: ['', '', '', '', '', '', ''], seed: k, restUsed: false, last: '' }) })),
+      shelf: s.shelf.map(([name, c, meta]) => ({ name, c, meta })),
+      reset: () => this.setState(this._init()),
+    };
+  }
+}
+</script>
+</body>
+</html>

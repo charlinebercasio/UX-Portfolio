@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dewlab prototype</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Instrument+Sans:wght@400;500;600;700&display=swap');
+body{margin:0}
+.dw{font-family:'Instrument Sans',system-ui,sans-serif;color:#2B2622}
+.dw-stage{background:#EFE9E1;min-height:100vh;box-sizing:border-box}
+.dw .tap{cursor:pointer;transition:opacity .15s ease}
+.dw .tap:active{opacity:.6}
+.dw button{font-family:inherit;cursor:pointer}
+.dw .serif{font-family:'Instrument Serif',serif;font-weight:400;letter-spacing:-.01em}
+.dw .cap{text-transform:uppercase;letter-spacing:.16em;font-size:10px;font-weight:600}
+.dw .hair{border-top:1px solid #E6DED4}
+.dw .btn{display:block;width:100%;border-radius:4px;padding:15px;font-weight:600;font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;border:1px solid #2B2622}
+@keyframes dwIn{from{opacity:0}to{opacity:1}}
+.dw .up{animation:dwIn .5s ease both}
+@keyframes aptap{0%{opacity:0;transform:scale(.5)}35%{opacity:1;transform:scale(1)}55%{opacity:1;transform:scale(.8)}100%{opacity:0;transform:scale(1.5)}}
+@keyframes apchip{from{opacity:0;transform:translate(-50%,6px)}to{opacity:1;transform:translate(-50%,0)}}
+</style>
+</helmet>
+<div class="dw {{ stageClass }}" style="display:flex;flex-direction:column;align-items:center;gap:10px;padding:{{ stagePad }}">
+<div ref="{{ phoneRef }}" onPointerDown="{{ takeOver }}" style="position:relative;width:375px;height:812px;background:#FBF8F4;border:6px solid #E4DDD3;border-radius:46px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 0 0 1px #CFC6BA,0 24px 60px rgba(90,70,55,.16)">
+  <sc-if value="{{ apTapOn }}" hint-placeholder-val="{{ false }}"><span aria-hidden="true" style="position:absolute;left:{{ apTapX }};top:{{ apTapY }};width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;border:1.5px solid #2B2622;background:rgba(251,248,244,.5);z-index:60;pointer-events:none;animation:aptap .9s ease-out both"></span></sc-if>
+  <sc-if value="{{ apShowChip }}" hint-placeholder-val="{{ false }}"><div aria-live="polite" style="position:absolute;left:50%;bottom:86px;transform:translateX(-50%);z-index:59;pointer-events:none;background:#FBF8F4;color:#2B2622;border:1px solid #2B2622;border-radius:4px;padding:7px 12px;font-size:11.5px;font-weight:600;white-space:nowrap;animation:apchip .3s ease-out both">{{ apLabel }}</div></sc-if>
+  <div style="display:flex;justify-content:space-between;padding:12px 24px 4px;font-size:12px;font-weight:600"><span>9:41</span><span>●●● ▲ ▮</span></div>
+  <div style="flex:1;min-height:0;overflow-y:auto;overflow-x:hidden">
+
+    <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+      <div class="up" style="padding:18px 24px 28px">
+        <div style="display:flex;align-items:center"><span class="cap" style="color:#7A6F66">Monday, Nov 17</span><span class="serif" style="margin-left:auto;font-size:20px;font-style:italic">dewlab <span style="font-style:normal;font-size:15px">🌿</span></span></div>
+        <div class="serif" style="font-size:40px;line-height:1;margin-top:18px">Hi, Ana <span style="font-size:28px">✨</span></div>
+        <div style="margin-top:22px;border-radius:6px;background:#EEF1EA;padding:18px 18px 16px;position:relative;overflow:hidden">
+          <span aria-hidden="true" style="position:absolute;right:-8px;top:-14px;font-size:92px;transform:rotate(-20deg);opacity:.95">🌿</span>
+          <span aria-hidden="true" style="position:absolute;right:86px;top:14px;font-size:16px">✨</span>
+          <div class="cap" style="color:#56705E">This week's ritual</div>
+          <div class="serif" style="font-size:25px;line-height:1.12;margin-top:8px;max-width:210px">Glow is a habit, <i>not a hack.</i></div>
+          <div style="display:flex;gap:6px;margin-top:14px;flex-wrap:wrap">
+            <span style="border:1px solid #C9D3C6;border-radius:999px;padding:4px 10px;font-size:11.5px;background:#FBF8F4">💧 hydrate</span>
+            <span style="border:1px solid #C9D3C6;border-radius:999px;padding:4px 10px;font-size:11.5px;background:#FBF8F4">☀️ SPF daily</span>
+            <span style="border:1px solid #C9D3C6;border-radius:999px;padding:4px 10px;font-size:11.5px;background:#FBF8F4">🌙 rest</span>
+          </div>
+        </div>
+        <div class="cap" style="color:#7A6F66;margin-top:16px">Your next visit</div>
+        <div class="serif" style="font-size:34px;line-height:1.05;margin-top:6px">{{ nextTitle }}</div>
+        <div style="font-size:13px;color:#6E645C;margin-top:4px">{{ nextWhen }}</div>
+        <div style="display:flex;gap:18px;margin-top:10px"><button class="tap cap" onClick="{{ reschedule }}" style="background:none;border:none;padding:6px 0;color:#2B2622;text-decoration:underline;text-underline-offset:3px">Reschedule</button><button class="tap cap" onClick="{{ addCal }}" style="background:none;border:none;padding:6px 0;color:#2B2622;text-decoration:underline;text-underline-offset:3px">{{ calLabel }}</button></div>
+
+        <div class="hair tap" onClick="{{ goCare }}" style="margin-top:22px;padding-top:16px">
+          <div style="display:flex;align-items:baseline"><span class="cap" style="color:#56705E">🍃 Aftercare · day 2 of 5</span><span style="margin-left:auto;font-size:12px;color:#6E645C">{{ careCount }}</span></div>
+          <div style="font-size:15px;margin-top:6px">Today: SPF, hydrate, no retinol <span style="color:#56705E">→</span></div>
+          <div style="display:flex;gap:4px;margin-top:12px">
+            <sc-for list="{{ careSegs }}" as="g" hint-placeholder-count="5"><span style="flex:1;height:3px;background:{{ g.bg }};transition:background .4s"></span></sc-for>
+          </div>
+        </div>
+
+        <div class="hair" style="margin-top:18px;padding-top:16px;display:flex;gap:14px;align-items:center">
+          <div style="flex:1"><div style="font-size:15px">Your skin's ready again ~Dec 9 🌱</div><div style="font-size:12px;color:#6E645C;margin-top:2px">Hydrafacial results fade around week four</div></div>
+          <button class="tap" onClick="{{ goRebook }}" style="background:transparent;border:1px solid #2B2622;color:#2B2622;border-radius:4px;padding:10px 14px;font-size:10.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase">Rebook</button>
+        </div>
+
+        <div class="hair" style="margin-top:18px;padding-top:16px">
+          <div style="display:flex;align-items:baseline"><span class="cap" style="color:#7A6F66">🌸 Skin journey</span><span style="margin-left:auto;font-size:12px;color:#6E645C">3 visits · 1 today</span></div>
+          <div style="position:relative;display:flex;justify-content:space-between;margin-top:14px">
+            <span aria-hidden="true" style="position:absolute;left:28px;right:28px;top:28px;border-top:1px solid #E6DED4"></span>
+            <sc-for list="{{ journey }}" as="j" hint-placeholder-count="4">
+              <div style="position:relative;text-align:center;width:72px">
+                <div style="width:56px;height:56px;margin:0 auto;border-radius:50%;background:{{ j.bg }};border:1px {{ j.line }} {{ j.ring }};display:grid;place-items:center;font-size:21px">{{ j.icon }}</div>
+                <div style="font-size:11.5px;font-weight:600;margin-top:7px">{{ j.d }}</div>
+                <div style="font-size:10.5px;color:#6E645C;margin-top:1px">{{ j.note }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div class="hair" style="margin-top:18px;padding-top:16px">
+          <div style="display:flex;align-items:baseline"><span class="cap" style="color:#7A6F66">Signature treatments</span><span class="tap cap" onClick="{{ goBook }}" style="margin-left:auto;color:#2B2622">See all</span></div>
+          <div style="display:flex;gap:12px;margin-top:12px;overflow-x:auto;scrollbar-width:none">
+            <sc-for list="{{ treatCards }}" as="t" hint-placeholder-count="3">
+              <div class="tap" onClick="{{ t.pick }}" style="flex:none;width:132px">
+                <div style="height:150px;border-radius:6px;background:{{ t.img }};display:grid;place-items:center;font-size:40px">{{ t.tileE }}</div>
+                <div class="serif" style="font-size:18px;margin-top:8px;line-height:1.1">{{ t.n }}</div>
+                <div style="font-size:11.5px;color:#6E645C;margin-top:2px">{{ t.meta }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isBook }}" hint-placeholder-val="{{ false }}">
+      <div class="up" style="padding:18px 24px 28px">
+        <div class="cap" style="color:#7A6F66">Book</div>
+        <div class="serif" style="font-size:38px;line-height:1;margin-top:10px">Choose a treatment</div>
+        <div style="font-size:13px;color:#6E645C;margin-top:8px">Every price and duration shown upfront.</div>
+        <div style="display:flex;gap:6px;margin-top:16px;overflow-x:auto;scrollbar-width:none">
+          <sc-for list="{{ cats }}" as="c" hint-placeholder-count="5">
+            <span class="tap" onClick="{{ c.pick }}" style="flex:none;border:1px solid {{ c.border }};background:{{ c.bg }};color:{{ c.c }};border-radius:999px;padding:6px 12px;font-size:12px;white-space:nowrap">{{ c.label }}</span>
+          </sc-for>
+        </div>
+        <div style="margin-top:10px">
+          <sc-for list="{{ treatRows }}" as="t" hint-placeholder-count="4">
+            <div class="tap hair" onClick="{{ t.pick }}" style="display:flex;gap:14px;align-items:center;padding:14px 0">
+              <div style="width:64px;height:76px;flex:none;border-radius:4px;background:{{ t.img }};display:grid;place-items:center;font-size:26px">{{ t.tileE }}</div>
+              <div style="flex:1;min-width:0"><div class="serif" style="font-size:21px;line-height:1.05">{{ t.n }}</div><div style="font-size:12px;color:#6E645C;margin-top:3px">{{ t.d }}</div></div>
+              <div style="text-align:right;flex:none"><div style="font-size:14px;font-weight:600">{{ t.price }}</div><div style="font-size:11px;color:#6E645C">{{ t.mins }}</div></div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isSlot }}" hint-placeholder-val="{{ false }}">
+      <div class="up" style="padding:18px 24px 28px">
+        <span class="tap cap" onClick="{{ goBook }}" style="color:#6E645C">← Treatments</span>
+        <div style="margin-top:14px;height:110px;border-radius:6px;background:{{ treatImg }};display:grid;place-items:center;font-size:44px">{{ treatTileE }}</div>
+        <div class="serif" style="font-size:34px;line-height:1;margin-top:14px">{{ treatName }}</div>
+        <div style="font-size:12.5px;color:#6E645C;margin-top:4px">{{ treatMeta }}</div>
+        <div class="hair" style="margin-top:16px;padding-top:12px;display:flex;align-items:center;font-size:13px"><span>With <b style="font-weight:600">Maya</b>, who knows your skin</span><span class="cap" style="margin-left:auto;color:#56705E">Your usual</span></div>
+        <div class="cap" style="color:#7A6F66;margin-top:20px">November</div>
+        <div style="display:flex;margin-top:10px;border-bottom:1px solid #E6DED4">
+          <sc-for list="{{ days }}" as="d" hint-placeholder-count="4">
+            <div class="tap" onClick="{{ d.pick }}" style="flex:1;text-align:center;padding:4px 0 10px;border-bottom:2px solid {{ d.line }};margin-bottom:-1px;color:{{ d.c }}"><div class="cap" style="font-size:9.5px">{{ d.dow }}</div><div class="serif" style="font-size:24px;margin-top:2px">{{ d.num }}</div></div>
+          </sc-for>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:16px">
+          <sc-for list="{{ times }}" as="t" hint-placeholder-count="6">
+            <div class="tap" onClick="{{ t.pick }}" style="text-align:center;border-radius:4px;padding:11px 0;font-size:13.5px;font-weight:500;border:1px solid {{ t.border }};background:{{ t.bg }};color:{{ t.c }};text-decoration:{{ t.strike }};opacity:{{ t.op }}">{{ t.label }}</div>
+          </sc-for>
+        </div>
+        <button class="tap btn" onClick="{{ goIntake }}" style="margin-top:22px;background:{{ contBg }};color:#FBF8F4;border-color:{{ contBg }}">Continue · {{ slotLabel }}</button>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isIntake }}" hint-placeholder-val="{{ false }}">
+      <div class="up" style="padding:18px 24px 28px">
+        <span class="tap cap" onClick="{{ goSlot }}" style="color:#6E645C">← Time</span>
+        <div class="serif" style="font-size:36px;line-height:1;margin-top:14px">A quick skin check</div>
+        <div style="font-size:13px;color:#6E645C;margin-top:8px">Two questions. Only Maya sees your answers.</div>
+        <div class="hair" style="margin-top:20px;padding-top:16px">
+          <div class="cap" style="color:#7A6F66">01</div>
+          <div style="font-size:15.5px;margin-top:6px;line-height:1.35">Used retinol or exfoliating acids in the last 5 days?</div>
+          <div style="display:flex;margin-top:12px;border:1px solid #2B2622;border-radius:4px;overflow:hidden">
+            <div class="tap" onClick="{{ retNo }}" style="flex:1;text-align:center;padding:11px;font-size:13px;font-weight:600;background:{{ retNoBg }};color:{{ retNoC }}">No</div>
+            <div class="tap" onClick="{{ retYes }}" style="flex:1;text-align:center;padding:11px;font-size:13px;font-weight:600;border-left:1px solid #2B2622;background:{{ retYesBg }};color:{{ retYesC }}">Yes</div>
+          </div>
+          <sc-if value="{{ retWarn }}" hint-placeholder-val="{{ false }}"><div class="serif" style="font-size:16px;font-style:italic;color:#8A5A3C;margin-top:10px">No problem · Maya will switch to a gentler peel.</div></sc-if>
+        </div>
+        <div class="hair" style="margin-top:20px;padding-top:16px">
+          <div class="cap" style="color:#7A6F66">02</div>
+          <div style="font-size:15.5px;margin-top:6px;line-height:1.35">Any new medications or skin changes?</div>
+          <div style="display:flex;margin-top:12px;border:1px solid #2B2622;border-radius:4px;overflow:hidden">
+            <div class="tap" onClick="{{ medNo }}" style="flex:1;text-align:center;padding:11px;font-size:13px;font-weight:600;background:{{ medNoBg }};color:{{ medNoC }}">No</div>
+            <div class="tap" onClick="{{ medYes }}" style="flex:1;text-align:center;padding:11px;font-size:13px;font-weight:600;border-left:1px solid #2B2622;background:{{ medYesBg }};color:{{ medYesC }}">Yes</div>
+          </div>
+        </div>
+        <div style="font-size:12px;color:#6E645C;margin-top:18px">Stored privately · never shared or used for ads.</div>
+        <button class="tap btn" onClick="{{ confirmBook }}" style="margin-top:14px;background:{{ bookBg }};color:#FBF8F4;border-color:{{ bookBg }}">Book appointment</button>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isConfirmed }}" hint-placeholder-val="{{ false }}">
+      <div class="up" style="padding:18px 24px 28px">
+        <div style="height:200px;border-radius:6px;background:url(dewlab/botanical.jpg) center 30%/cover no-repeat"></div>
+        <div class="cap" style="color:#56705E;margin-top:18px">{{ confTitle }}</div>
+        <div class="serif" style="font-size:38px;line-height:1;margin-top:8px">{{ confHeadline }}</div>
+        <div style="margin-top:18px">
+          <div class="hair" style="display:flex;padding:11px 0;font-size:13.5px"><span style="color:#6E645C">Treatment</span><span style="margin-left:auto">{{ treatName }}</span></div>
+          <div class="hair" style="display:flex;padding:11px 0;font-size:13.5px"><span style="color:#6E645C">When</span><span style="margin-left:auto">{{ confWhen }}</span></div>
+          <div class="hair" style="display:flex;padding:11px 0;font-size:13.5px"><span style="color:#6E645C">With</span><span style="margin-left:auto">Maya</span></div>
+          <div class="hair" style="display:flex;padding:11px 0;font-size:13.5px;border-bottom:1px solid #E6DED4"><span style="color:#6E645C">Reminder</span><span style="margin-left:auto">24 hours before</span></div>
+        </div>
+        <div class="cap" style="color:#7A6F66;margin-top:20px">Before you come</div>
+        <div class="serif" style="font-size:17px;line-height:1.45;margin-top:8px;font-style:italic">Skip self-tanner for three days, arrive makeup-free if you can, and drink some water.</div>
+        <button class="tap btn" onClick="{{ goHome }}" style="margin-top:22px;background:transparent;color:#2B2622">Back home</button>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isRebook }}" hint-placeholder-val="{{ false }}">
+      <div class="up" style="padding:18px 24px 28px">
+        <span class="tap cap" onClick="{{ goHome }}" style="color:#6E645C">← Home</span>
+        <div class="serif" style="font-size:38px;line-height:1;margin-top:14px">Same as last time?</div>
+        <div style="font-size:13px;color:#6E645C;margin-top:8px">We kept your treatment, esthetician and favorite time.</div>
+        <div style="margin-top:20px;height:150px;border-radius:6px;background:#E4EEF0;display:grid;place-items:center;font-size:52px">💧</div>
+        <div class="cap" style="color:#7A6F66;margin-top:16px">Suggested</div>
+        <div class="serif" style="font-size:32px;line-height:1.05;margin-top:6px">Tuesday, Dec 9 · 2:00pm</div>
+        <div style="font-size:13px;color:#6E645C;margin-top:4px">Hydrafacial · 60 min · $189 · with Maya</div>
+        <div class="hair" style="margin-top:16px;padding-top:12px;font-size:12.5px;color:#6E645C">Your skin-check answers carry over · we'll only ask what changed.</div>
+        <button class="tap btn" onClick="{{ doRebook }}" style="margin-top:18px;background:#2B2622;color:#FBF8F4">Rebook in one tap</button>
+        <div class="tap cap" onClick="{{ goSlotHydra }}" style="text-align:center;color:#6E645C;margin-top:14px">Pick a different time</div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isCare }}" hint-placeholder-val="{{ false }}">
+      <div class="up" style="padding:18px 24px 28px">
+        <div style="aspect-ratio:720/620;border-radius:6px;background:url(dewlab/serum-wide.jpg) center/cover no-repeat;margin-bottom:16px"></div>
+        <div class="cap" style="color:#7A6F66">Aftercare · Hydrafacial</div>
+        <div class="serif" style="font-size:38px;line-height:1;margin-top:10px">Day two of five</div>
+        <div style="display:flex;align-items:center;margin-top:18px">
+          <sc-for list="{{ careDays }}" as="d" hint-placeholder-count="5">
+            <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:6px"><span style="width:12px;height:12px;border-radius:50%;background:{{ d.bg }};border:1px solid #2B2622"></span><span style="font-size:10.5px;color:#6E645C">{{ d.label }}</span></div>
+          </sc-for>
+        </div>
+        <div style="font-size:12.5px;color:#6E645C;margin-top:14px">From Maya's notes, for today.</div>
+        <div style="margin-top:6px">
+          <sc-for list="{{ careRows }}" as="r" hint-placeholder-count="3">
+            <div class="tap hair" onClick="{{ r.toggle }}" style="display:flex;gap:14px;align-items:center;padding:14px 0">
+              <span style="width:22px;height:22px;flex:none;border-radius:50%;border:1px solid #2B2622;display:grid;place-items:center;font-size:12px;background:{{ r.dotBg }};color:#FBF8F4">{{ r.mark }}</span>
+              <div style="flex:1"><div style="font-size:15px;text-decoration:{{ r.strike }};color:{{ r.c }}">{{ r.n }}</div><div style="font-size:12px;color:#6E645C">{{ r.d }}</div></div>
+            </div>
+          </sc-for>
+        </div>
+        <div class="hair" style="padding-top:16px">
+          <div class="cap" style="color:#7A6F66">Today's photo</div>
+          <div style="display:flex;gap:12px;align-items:center;margin-top:12px">
+            <div style="width:62px;height:62px;flex:none;border-radius:50%;background:{{ todayPhoto }};border:1px dashed {{ todayDash }};display:grid;place-items:center;text-align:center"><sc-if value="{{ photoTodo }}" hint-placeholder-val="{{ true }}"><div><div style="font-size:20px;line-height:1">📸</div><div style="font-size:9px;font-weight:600;letter-spacing:.1em;color:#56705E;margin-top:3px">DAY 2</div></div></sc-if><sc-if value="{{ photoDone }}" hint-placeholder-val="{{ false }}"><div><div style="font-size:20px;line-height:1">🌿</div><div style="font-size:9px;font-weight:600;letter-spacing:.1em;color:#56705E;margin-top:3px">SAVED</div></div></sc-if></div>
+            <div style="flex:1;font-size:12.5px;color:#6E645C">Same light, same angle. Maya compares at your next visit.</div>
+          </div>
+          <sc-if value="{{ photoTodo }}" hint-placeholder-val="{{ true }}"><button class="tap btn" onClick="{{ logPhoto }}" style="margin-top:14px;background:#2B2622;color:#FBF8F4">Log photo</button></sc-if>
+          <sc-if value="{{ photoDone }}" hint-placeholder-val="{{ false }}"><div class="serif" style="font-size:18px;font-style:italic;color:#3E4A43;margin-top:14px">Logged · added to your skin journey 🌸</div></sc-if>
+        </div>
+        <div style="margin-top:20px;border:1px solid #E6DED4;border-radius:6px;padding:16px">
+          <div style="display:flex;gap:12px;align-items:center">
+            <span style="width:40px;height:40px;flex:none;border-radius:50%;background:#DCE6DE;display:grid;place-items:center;font-family:'Instrument Serif',serif;font-size:20px;position:relative">M<span aria-hidden="true" style="position:absolute;right:0;bottom:1px;width:10px;height:10px;border-radius:50%;background:#6F8A77;border:2px solid #FBF8F4"></span></span>
+            <div style="flex:1"><div style="font-size:15px">Something feel off?</div><div style="font-size:12px;color:#6E645C">Maya · usually replies within 2 hours</div></div>
+          </div>
+          <sc-if value="{{ msgTodo }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:12px">
+              <sc-for list="{{ msgChips }}" as="m" hint-placeholder-count="4">
+                <span class="tap" onClick="{{ m.send }}" style="border:1px solid #CFC6BA;border-radius:999px;padding:6px 11px;font-size:12px">{{ m.label }}</span>
+              </sc-for>
+            </div>
+          </sc-if>
+          <sc-if value="{{ msgDone }}" hint-placeholder-val="{{ false }}">
+            <div style="background:#EEF1EA;border-radius:6px;padding:10px 12px;margin-top:12px;font-size:13px;line-height:1.45">Sent to Maya with today's photo · <b style="font-weight:600">{{ msgReply }}</b></div>
+          </sc-if>
+        </div>
+      </div>
+    </sc-if>
+
+  </div>
+  <div style="padding:0 24px 8px;background:#FBF8F4">
+    <div style="display:flex;justify-content:space-around;border-top:1px solid #E6DED4;padding-top:2px">
+      <div class="tap cap" onClick="{{ goHome }}" style="text-align:center;padding:12px 12px;font-size:11px;color:{{ cHome }};border-bottom:1px solid {{ lHome }}">Home</div>
+      <div class="tap cap" onClick="{{ goBook }}" style="text-align:center;padding:12px 12px;font-size:11px;color:{{ cBook }};border-bottom:1px solid {{ lBook }}">Book</div>
+      <div class="tap cap" onClick="{{ goCare }}" style="text-align:center;padding:12px 12px;font-size:11px;color:{{ cCare }};border-bottom:1px solid {{ lCare }}">Aftercare</div>
+    </div>
+  </div>
+</div>
+<sc-if value="{{ isStandalone }}" hint-placeholder-val="{{ true }}"><div style="font-size:13px;color:#6E645C;max-width:340px;text-align:center">Try: Book → Hydrafacial → pick a time → skin check → Book appointment · or tap Aftercare · or Rebook</div></sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":480,"height":940},"startScreen":{"editor":"enum","default":"home","options":["home","book","care","rebook"],"tsType":"string"},"embed":{"editor":"boolean","default":false,"tsType":"boolean"},"autoplay":{"editor":"enum","default":"off","options":["off","book","care","rebook"],"tsType":"string"}}'>
+class Component extends DCLogic {
+  state = { screen: this.props.startScreen ?? 'home', treat: 'hydra', day: '', time: '', ret: '', med: '', care: { spf: true }, photo: false, rebooked: false, booked: false };
+  go(screen) { this.setState({ screen }); }
+  phoneRef = (el) => { this._phone = el; };
+  takeOver = (e) => {
+    const trusted = e && (e.nativeEvent ? e.nativeEvent.isTrusted : e.isTrusted);
+    if (!trusted || !this._apFlow()) return;
+    this._apStop(); this._apUser = true; this.setState({ apLabel: '', apTapOn: false });
+  };
+  _apFlow() {
+    const F = {
+      book: [
+        { wait: 1500, label: 'what’s next, at a glance' },
+        { find: 'Book', within: 'Aftercare', label: 'book a treatment' },
+        { find: 'Hydrafacial', label: 'prices upfront' },
+        { find: 'TUE', label: 'pick a day' },
+        { find: '2:00', label: 'pick a time' },
+        { find: 'Continue', label: 'continue' },
+        { find: 'No', within: 'retinol', label: 'two-question skin check' },
+        { find: 'No', within: 'medications', label: 'private · only Maya sees it' },
+        { find: 'Book appointment', label: 'book' },
+        { wait: 2600, label: 'booked in under a minute' },
+      ],
+      care: [
+        { wait: 1500, label: 'aftercare lives on home' },
+        { find: 'Today: SPF', label: 'today’s aftercare' },
+        { find: 'Hydrate', label: 'check off as you go' },
+        { find: 'No retinol', label: 'from Maya’s notes' },
+        { find: 'Log photo', label: 'log today’s photo' },
+        { wait: 2600, label: 'added to her skin journey' },
+      ],
+      rebook: [
+        { wait: 1500, label: 'a nudge timed to her skin' },
+        { find: 'Rebook', within: 'ready again', label: 'rebook from home' },
+        { wait: 1400, label: 'same treatment, time, esthetician' },
+        { find: 'Rebook in one tap', label: 'one tap' },
+        { wait: 2600, label: 'rebooked · retention by design' },
+      ],
+    };
+    return F[this.props.autoplay] || null;
+  }
+  componentDidMount() {
+    if (!this._apFlow() || typeof IntersectionObserver === 'undefined') return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    this._apIO = new IntersectionObserver((es) => {
+      this._apVisible = es.some((x) => x.isIntersecting);
+      if (this._apVisible && !this._apOn && !this._apUser) this._apStart();
+      else if (!this._apVisible) { if (this._apOn) { this._apStop(); this.setState({ apTapOn: false }); } this._apUser = false; }
+    }, { threshold: 0.3 });
+    this._apObs = setTimeout(() => { if (this._phone) this._apIO.observe(this._phone); }, 60);
+  }
+  componentWillUnmount() { this._apStop(); clearTimeout(this._apIdle); clearTimeout(this._apObs); if (this._apIO) this._apIO.disconnect(); }
+  _apStart() { this._apOn = true; const tok = this._apTok = (this._apTok || 0) + 1; this._apRun(tok); }
+  _apStop() { this._apOn = false; this._apTok = (this._apTok || 0) + 1; }
+  _apSleep(ms) { return new Promise((r) => setTimeout(r, ms)); }
+  _apFind(text, within) {
+    const root = this._phone; if (!root) return null;
+    const vis = (el) => el.offsetParent !== null || el === root;
+    const short = (arr) => arr.reduce((a, b) => (b.textContent.length < a.textContent.length ? b : a));
+    let scope = root;
+    if (within) {
+      const boxes = [...root.querySelectorAll('div')].filter((d) => vis(d) && d.textContent.includes(within) && d.textContent.includes(text));
+      if (boxes.length) scope = short(boxes);
+    }
+    const hits = [...scope.querySelectorAll('button, .tap')].filter((el) => vis(el) && el.textContent.includes(text));
+    return hits.length ? short(hits) : null;
+  }
+  _apScroll(el) {
+    let sc = el && el.parentElement;
+    while (sc && sc !== this._phone) { const oy = getComputedStyle(sc).overflowY; if ((oy === 'auto' || oy === 'scroll') && sc.scrollHeight > sc.clientHeight + 2) break; sc = sc.parentElement; }
+    if (!sc || sc === this._phone) return;
+    const er = el.getBoundingClientRect(), sr = sc.getBoundingClientRect(); const k = sr.height / (sc.offsetHeight || 1) || 1;
+    sc.scrollTo({ top: Math.max(0, sc.scrollTop + (er.top + er.height / 2 - (sr.top + sr.height * 0.45)) / k), behavior: 'smooth' });
+  }
+  _apTopAll() { if (this._phone) this._phone.querySelectorAll('div').forEach((d) => { if (d.scrollTop) d.scrollTop = 0; }); }
+  _apTap(el) {
+    const ph = this._phone; const pr = ph.getBoundingClientRect(); const k = pr.width / (ph.offsetWidth || 1) || 1; const r = el.getBoundingClientRect();
+    this.setState({ apTapOn: false }, () => this.setState({ apTapOn: true, apTapX: ((r.left + r.width / 2 - pr.left) / k - 6) + 'px', apTapY: ((r.top + r.height / 2 - pr.top) / k - 6) + 'px' }));
+  }
+  async _apRun(tok) {
+    const flow = this._apFlow(); const live = () => tok === this._apTok;
+    while (live()) {
+      this.setState({ screen: this.props.startScreen ?? 'home', treat: 'hydra', day: '', time: '', ret: '', med: '', care: { spf: true }, photo: false, rebooked: false, booked: false, cat: 'all', msg: '', apTapOn: false });
+      await this._apSleep(60); this._apTopAll();
+      for (const st of flow) {
+        if (!live()) return;
+        this.setState({ apLabel: st.label });
+        if (st.find) {
+          await this._apSleep(750); if (!live()) return;
+          const el = this._apFind(st.find, st.within);
+          if (el) {
+            this._apScroll(el); await this._apSleep(420); if (!live()) return;
+            this._apTap(el); await this._apSleep(470); if (!live()) return;
+            const before = this.state.screen; el.click();
+            await this._apSleep(450); if (!live()) return;
+            if (this.state.screen !== before) this._apTopAll();
+            this.setState({ apTapOn: false });
+          }
+        }
+        await this._apSleep(st.wait || 900);
+      }
+    }
+  }
+  renderVals() {
+    const s = this.state;
+    const INK = '#2B2622', SAGE = '#6F8A77', LINEN = '#FBF8F4';
+    const PH = (n) => 'url(dewlab/' + n + '.jpg) center/cover no-repeat';
+    const TREATS = {
+      consult: { n: 'Skin consult', d: 'new here? start with a plan', price: 'Free', mins: '20 min', cat: 'skin', img: '#E3EBE2', tileE: '🌿', sig: true },
+      hydra: { n: 'Hydrafacial', d: 'cleanse · extract · hydrate', price: '$189', mins: '60 min', cat: 'facials', img: '#E4EEF0', tileE: '💧', sig: true },
+      led: { n: 'LED + gentle peel', d: 'calm redness · even tone', price: '$165', mins: '50 min', cat: 'skin', img: '#F5ECDB', tileE: '🔆', sig: true },
+      derma: { n: 'Dermaplane + glow', d: 'smooth texture · instant glow', price: '$145', mins: '45 min', cat: 'facials', img: '#F6E6DF', tileE: '🌸', sig: true },
+      oxy: { n: 'Oxygen facial', d: 'plump · brighten · no downtime', price: '$175', mins: '60 min', cat: 'facials', img: '#E6EDF5', tileE: '🫧' },
+      micro: { n: 'Microneedling', d: 'collagen · texture · fine lines', price: '$250', mins: '75 min', cat: 'skin', img: '#EFE8F3', tileE: '✨' },
+      lash: { n: 'Lash lift + tint', d: 'no extensions · 6–8 weeks', price: '$95', mins: '45 min', cat: 'lash', img: '#ECE6F0', tileE: '🪶' },
+      brow: { n: 'Brow lamination', d: 'fuller, brushed-up brows', price: '$85', mins: '40 min', cat: 'lash', img: '#F1E8DF', tileE: '🤎' },
+      back: { n: 'Back facial', d: 'cleanse · extract · smooth', price: '$140', mins: '50 min', cat: 'body', img: '#E7EFEA', tileE: '🧖‍♀️' },
+    };
+    const CATS = [{ k: 'all', label: 'All' }, { k: 'facials', label: '💧 Facials' }, { k: 'skin', label: '✨ Skin' }, { k: 'lash', label: '🪶 Lash & brow' }, { k: 'body', label: '🌙 Body' }];
+    const cat = s.cat || 'all';
+    const tr = TREATS[s.treat] || TREATS.hydra;
+    const pick = (k) => () => this.setState({ treat: k, screen: 'slot', day: '', time: '' });
+    const DAYS = [{ k: 'mon', dow: 'MON', num: '17' }, { k: 'tue', dow: 'TUE', num: '18' }, { k: 'wed', dow: 'WED', num: '19' }, { k: 'thu', dow: 'THU', num: '20' }, { k: 'fri', dow: 'FRI', num: '21' }];
+    const TIMES = ['10:30', '12:00', '2:00', '3:30', '5:00', '6:30'];
+    const full = { mon: ['10:30', '2:00', '5:00'], tue: ['12:00'], wed: ['10:30', '12:00', '3:30'], thu: ['6:30'], fri: ['10:30', '12:00'] };
+    const CARE = [
+      { k: 'spf', n: 'SPF 50 this morning', d: 'extra sun-sensitive for five days' },
+      { k: 'hyd', n: 'Hydrate', d: 'hyaluronic serum, morning and night' },
+      { k: 'ret', n: 'No retinol until Thursday', d: 'restart on day four' },
+    ];
+    const done = CARE.filter((c) => s.care[c.k]).length;
+    const total = done + (s.photo ? 1 : 0);
+    const ready = s.day && s.time;
+    const answered = s.ret && s.med;
+    const dayObj = DAYS.find((d) => d.k === s.day);
+    const dayName = (d) => ({ mon: 'Monday', tue: 'Tuesday', wed: 'Wednesday', thu: 'Thursday', fri: 'Friday' })[d.k];
+    const ap = (t) => t ? t + (t === '10:30' ? 'am' : 'pm') : '';
+    const tab = (n) => s.screen === n || (n === 'book' && ['slot', 'intake', 'confirmed', 'rebook'].includes(s.screen));
+    const seg = (val, want) => ({ bg: val === want ? INK : 'transparent', c: val === want ? LINEN : INK });
+    const SKIN = ['radial-gradient(circle at 35% 35%,#F2DCCF,#D2A994)', 'radial-gradient(circle at 35% 35%,#F4E0D4,#D6AF9B)', 'radial-gradient(circle at 35% 35%,#F6E5DA,#DBB6A3)', 'radial-gradient(circle at 35% 35%,#F8EAE0,#E0BDAB)'];
+    return {
+      isStandalone: !this.props.embed, stageClass: this.props.embed ? '' : 'dw-stage', stagePad: this.props.embed ? '0' : '24px 0',
+      phoneRef: this.phoneRef, takeOver: this.takeOver,
+      apTapOn: !!s.apTapOn, apTapX: s.apTapX || '0px', apTapY: s.apTapY || '0px', apShowChip: !!s.apLabel, apLabel: s.apLabel || '',
+      isHome: s.screen === 'home', isBook: s.screen === 'book', isSlot: s.screen === 'slot', isIntake: s.screen === 'intake',
+      isConfirmed: s.screen === 'confirmed', isRebook: s.screen === 'rebook', isCare: s.screen === 'care',
+      goHome: () => this.go('home'), goBook: () => this.go('book'), goCare: () => this.go('care'), goRebook: () => this.go('rebook'),
+      goSlot: () => this.go('slot'), goSlotHydra: () => this.setState({ treat: 'hydra', screen: 'slot', day: '', time: '' }),
+      goIntake: () => { if (ready) this.go('intake'); },
+      nextTitle: s.rebooked ? 'Tuesday, Dec 9 · 2:00pm' : (s.booked && dayObj ? dayName(dayObj) + ', Nov ' + dayObj.num + ' · ' + ap(s.time) : 'Friday, Nov 21 · 11:00am'),
+      nextWhen: s.rebooked ? 'Hydrafacial with Maya' : (s.booked ? tr.n + ' with Maya' : 'LED + gentle peel with Maya'),
+      heroImg: s.rebooked ? TREATS.hydra.img : (s.booked ? tr.img : TREATS.led.img),
+      reschedule: () => this.setState({ screen: 'slot', treat: s.rebooked ? 'hydra' : (s.booked ? s.treat : 'led'), day: '', time: '' }),
+      addCal: () => this.setState({ cal: true }), calLabel: s.cal ? 'In your calendar ✓' : 'Add to calendar',
+      careSegs: [0, 1, 2, 3, 4].map((i) => ({ bg: i === 0 ? SAGE : (i === 1 ? (total >= 4 ? SAGE : (total > 0 ? '#B7C7BC' : '#E6DED4')) : '#E6DED4') })),
+      careCount: done + ' of 3 today',
+      journey: [
+        { d: 'Sep 2', icon: '💧', note: 'Hydrafacial', bg: '#E4EEF0', ring: '#C9DCE0', line: 'solid' },
+        { d: 'Oct 1', icon: '🌸', note: 'Dermaplane', bg: '#F6E6DF', ring: '#EBD0C4', line: 'solid' },
+        { d: 'Oct 30', icon: '🔆', note: 'LED + peel', bg: '#F5ECDB', ring: '#E6D5B5', line: 'solid' },
+        s.photo ? { d: 'Today', icon: '🌿', note: 'day 2 ✓', bg: '#DCE6DE', ring: '#B9CBBD', line: 'solid' } : { d: 'Today', icon: '📸', note: 'add photo', bg: '#EEF1EA', ring: '#A9B8A6', line: 'dashed' },
+      ],
+      treatCards: Object.keys(TREATS).filter((k) => TREATS[k].sig).map((k) => ({ ...TREATS[k], meta: TREATS[k].mins + ' · ' + TREATS[k].price, pick: pick(k) })),
+      cats: CATS.map((c) => ({ ...c, bg: cat === c.k ? INK : 'transparent', c: cat === c.k ? LINEN : INK, border: cat === c.k ? INK : '#CFC6BA', pick: () => this.setState({ cat: c.k }) })),
+      treatRows: Object.keys(TREATS).filter((k) => cat === 'all' || TREATS[k].cat === cat).map((k) => ({ ...TREATS[k], pick: pick(k) })),
+      treatName: tr.n, treatImg: tr.img, treatTileE: tr.tileE, treatMeta: tr.mins + ' · ' + tr.price + ' · ' + tr.d,
+      days: DAYS.map((d) => ({ ...d, line: s.day === d.k ? INK : 'transparent', c: s.day === d.k ? INK : '#8C8178', pick: () => this.setState({ day: d.k, time: '' }) })),
+      times: TIMES.map((t) => {
+        const isFull = !s.day || (full[s.day] || []).includes(t);
+        const on = s.time === t;
+        return { label: t, bg: on ? INK : 'transparent', c: on ? LINEN : INK, border: on ? INK : '#CFC6BA', strike: isFull && s.day ? 'line-through' : 'none', op: isFull ? 0.4 : 1, pick: () => { if (!isFull) this.setState({ time: t }); } };
+      }),
+      slotLabel: ready ? dayObj.dow.charAt(0) + dayObj.dow.slice(1).toLowerCase() + ' ' + s.time : 'pick a time',
+      contBg: ready ? INK : '#BDB4AA',
+      retNo: () => this.setState({ ret: 'no' }), retYes: () => this.setState({ ret: 'yes' }),
+      medNo: () => this.setState({ med: 'no' }), medYes: () => this.setState({ med: 'yes' }),
+      retNoBg: seg(s.ret, 'no').bg, retNoC: seg(s.ret, 'no').c, retYesBg: seg(s.ret, 'yes').bg, retYesC: seg(s.ret, 'yes').c,
+      medNoBg: seg(s.med, 'no').bg, medNoC: seg(s.med, 'no').c, medYesBg: seg(s.med, 'yes').bg, medYesC: seg(s.med, 'yes').c,
+      retWarn: s.ret === 'yes',
+      bookBg: answered ? INK : '#BDB4AA',
+      confirmBook: () => { if (answered) this.setState({ screen: 'confirmed', booked: true, rebooked: false }); },
+      doRebook: () => this.setState({ screen: 'confirmed', rebooked: true, treat: 'hydra' }),
+      confTitle: s.rebooked ? 'Rebooked' : 'Confirmed',
+      confHeadline: s.rebooked ? 'See you December 9 🌿' : (dayObj ? 'See you ' + dayName(dayObj) + ' 🌿' : 'See you soon 🌿'),
+      confWhen: s.rebooked ? 'Tue Dec 9 · 2:00pm' : (dayObj ? dayObj.dow.charAt(0) + dayObj.dow.slice(1).toLowerCase() + ' Nov ' + dayObj.num : '') + ' · ' + ap(s.time),
+      careDays: [1, 2, 3, 4, 5].map((n) => ({ label: 'Day ' + n, bg: n === 1 ? INK : (n === 2 ? (total >= 4 ? INK : SAGE) : 'transparent') })),
+      careRows: CARE.map((c) => {
+        const on = !!s.care[c.k];
+        return { ...c, mark: on ? '✓' : '', dotBg: on ? INK : 'transparent', strike: on ? 'line-through' : 'none', c: on ? '#8C8178' : INK,
+          toggle: () => this.setState((st) => ({ care: { ...st.care, [c.k]: !st.care[c.k] } })) };
+      }),
+      todayPhoto: s.photo ? '#DCE6DE' : '#EEF1EA', todayDash: s.photo ? '#B9CBBD' : '#A9B8A6',
+      msgTodo: !s.msg, msgDone: !!s.msg,
+      msgReply: ({ red: 'Normal on day 2 · she\u2019ll check in at 4pm 🌿', dry: 'She\u2019ll send a richer moisturizer pick by tonight 💧', q: 'She\u2019ll reply within 2 hours ✨' })[s.msg] || '',
+      msgChips: [{ k: 'red', label: '🔴 redness' }, { k: 'dry', label: '💧 tight or dry' }, { k: 'q', label: '💬 a question' }].map((m) => ({ label: m.label, send: () => this.setState({ msg: m.k }) })),
+      photoTodo: !s.photo, photoDone: s.photo, logPhoto: () => this.setState({ photo: true }),
+      cHome: tab('home') ? INK : '#7A6F66', cBook: tab('book') ? INK : '#7A6F66', cCare: tab('care') ? INK : '#7A6F66',
+      lHome: tab('home') ? INK : 'transparent', lBook: tab('book') ? INK : 'transparent', lCare: tab('care') ? INK : 'transparent',
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Solenne Style Quest prototype</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap');
+body{margin:0}
+.sq{font-family:'DM Sans',system-ui,sans-serif;color:#1C1A17}
+.sq-stage{background:#EDE6DC;min-height:100vh;box-sizing:border-box}
+.sq button{font-family:inherit;cursor:pointer;color:inherit}
+.sq .serif{font-family:'Playfair Display',serif}
+.sq .logo{font-family:'Bodoni Moda',serif;letter-spacing:.24em}
+.sq .cap{font-size:10px;letter-spacing:.16em;text-transform:uppercase}
+.sq .tap{transition:transform .12s ease}
+.sq .tap:active{transform:scale(.97)}
+@keyframes sqUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.sq .up{animation:sqUp .4s cubic-bezier(.2,.7,.3,1) both}
+@keyframes sqPop{0%{transform:scale(.6);opacity:0}60%{transform:scale(1.08);opacity:1}100%{transform:scale(1)}}
+.sq .pop{animation:sqPop .5s cubic-bezier(.2,.7,.3,1) both}
+@keyframes sqFall{0%{transform:translateY(-20px) rotate(0);opacity:1}100%{transform:translateY(520px) rotate(540deg);opacity:0}}
+@keyframes sqFloat{0%{opacity:0;transform:translate(-50%,10px)}20%{opacity:1;transform:translate(-50%,0)}80%{opacity:1}100%{opacity:0;transform:translate(-50%,-26px)}}
+@keyframes sqFlame{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+</style>
+</helmet>
+<div class="sq {{ stageClass }}" style="display:flex;justify-content:center;padding:{{ stagePad }}">
+<div style="position:relative;width:375px;height:812px;background:#F6F1EA;border:6px solid #1C1A17;border-radius:46px;overflow:hidden;display:flex;flex-direction:column">
+  <div style="height:44px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 26px;font-size:13px;font-weight:600"><span>9:41</span><span style="font-size:11px">●●● ▮</span></div>
+  <div style="display:flex;align-items:center;padding:4px 18px 10px;border-bottom:1px solid #E6DED4"><span class="logo" style="font-size:16px">SOLENNE</span><span class="cap" style="margin-left:10px;color:#A3341C">Style Quest</span><span style="margin-left:auto;font-size:12.5px;font-weight:600">✦ {{ ptsLabel }}</span></div>
+
+  <div style="flex:1;overflow-y:auto;padding:16px 18px 24px">
+    <div style="background:#1C1A17;color:#F6F1EA;padding:16px 16px 14px">
+      <div style="display:flex;align-items:baseline"><span class="cap" style="color:#EFD9CF">{{ tierName }} member</span><span class="cap" style="margin-left:auto;color:#BFB4A6">{{ tierNextLabel }}</span></div>
+      <div class="serif" style="font-size:26px;margin-top:6px">{{ ptsLabel }} <span style="font-size:14px;color:#BFB4A6">points</span></div>
+      <div style="height:5px;background:#3A352F;margin-top:10px;border-radius:3px;overflow:hidden"><div style="height:5px;width:{{ tierPct }};background:#E8C4B8;transition:width .8s cubic-bezier(.2,.7,.3,1)"></div></div>
+      <div style="display:flex;justify-content:space-between;margin-top:6px;font-size:10px;color:#BFB4A6"><span>Muse</span><span>Icon · 500</span><span>Atelier · 1,500</span></div>
+    </div>
+
+    <div style="margin-top:16px;background:#fff;border:1px solid #E6DED4;padding:14px 14px 12px">
+      <div style="display:flex;align-items:center"><span style="font-size:22px;display:inline-block;animation:sqFlame 1.4s ease-in-out infinite">🔥</span><div style="margin-left:10px"><div style="font-weight:700;font-size:15px">{{ streakLabel }}</div><div style="font-size:11.5px;color:#6B6359">Check in once a week to keep it going</div></div></div>
+      <div style="display:flex;gap:6px;margin-top:12px">
+        <sc-for list="{{ weeks }}" as="w" hint-placeholder-count="6"><div style="flex:1;text-align:center"><div style="height:28px;border-radius:4px;background:{{ w.bg }};color:{{ w.c }};display:grid;place-items:center;font-size:12px;font-weight:700">{{ w.mark }}</div><div style="font-size:9.5px;color:#6B6359;margin-top:4px">{{ w.label }}</div></div></sc-for>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:18px;margin-top:20px;border-bottom:1px solid #E6DED4">
+      <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="2"><button onClick="{{ t.go }}" style="background:none;border:none;border-bottom:2px solid {{ t.line }};padding:0 0 8px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:{{ t.w }}">{{ t.label }}</button></sc-for>
+    </div>
+
+    <sc-if value="{{ isQuests }}" hint-placeholder-val="{{ true }}">
+      <div class="cap" style="margin-top:16px;color:#6B6359">This week's quests · resets Sunday</div>
+      <sc-for list="{{ quests }}" as="q" hint-placeholder-count="3">
+        <div class="up" style="display:flex;gap:12px;align-items:center;background:#fff;border:1px solid {{ q.border }};padding:13px 12px;margin-top:10px">
+          <span style="width:40px;height:40px;flex:none;border-radius:50%;background:{{ q.iconBg }};display:grid;place-items:center;font-size:18px">{{ q.icon }}</span>
+          <div style="flex:1;min-width:0"><div style="font-weight:600;font-size:13.5px">{{ q.title }}</div><div style="font-size:11.5px;color:#6B6359;margin-top:2px">{{ q.sub }}</div></div>
+          <button class="tap" onClick="{{ q.go }}" disabled="{{ q.done }}" style="flex:none;border:1px solid #1C1A17;background:{{ q.btnBg }};color:{{ q.btnC }};padding:8px 10px;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:600">{{ q.cta }}</button>
+        </div>
+      </sc-for>
+      <div style="margin-top:16px;padding:12px;border:1px dashed #CFC5B8;font-size:11.5px;color:#6B6359;line-height:1.5">Finish all three this week for a <b style="color:#1C1A17">bonus 100 pts</b>. Points never expire while your streak is alive.</div>
+    </sc-if>
+
+    <sc-if value="{{ isBadges }}" hint-placeholder-val="{{ false }}">
+      <div class="cap" style="margin-top:16px;color:#6B6359">{{ badgeCount }} of 6 collected</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px">
+        <sc-for list="{{ badges }}" as="b" hint-placeholder-count="6"><div class="up" style="background:#fff;border:1px solid #E6DED4;padding:14px 6px 12px;text-align:center;opacity:{{ b.op }}"><div style="width:52px;height:52px;margin:0 auto;border-radius:50%;background:{{ b.bg }};display:grid;place-items:center;font-size:22px;filter:{{ b.filter }}">{{ b.icon }}</div><div style="font-size:11.5px;font-weight:600;margin-top:8px">{{ b.name }}</div><div style="font-size:10px;color:#6B6359;margin-top:2px">{{ b.how }}</div></div></sc-for>
+      </div>
+    </sc-if>
+    <button onClick="{{ reset }}" style="display:block;margin:22px auto 0;background:none;border:none;font-size:11px;color:#9A8B7E;text-decoration:underline">Reset demo</button>
+  </div>
+
+  <sc-if value="{{ outfitOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;inset:0;background:rgba(28,26,23,.4);z-index:20"></div>
+    <div class="up" style="position:absolute;left:0;right:0;bottom:0;top:70px;background:#F6F1EA;z-index:21;display:flex;flex-direction:column">
+      <div style="display:flex;align-items:center;padding:16px 18px 10px"><div><div class="cap" style="color:#A3341C">Quest · +150 pts</div><div class="serif" style="font-size:22px;margin-top:2px">Build a look under $200</div></div><button onClick="{{ closeModal }}" aria-label="Close" style="margin-left:auto;background:none;border:none;font-size:20px">×</button></div>
+      <div style="display:flex;gap:14px;padding:0 18px;align-items:center">
+        <div style="width:118px;height:150px;flex:none;background:#E8DCCF;position:relative;overflow:hidden">
+          <sc-if value="{{ hasLayer }}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 200 240" aria-hidden="true" style="position:absolute;left:4px;top:2px;width:110px;z-index:3;opacity:.92"><path d="{{ layerShape }}" fill="{{ layerHex }}"/></svg></sc-if>
+          <sc-if value="{{ hasTop }}" hint-placeholder-val="{{ true }}"><svg viewBox="0 0 200 240" aria-hidden="true" style="position:absolute;left:14px;top:4px;width:90px;z-index:2"><path d="{{ topShape }}" fill="{{ topHex }}"/></svg></sc-if>
+          <sc-if value="{{ hasBottom }}" hint-placeholder-val="{{ true }}"><svg viewBox="0 0 200 240" aria-hidden="true" style="position:absolute;left:24px;top:58px;width:70px;z-index:1"><path d="{{ bottomShape }}" fill="{{ bottomHex }}"/></svg></sc-if>
+        </div>
+        <div style="flex:1">
+          <div style="display:flex;align-items:baseline"><span class="serif" style="font-size:26px">{{ totalLabel }}</span><span style="font-size:12px;color:#6B6359;margin-left:6px">of $200</span></div>
+          <div style="height:6px;background:#E6DED4;margin-top:8px;border-radius:3px;overflow:hidden"><div style="height:6px;width:{{ budgetPct }};background:{{ budgetBar }};transition:width .4s ease,background .3s"></div></div>
+          <div style="font-size:11.5px;margin-top:8px;color:{{ budgetMsgC }}">{{ budgetMsg }}</div>
+        </div>
+      </div>
+      <div style="flex:1;overflow-y:auto;padding:6px 18px 0">
+        <sc-for list="{{ slots }}" as="sl" hint-placeholder-count="3">
+          <div class="cap" style="margin-top:14px;color:#6B6359">{{ sl.label }}</div>
+          <div style="display:flex;gap:8px;margin-top:8px;overflow-x:auto;padding-bottom:4px">
+            <sc-for list="{{ sl.items }}" as="it" hint-placeholder-count="3"><button class="tap" onClick="{{ it.pick }}" aria-pressed="{{ it.on }}" style="flex:none;width:96px;padding:0;border:1.5px solid {{ it.border }};background:#fff;text-align:left"><div style="height:84px;background:#EDE6DC;display:grid;place-items:center"><svg viewBox="0 0 200 240" aria-hidden="true" style="height:74px"><path d="{{ it.shape }}" fill="{{ it.hex }}"/></svg></div><div style="padding:6px 7px 7px"><div style="font-size:10.5px;font-weight:600;line-height:1.2">{{ it.name }}</div><div style="font-size:10.5px;color:#6B6359;margin-top:2px">{{ it.price }}</div></div></button></sc-for>
+          </div>
+        </sc-for>
+      </div>
+      <div style="padding:12px 18px 22px;border-top:1px solid #E6DED4"><button class="tap" onClick="{{ submitOutfit }}" disabled="{{ outfitBlocked }}" style="width:100%;border:none;background:{{ submitBg }};color:#F6F1EA;padding:15px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600">{{ submitLabel }}</button></div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ reviewOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;inset:0;background:rgba(28,26,23,.4);z-index:20"></div>
+    <div class="up" style="position:absolute;left:0;right:0;bottom:0;background:#F6F1EA;z-index:21;padding:20px 18px 26px">
+      <div style="display:flex;align-items:center"><div class="cap" style="color:#A3341C">Quest · +50 pts</div><button onClick="{{ closeModal }}" aria-label="Close" style="margin-left:auto;background:none;border:none;font-size:20px">×</button></div>
+      <div class="serif" style="font-size:22px;margin-top:4px">How's the Ada Trouser?</div>
+      <div style="font-size:12px;color:#6B6359;margin-top:4px">Ordered Oct 28 · Black · M</div>
+      <div style="display:flex;gap:8px;margin-top:16px">
+        <sc-for list="{{ stars }}" as="st" hint-placeholder-count="5"><button class="tap" onClick="{{ st.pick }}" aria-label="{{ st.aria }}" style="background:none;border:none;font-size:30px;padding:0;color:{{ st.c }}">★</button></sc-for>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:14px">
+        <sc-for list="{{ fitChips }}" as="fc" hint-placeholder-count="3"><button onClick="{{ fc.pick }}" style="border:1px solid {{ fc.border }};background:{{ fc.bg }};color:{{ fc.c }};border-radius:999px;padding:7px 12px;font-size:12px">{{ fc.label }}</button></sc-for>
+      </div>
+      <button class="tap" onClick="{{ submitReview }}" disabled="{{ reviewBlocked }}" style="width:100%;margin-top:18px;border:none;background:{{ reviewBg }};color:#F6F1EA;padding:15px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600">Post review · +50 pts</button>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ tierOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;inset:0;background:rgba(28,26,23,.82);z-index:30"></div>
+    <div class="pop" style="position:absolute;left:22px;right:22px;top:110px;background:#F6F1EA;z-index:31;padding:24px 20px 22px;text-align:center">
+      <div class="cap" style="color:#A3341C">Tier unlocked</div>
+      <div class="logo" style="font-size:30px;margin-top:8px">ATELIER</div>
+      <div style="font-size:12.5px;color:#6B6359;margin-top:6px">2× points, free alterations, 72-hour early access</div>
+      <div style="position:relative;width:210px;height:210px;margin:20px auto 0">
+        <div style="position:absolute;left:50%;top:-8px;margin-left:-9px;width:0;height:0;border-left:9px solid transparent;border-right:9px solid transparent;border-top:16px solid #1C1A17;z-index:2"></div>
+        <div style="width:210px;height:210px;border-radius:50%;border:4px solid #1C1A17;box-sizing:border-box;background:conic-gradient(#E8C4B8 0 60deg,#F6F1EA 60deg 120deg,#A7B29A 120deg 180deg,#F6F1EA 180deg 240deg,#EAD9A2 240deg 300deg,#F6F1EA 300deg 360deg);transform:rotate({{ wheelDeg }});transition:transform 2.6s cubic-bezier(.15,.75,.2,1);position:relative">
+          <sc-for list="{{ wheel }}" as="wh" hint-placeholder-count="6"><div style="position:absolute;left:50%;top:50%;width:0;height:0;transform:rotate({{ wh.rot }})"><div style="position:absolute;left:-36px;top:-92px;width:72px;text-align:center;font-size:10px;font-weight:700;line-height:1.15">{{ wh.label }}</div></div></sc-for>
+        </div>
+        <div style="position:absolute;left:50%;top:50%;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;background:#1C1A17;color:#F6F1EA;display:grid;place-items:center;font-size:13px">✦</div>
+      </div>
+      <sc-if value="{{ spinReady }}" hint-placeholder-val="{{ true }}"><button class="tap" onClick="{{ spin }}" style="width:100%;margin-top:20px;border:none;background:#1C1A17;color:#F6F1EA;padding:15px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600">Spin for your welcome gift</button></sc-if>
+      <sc-if value="{{ spinning }}" hint-placeholder-val="{{ false }}"><div style="margin-top:28px;font-size:12px;color:#6B6359">Spinning…</div></sc-if>
+      <sc-if value="{{ spinDone }}" hint-placeholder-val="{{ false }}"><div class="pop" style="margin-top:16px"><div class="serif" style="font-size:22px">{{ rewardLabel }}</div><div style="font-size:12px;color:#6B6359;margin-top:4px">Saved to your wallet · applies at checkout</div><button class="tap" onClick="{{ closeTier }}" style="width:100%;margin-top:14px;border:none;background:#1C1A17;color:#F6F1EA;padding:14px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600">Back to quests</button></div></sc-if>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ hasBurst }}" hint-placeholder-val="{{ false }}"><div aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;z-index:40;overflow:hidden"><sc-for list="{{ confetti }}" as="cf" hint-placeholder-count="20"><span style="position:absolute;left:{{ cf.x }};top:{{ cf.y }};width:{{ cf.w }};height:10px;background:{{ cf.c }};animation:sqFall {{ cf.d }} cubic-bezier(.3,.6,.4,1) {{ cf.delay }} both"></span></sc-for></div></sc-if>
+  <sc-if value="{{ hasGain }}" hint-placeholder-val="{{ false }}"><div aria-live="polite" style="position:absolute;left:50%;top:96px;z-index:41;background:#1C1A17;color:#F6F1EA;padding:8px 14px;font-weight:700;font-size:14px;animation:sqFloat 1.6s ease both;white-space:nowrap">{{ gainLabel }}</div></sc-if>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":420,"height":860},"embed":{"editor":"boolean","default":false,"tsType":"boolean"}}'>
+class Component extends DCLogic {
+  state = this._init();
+  _init() { return { pts: 1320, streak: 3, tab: 'quests', done: {}, modal: '', top: '', bottom: '', layer: 'none', stars: 0, fit: '', tiered: false, wheelDeg: 0, spinState: 'ready', reward: '', burst: 0, gain: '' }; }
+  componentWillUnmount() { clearTimeout(this._b); clearTimeout(this._g); clearTimeout(this._s); }
+  _celebrate(n, label) {
+    const pts = this.state.pts + n;
+    const crossed = !this.state.tiered && pts >= 1500;
+    this.setState({ pts, burst: this.state.burst + 1, gain: label, modal: crossed ? 'tier' : '', tiered: this.state.tiered || crossed });
+    clearTimeout(this._b); this._b = setTimeout(() => this.setState({ burst: 0 }), 1700);
+    clearTimeout(this._g); this._g = setTimeout(() => this.setState({ gain: '' }), 1650);
+  }
+  _complete(id, n) {
+    const done = { ...this.state.done, [id]: true };
+    this.setState({ done });
+    const all = done.checkin && done.review && done.outfit;
+    this._celebrate(n + (all ? 100 : 0), '+' + n + ' pts' + (all ? ' · +100 weekly bonus' : ''));
+  }
+  renderVals() {
+    const s = this.state;
+    const SH = {"dress": ["M78 22 L122 22 L130 62 L120 74 L152 226 L48 226 L80 74 L70 62 Z", "M84 22 L84 8 M116 22 L116 8 M80 74 L120 74"], "midi": ["M70 26 L86 18 Q100 28 114 18 L130 26 L136 70 L122 80 L146 228 L54 228 L78 80 L64 70 Z", "M78 80 L122 80 M100 80 L100 228"], "top": ["M60 40 L85 30 Q100 42 115 30 L140 40 L170 75 L150 92 L138 80 L138 180 L62 180 L62 80 L50 92 L30 75 Z", "M85 30 Q100 50 115 30"], "cami": ["M72 50 L128 50 L134 74 L140 190 L60 190 L66 74 Z", "M78 50 L84 22 M122 50 L116 22 M66 74 Q100 86 134 74"], "shirt": ["M62 38 L86 28 L100 44 L114 28 L138 38 L170 128 L150 134 L138 92 L140 200 L60 200 L62 92 L50 134 L30 128 Z", "M100 44 L100 200 M86 28 L94 52 M114 28 L106 52"], "knit": ["M58 40 L84 30 Q100 44 116 30 L142 40 L172 152 L152 158 L140 92 L140 196 L60 196 L60 92 L48 158 L28 152 Z", "M60 186 L140 186 M84 30 Q100 50 116 30"], "cardi": ["M58 46 L84 36 L100 80 L116 36 L142 46 L172 150 L152 156 L140 96 L140 168 L60 168 L60 96 L48 156 L28 150 Z", "M100 80 L100 168 M60 160 L140 160"], "turtle": ["M58 44 L82 34 L82 20 L118 20 L118 34 L142 44 L172 156 L152 162 L140 96 L140 200 L60 200 L60 96 L48 162 L28 156 Z", "M82 26 L118 26 M60 190 L140 190"], "pants": ["M62 20 L138 20 L148 226 L110 226 L100 92 L90 226 L52 226 Z", "M62 34 L138 34 M100 34 L100 92"], "jean": ["M64 22 L136 22 L142 226 L108 226 L100 96 L92 226 L58 226 Z", "M64 36 L136 36 M76 36 Q80 60 66 64 M124 36 Q120 60 134 64"], "skirt": ["M70 36 L130 36 L162 206 L38 206 Z", "M70 50 L130 50 M84 50 L66 206 M100 50 L100 206 M116 50 L134 206"], "set": ["M64 18 L88 10 Q100 20 112 10 L136 18 L148 58 L134 64 L132 98 L68 98 L66 64 L52 58 Z M66 116 L134 116 L140 208 L106 208 L100 164 L94 208 L60 208 Z", "M66 128 L134 128"], "blazer": ["M56 40 L84 30 L100 96 L116 30 L144 40 L172 160 L152 166 L142 100 L142 206 L58 206 L58 100 L48 166 L28 160 Z", "M84 30 L92 78 L100 96 M116 30 L108 78 L100 96 M100 96 L100 206 M70 150 L86 150"]};
+    const C = { Ecru: '#EFE6D6', Black: '#26231F', Terracotta: '#B5502F', Sage: '#A7B29A', Butter: '#EAD9A2', Blush: '#E8C4B8', Navy: '#2E3A55', Chocolate: '#5A3E33', Denim: '#5B7197' };
+    const ITEMS = {
+      top: [['ines', 'Ines Linen Tee', 48, 'top', 'Ecru'], ['clara', 'Clara Satin Cami', 58, 'cami', 'Butter'], ['romy', 'Romy Poplin Shirt', 88, 'shirt', 'Navy']],
+      bottom: [['lou', 'Lou Pleated Skirt', 98, 'skirt', 'Sage'], ['june', 'June Relaxed Jean', 108, 'jean', 'Denim'], ['ada', 'Ada Wide-Leg Trouser', 118, 'pants', 'Black']],
+      layer: [['none', 'No layer', 0, '', ''], ['bea', 'Bea Cropped Cardigan', 98, 'cardi', 'Blush'], ['vera', 'Vera Blazer', 188, 'blazer', 'Chocolate']],
+    };
+    const find = (slot, id) => ITEMS[slot].find((x) => x[0] === id);
+    const t = find('top', s.top), b = find('bottom', s.bottom), l = find('layer', s.layer);
+    const total = (t ? t[2] : 0) + (b ? b[2] : 0) + (l ? l[2] : 0);
+    const over = total > 200;
+    const incomplete = !t || !b;
+    const tier = s.pts >= 1500 ? 'Atelier' : s.pts >= 500 ? 'Icon' : 'Muse';
+    const QUESTS = [
+      ['checkin', '🗓', '#F3E3D9', 'Weekly check-in', 'Keep your streak alive', 25, 'Check in', () => { this.setState({ streak: s.streak + 1 }); this._complete('checkin', 25); }],
+      ['review', '✍️', '#E6EEE2', 'Review a past order', 'Ada Wide-Leg Trouser · Oct 28', 50, 'Review', () => this.setState({ modal: 'review' })],
+      ['outfit', '👗', '#EFE8DE', 'Style a look under $200', 'Mix 2–3 pieces, stay on budget', 150, 'Start', () => this.setState({ modal: 'outfit' })],
+    ];
+    const BADGES = [
+      ['First quest', '✦', '#F3E3D9', 'Finish any quest', Object.keys(s.done).length > 0],
+      ['On fire', '🔥', '#F7E2CF', '4-week streak', s.streak >= 4],
+      ['Critic', '✍️', '#E6EEE2', 'Post a review', !!s.done.review],
+      ['Budget stylist', '👗', '#EFE8DE', 'Look under $200', !!s.done.outfit],
+      ['Atelier', '♛', '#EAD9A2', 'Reach 1,500 pts', s.pts >= 1500],
+      ['Early bird', '🌅', '#E3E6EF', 'Shop a drop in the first hour', false],
+    ];
+    const WHEEL = ['$25 off', 'Free alterations', '2× pts weekend', 'Free express ship', 'Early access pass', 'Mystery gift'];
+    const weeksArr = ['W1', 'W2', 'W3', 'W4', 'W5', 'W6'].map((w, i) => { const on = i < s.streak; const now = i === s.streak; return { label: w, mark: on ? '✓' : now ? '·' : '', bg: on ? '#1C1A17' : now ? '#F3E3D9' : '#EFE8DE', c: on ? '#F6F1EA' : '#A3341C' }; });
+    const confetti = s.burst ? Array.from({ length: 22 }, (_, i) => ({ x: ((i * 37 + s.burst * 13) % 100) + '%', y: '-' + (i % 5) * 12 + 'px', w: (5 + (i % 3) * 3) + 'px', c: ['#B5502F', '#E8C4B8', '#A7B29A', '#EAD9A2', '#1C1A17'][i % 5], d: (1.1 + (i % 4) * 0.15) + 's', delay: (i % 6) * 0.04 + 's' })) : [];
+    return {
+      stageClass: this.props.embed ? '' : 'sq-stage', stagePad: this.props.embed ? '0' : '24px 0',
+      ptsLabel: s.pts.toLocaleString(), tierName: tier,
+      tierNextLabel: s.pts >= 1500 ? 'Top tier ✦' : (1500 - s.pts).toLocaleString() + ' to Atelier',
+      tierPct: Math.min(100, Math.round((s.pts / 1500) * 100)) + '%',
+      streakLabel: s.streak + '-week streak', weeks: weeksArr,
+      tabs: [['quests', 'Quests'], ['badges', 'Badges']].map(([k, lab]) => ({ label: lab, go: () => this.setState({ tab: k }), line: s.tab === k ? '#1C1A17' : 'transparent', w: s.tab === k ? 700 : 500 })),
+      isQuests: s.tab === 'quests', isBadges: s.tab === 'badges',
+      quests: QUESTS.map(([id, icon, iconBg, title, sub, n, cta, go]) => { const d = !!s.done[id]; return { icon, iconBg, title, sub: d ? 'Done · +' + n + ' pts earned' : sub + ' · +' + n + ' pts', cta: d ? '✓ Done' : cta, done: d, go, btnBg: d ? '#E6EEE2' : '#1C1A17', btnC: d ? '#2F5A2B' : '#F6F1EA', border: d ? '#C9DCC4' : '#E6DED4' }; }),
+      badgeCount: String(BADGES.filter((x) => x[4]).length),
+      badges: BADGES.map(([name, icon, bg, how, on]) => ({ name, icon, bg: on ? bg : '#EFE8DE', how: on ? 'Unlocked' : how, op: on ? 1 : 0.55, filter: on ? 'none' : 'grayscale(1)' })),
+      reset: () => this.setState(this._init()),
+      closeModal: () => this.setState({ modal: '' }),
+      // outfit
+      outfitOpen: s.modal === 'outfit',
+      hasTop: !!t, hasBottom: !!b, hasLayer: !!(l && l[3]),
+      topShape: t ? SH[t[3]][0] : '', topHex: t ? C[t[4]] : '', bottomShape: b ? SH[b[3]][0] : '', bottomHex: b ? C[b[4]] : '', layerShape: l && l[3] ? SH[l[3]][0] : '', layerHex: l && l[3] ? C[l[4]] : '',
+      totalLabel: '$' + total, budgetPct: Math.min(100, Math.round((total / 200) * 100)) + '%', budgetBar: over ? '#A3341C' : '#1C1A17',
+      budgetMsg: over ? '$' + (total - 200) + ' over. Try swapping one piece.' : incomplete ? 'Pick a top and a bottom to start' : '✓ $' + (200 - total) + ' to spare',
+      budgetMsgC: over ? '#A3341C' : incomplete ? '#6B6359' : '#2F5A2B',
+      slots: [['top', 'Top'], ['bottom', 'Bottom'], ['layer', 'Layer (optional)']].map(([slot, label]) => ({ label, items: ITEMS[slot].map(([id, name, price, sh, col]) => { const on = s[slot] === id; return { name, price: price ? '$' + price : '—', shape: sh ? SH[sh][0] : '', hex: col ? C[col] : 'transparent', on: on ? 'true' : 'false', border: on ? '#1C1A17' : '#E6DED4', pick: () => this.setState({ [slot]: id }) }; }) })),
+      outfitBlocked: over || incomplete, submitBg: over || incomplete ? '#B8AEA2' : '#1C1A17',
+      submitLabel: over ? 'Over budget' : incomplete ? 'Choose your pieces' : 'Save look · +150 pts',
+      submitOutfit: () => { if (over || incomplete) return; this._complete('outfit', 150); },
+      // review
+      reviewOpen: s.modal === 'review',
+      stars: [1, 2, 3, 4, 5].map((n) => ({ aria: n + ' star' + (n > 1 ? 's' : ''), c: n <= s.stars ? '#B5502F' : '#D8CFC4', pick: () => this.setState({ stars: n }) })),
+      fitChips: ['Runs small', 'True to size', 'Runs large'].map((x) => { const on = s.fit === x; return { label: x, bg: on ? '#1C1A17' : '#fff', c: on ? '#F6F1EA' : '#1C1A17', border: on ? '#1C1A17' : '#CFC5B8', pick: () => this.setState({ fit: x }) }; }),
+      reviewBlocked: !s.stars || !s.fit, reviewBg: !s.stars || !s.fit ? '#B8AEA2' : '#1C1A17',
+      submitReview: () => { if (!s.stars || !s.fit) return; this._complete('review', 50); },
+      // tier
+      tierOpen: s.modal === 'tier', wheelDeg: s.wheelDeg + 'deg',
+      wheel: WHEEL.map((label, i) => ({ label, rot: (i * 60 + 30) + 'deg' })),
+      spinReady: s.spinState === 'ready', spinning: s.spinState === 'spinning', spinDone: s.spinState === 'done', rewardLabel: s.reward,
+      spin: () => { const k = Math.floor(Math.random() * 6); const target = 360 * 6 + (360 - (k * 60 + 30)); this.setState({ spinState: 'spinning', wheelDeg: target }); clearTimeout(this._s); this._s = setTimeout(() => { this.setState({ spinState: 'done', reward: WHEEL[k], burst: this.state.burst + 1 }); clearTimeout(this._b); this._b = setTimeout(() => this.setState({ burst: 0 }), 1700); }, 2700); },
+      closeTier: () => this.setState({ modal: '' }),
+      hasBurst: !!s.burst, confetti, hasGain: !!s.gain, gainLabel: s.gain,
+    };
+  }
+}
+</script>
+</body>
+</html>

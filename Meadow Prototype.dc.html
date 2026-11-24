@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meadow HSA Marketplace prototype</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+body{margin:0}
+.md{font-family:'Manrope',system-ui,sans-serif;color:#13232A}
+.md-stage{background:#E9EFEC;min-height:100vh;box-sizing:border-box}
+.md .tap{cursor:pointer;transition:transform .12s ease}
+.md .tap:active{transform:scale(.97)}
+.md button{font-family:inherit;cursor:pointer}
+.md .lbl{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#4B5D63}
+@keyframes mdUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.md .up{animation:mdUp .4s cubic-bezier(.2,.7,.3,1) both}
+@keyframes aptap{0%{opacity:0;transform:scale(.5)}35%{opacity:1;transform:scale(1)}55%{opacity:1;transform:scale(.8)}100%{opacity:0;transform:scale(1.5)}}
+@keyframes apchip{from{opacity:0;transform:translate(-50%,6px)}to{opacity:1;transform:translate(-50%,0)}}
+</style>
+</helmet>
+<div class="md {{ stageClass }}" style="display:flex;flex-direction:column;align-items:center;gap:10px;padding:{{ stagePad }}">
+<div ref="{{ phoneRef }}" onPointerDown="{{ takeOver }}" style="position:relative;width:375px;height:812px;background:#F7F8F6;border:6px solid #1B2B31;border-radius:44px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 18px 50px rgba(15,76,92,.18)">
+  <sc-if value="{{ apTapOn }}" hint-placeholder-val="{{ false }}"><span aria-hidden="true" style="position:absolute;left:{{ apTapX }};top:{{ apTapY }};width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;background:rgba(31,157,124,.35);box-shadow:0 0 0 3px rgba(255,255,255,.95),0 4px 14px rgba(0,0,0,.2);z-index:60;pointer-events:none;animation:aptap .9s ease-out both"></span></sc-if>
+  <sc-if value="{{ apShowChip }}" hint-placeholder-val="{{ false }}"><div aria-live="polite" style="position:absolute;left:50%;top:7px;transform:translateX(-50%);z-index:59;pointer-events:none;background:#13232A;color:#fff;border-radius:999px;padding:5px 12px;font-size:11px;font-weight:700;white-space:nowrap;max-width:220px;overflow:hidden;text-overflow:ellipsis;box-shadow:0 2px 8px rgba(0,0,0,.18);animation:apchip .3s ease-out both">{{ apLabel }}</div></sc-if>
+  <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}"><div role="status" style="position:absolute;left:50%;top:44px;transform:translateX(-50%);z-index:58;background:#13232A;color:#fff;border-radius:10px;padding:8px 14px;font-size:12.5px;font-weight:700;white-space:nowrap;animation:apchip .3s ease-out both">{{ toast }}</div></sc-if>
+  <div style="display:flex;justify-content:space-between;padding:12px 22px 4px;font-size:12px;font-weight:700"><span>9:41</span><span>●●● ▲ ▮</span></div>
+  <div style="flex:1;min-height:0;overflow-y:auto;overflow-x:hidden">
+
+    <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+      <div class="up" style="padding:8px 18px 20px">
+        <div style="display:flex;align-items:center;gap:8px"><span style="width:28px;height:28px;border-radius:8px;background:#0F4C5C;color:#DDF3EC;display:grid;place-items:center;font-weight:800;font-size:14px">m</span><span style="font-weight:800;font-size:17px">meadow</span><span style="margin-left:auto;font-size:12px;color:#4B5D63">Hi, Jordan</span></div>
+        <div style="background:#0F4C5C;color:#fff;border-radius:18px;padding:16px;margin-top:14px">
+          <div style="display:flex;align-items:baseline"><span style="font-size:12px;opacity:.85">HSA available to spend</span><button class="tap" onClick="{{ toggleWhy }}" style="margin-left:auto;background:none;border:none;padding:0;font-size:11.5px;color:#9FE3CF;font-weight:700">how it works</button></div>
+          <div style="font-size:32px;font-weight:800;letter-spacing:-.02em;margin-top:2px">{{ balanceLabel }}</div>
+          <div style="font-size:12px;opacity:.85;margin-top:2px">rolls over every year · it's always yours</div>
+          <sc-if value="{{ showWhy }}" hint-placeholder-val="{{ false }}"><div class="up" style="background:rgba(255,255,255,.1);border-radius:12px;padding:10px 12px;margin-top:10px;font-size:12px;line-height:1.5">Anything with a ✓ badge is HSA-eligible, so it's tax-free to buy here. No receipts to chase: we save them for you.</div></sc-if>
+        </div>
+        <div class="tap" onClick="{{ goSearch }}" style="display:flex;gap:10px;align-items:center;background:#fff;border:1px solid #DCE3E1;border-radius:12px;padding:12px 14px;margin-top:12px;color:#4B5D63;font-size:14px"><span>🔍</span>Search sunscreen, contacts, telehealth…</div>
+        <div style="display:flex;align-items:baseline;margin-top:20px"><span style="font-size:16px;font-weight:800">Picked for you</span><button class="tap" onClick="{{ toggleRecWhy }}" style="margin-left:auto;background:none;border:none;padding:0;font-size:12px;color:#1F7A63;font-weight:700">why these?</button></div>
+        <sc-if value="{{ showRecWhy }}" hint-placeholder-val="{{ false }}"><div class="up" style="font-size:12px;color:#4B5D63;background:#EEF4F2;border-radius:10px;padding:8px 10px;margin-top:8px">Based on your past orders and your plan. We never use claims or health records.</div></sc-if>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:10px">
+          <div class="tap" onClick="{{ goCompare }}" style="display:flex;gap:12px;align-items:center;background:#fff;border-radius:14px;padding:12px;box-shadow:0 1px 4px rgba(15,76,92,.08)"><span style="width:44px;height:44px;flex:none;border-radius:12px;background:#E5EEFA;display:grid;place-items:center;font-size:21px">🩺</span><div style="flex:1"><div style="font-size:14px;font-weight:700">Dermatology visit, online</div><div style="font-size:12px;color:#4B5D63">compare 3 options · from $39</div></div><span style="font-size:11px;font-weight:700;color:#1F7A63">✓ eligible</span></div>
+          <div class="tap" onClick="{{ goContacts }}" style="display:flex;gap:12px;align-items:center;background:#fff;border-radius:14px;padding:12px;box-shadow:0 1px 4px rgba(15,76,92,.08)"><span style="width:44px;height:44px;flex:none;border-radius:12px;background:#E4F3EF;display:grid;place-items:center;font-size:21px">👁</span><div style="flex:1"><div style="font-size:14px;font-weight:700">Contacts · 90-day refill</div><div style="font-size:12px;color:#4B5D63">your last order runs out in ~2 weeks</div></div><span style="font-size:11px;font-weight:700;color:#1F7A63">✓ eligible</span></div>
+        </div>
+        <div style="font-size:16px;font-weight:800;margin-top:20px">Shop by need</div>
+        <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px">
+          <sc-for list="{{ cats }}" as="c" hint-placeholder-count="6">
+            <div class="tap" onClick="{{ c.go }}" style="background:{{ c.bg }};border-radius:14px;padding:12px 10px;text-align:center"><div style="font-size:22px">{{ c.e }}</div><div style="font-size:12px;font-weight:700;margin-top:4px">{{ c.n }}</div></div>
+          </sc-for>
+        </div>
+        <div class="tap" onClick="{{ goOffer }}" style="border:1px solid #DCE3E1;border-radius:14px;padding:12px 14px;margin-top:14px;display:flex;gap:10px;align-items:center;background:#fff"><span style="font-size:20px">🕶</span><div style="flex:1"><div style="font-size:13px;font-weight:700">15% off prescription sunglasses</div><div style="font-size:11.5px;color:#4B5D63">from a Meadow partner</div></div><span style="font-size:10px;font-weight:800;color:#4B5D63;border:1px solid #C9D3D0;border-radius:6px;padding:2px 6px">PARTNER OFFER</span></div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isSearch }}" hint-placeholder-val="{{ false }}">
+      <div class="up" style="padding:8px 18px 20px">
+        <div style="display:flex;gap:10px;align-items:center;background:#fff;border:1.5px solid #0F4C5C;border-radius:12px;padding:9px 12px">
+          <span aria-hidden="true">🔍</span>
+          <input aria-label="Search products" value="{{ q }}" onChange="{{ qChange }}" placeholder="what do you need?" style="flex:1;min-width:0;border:none;outline:none;background:transparent;font-family:inherit;font-size:14px;color:#13232A">
+          <sc-if value="{{ hasQ }}" hint-placeholder-val="{{ false }}"><button class="tap" onClick="{{ clearQ }}" aria-label="Clear search" style="background:#E7EEEC;border:none;border-radius:50%;width:22px;height:22px;font-size:12px;color:#13232A">✕</button></sc-if>
+        </div>
+        <div style="display:flex;gap:6px;margin-top:10px;flex-wrap:wrap">
+          <sc-for list="{{ qChips }}" as="q" hint-placeholder-count="4"><button class="tap" onClick="{{ q.pick }}" style="border:none;background:{{ q.bg }};color:{{ q.c }};border-radius:999px;padding:6px 12px;font-size:12.5px;font-weight:700">{{ q.label }}</button></sc-for>
+        </div>
+        <div class="tap" onClick="{{ toggleElig }}" role="switch" aria-checked="{{ elig }}" style="display:flex;align-items:center;gap:10px;margin-top:14px;font-size:13px;font-weight:600"><span style="width:36px;height:22px;border-radius:999px;background:{{ eligTrack }};position:relative"><span style="position:absolute;top:3px;left:{{ eligKnob }};width:16px;height:16px;border-radius:50%;background:#fff;transition:left .2s"></span></span>HSA-eligible only<span style="margin-left:auto;font-size:12px;color:#4B5D63;font-weight:500">{{ resultCount }}</span></div>
+        <sc-if value="{{ noResults }}" hint-placeholder-val="{{ false }}"><div style="text-align:center;padding:30px 10px;color:#4B5D63;font-size:13.5px">Nothing matches yet · try <b>sunscreen</b>, <b>contacts</b>, <b>sleep</b> or <b>baby</b></div></sc-if>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px">
+          <sc-for list="{{ results }}" as="r" hint-placeholder-count="3">
+            <div class="tap" onClick="{{ r.open }}" style="display:flex;gap:12px;align-items:center;background:#fff;border-radius:14px;padding:12px;box-shadow:0 1px 4px rgba(15,76,92,.08)">
+              <span style="width:52px;height:52px;flex:none;border-radius:12px;background:{{ r.tile }};display:grid;place-items:center;font-size:24px">{{ r.e }}</span>
+              <div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:700">{{ r.n }}</div><div style="font-size:12px;color:#4B5D63">{{ r.meta }}</div><span style="display:inline-block;margin-top:5px;font-size:10.5px;font-weight:800;border-radius:6px;padding:2px 7px;background:{{ r.badgeBg }};color:{{ r.badgeC }}">{{ r.badge }}</span></div>
+              <div style="font-size:15px;font-weight:800">{{ r.price }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isPdp }}" hint-placeholder-val="{{ false }}">
+      <div class="up" style="padding:8px 18px 20px">
+        <button class="tap" onClick="{{ goBack }}" style="background:none;border:none;padding:0;font-size:13px;font-weight:700;color:#1F7A63">← {{ backLabel }}</button>
+        <div style="height:190px;border-radius:18px;background:{{ pTile }};display:grid;place-items:center;font-size:72px;margin-top:10px;position:relative">{{ pE }}<sc-if value="{{ pPromo }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;left:12px;top:12px;font-size:10.5px;font-weight:800;background:#fff;color:#13232A;border-radius:6px;padding:3px 7px">PARTNER OFFER · 15% OFF</span></sc-if></div>
+        <div style="font-size:21px;font-weight:800;margin-top:14px;line-height:1.2">{{ pName }}</div>
+        <div style="font-size:13px;color:#4B5D63;margin-top:2px">{{ pMeta }}</div>
+        <div style="display:flex;align-items:baseline;gap:8px;margin-top:8px"><span style="font-size:26px;font-weight:800">{{ pPrice }}</span><sc-if value="{{ pPromo }}" hint-placeholder-val="{{ false }}"><span style="font-size:14px;color:#4B5D63;text-decoration:line-through">{{ pWas }}</span></sc-if></div>
+        <div style="display:flex;gap:10px;background:{{ pEligBg }};border-radius:14px;padding:12px;margin-top:12px"><span style="font-size:16px">{{ pEligIcon }}</span><div style="flex:1"><div style="font-size:13.5px;font-weight:800;color:{{ pEligC }}">{{ pEligTitle }}</div><div style="font-size:12.5px;color:#2B3F45;margin-top:2px;line-height:1.45">{{ pEligBody }}</div>
+          <sc-if value="{{ pNeedsLmn }}" hint-placeholder-val="{{ false }}"><button class="tap" onClick="{{ uploadLmn }}" style="margin-top:10px;background:#fff;border:1.5px solid #7A5600;color:#7A5600;border-radius:10px;padding:8px 12px;font-weight:800;font-size:12.5px">📎 Upload doctor's note</button></sc-if>
+        </div></div>
+        <div style="display:flex;gap:10px;align-items:center;margin-top:14px;font-size:13px;color:#4B5D63"><span>🚚 Free 2-day shipping</span><span>·</span><span>↺ 30-day returns</span></div>
+        <div style="display:flex;gap:10px;margin-top:16px">
+          <div style="display:flex;align-items:center;border:1.5px solid #C9D3D0;border-radius:12px;background:#fff">
+            <button class="tap" onClick="{{ qtyDown }}" aria-label="Decrease quantity" style="background:none;border:none;width:40px;height:48px;font-size:18px;font-weight:700;color:#13232A">−</button>
+            <span style="min-width:20px;text-align:center;font-weight:800">{{ pQty }}</span>
+            <button class="tap" onClick="{{ qtyUp }}" aria-label="Increase quantity" style="background:none;border:none;width:40px;height:48px;font-size:18px;font-weight:700;color:#13232A">+</button>
+          </div>
+          <button class="tap" onClick="{{ addToCart }}" style="flex:1;background:#0F4C5C;color:#fff;border:none;border-radius:12px;padding:14px;font-weight:800;font-size:15px">{{ addLabel }}</button>
+        </div>
+        <sc-if value="{{ hasAddon }}" hint-placeholder-val="{{ false }}">
+          <div style="font-size:12px;font-weight:700;color:#4B5D63;margin-top:18px">OFTEN BOUGHT TOGETHER</div>
+          <div style="display:flex;gap:10px;align-items:center;background:#fff;border-radius:14px;padding:10px 12px;margin-top:8px"><span style="width:38px;height:38px;border-radius:10px;background:{{ aTile }};display:grid;place-items:center;font-size:18px">{{ aE }}</span><div style="flex:1;font-size:13px;font-weight:700">{{ aName }}<div style="font-size:11.5px;color:#4B5D63;font-weight:500">{{ aMeta }}</div></div><button class="tap" onClick="{{ addAddon }}" style="background:none;border:none;font-size:12.5px;font-weight:800;color:#1F7A63">{{ aBtn }}</button></div>
+        </sc-if>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isCompare }}" hint-placeholder-val="{{ false }}">
+      <div class="up" style="padding:8px 18px 20px">
+        <button class="tap" onClick="{{ goHome }}" style="background:none;border:none;padding:0;font-size:13px;font-weight:700;color:#1F7A63">← Home</button>
+        <div style="font-size:21px;font-weight:800;margin-top:8px">Dermatology, online</div>
+        <div style="font-size:13px;color:#4B5D63">3 Meadow partners · all HSA-eligible ✓</div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-top:14px">
+          <sc-for list="{{ visits }}" as="v" hint-placeholder-count="3">
+            <div class="tap" onClick="{{ v.pick }}" role="radio" aria-checked="{{ v.on }}" style="background:#fff;border-radius:14px;padding:14px;outline:{{ v.outline }};box-shadow:0 1px 4px rgba(15,76,92,.08)">
+              <div style="display:flex;align-items:center;gap:8px"><span style="font-size:15px;font-weight:800">{{ v.n }}</span><sc-if value="{{ v.best }}" hint-placeholder-val="{{ false }}"><span style="font-size:10px;font-weight:800;background:#DDF3EC;color:#1F6B57;border-radius:6px;padding:2px 6px">FASTEST</span></sc-if><span style="margin-left:auto;font-size:17px;font-weight:800">{{ v.price }}</span></div>
+              <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:10px">
+                <div style="background:#F3F6F5;border-radius:8px;padding:6px 8px"><div style="font-size:10px;color:#4B5D63;font-weight:700">WAIT</div><div style="font-size:12.5px;font-weight:700">{{ v.wait }}</div></div>
+                <div style="background:#F3F6F5;border-radius:8px;padding:6px 8px"><div style="font-size:10px;color:#4B5D63;font-weight:700">FORMAT</div><div style="font-size:12.5px;font-weight:700">{{ v.fmt }}</div></div>
+                <div style="background:#F3F6F5;border-radius:8px;padding:6px 8px"><div style="font-size:10px;color:#4B5D63;font-weight:700">RX</div><div style="font-size:12.5px;font-weight:700">{{ v.rx }}</div></div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <button class="tap" onClick="{{ bookVisit }}" style="width:100%;margin-top:16px;background:{{ visitBtnBg }};color:#fff;border:none;border-radius:12px;padding:15px;font-weight:800;font-size:15px">{{ visitBtn }}</button>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isCart }}" hint-placeholder-val="{{ false }}">
+      <div class="up" style="padding:8px 18px 20px">
+        <div style="display:flex;align-items:baseline"><span style="font-size:21px;font-weight:800">Cart</span><button class="tap" onClick="{{ keepShopping }}" style="margin-left:auto;background:none;border:none;padding:0;font-size:12.5px;font-weight:700;color:#1F7A63">Keep shopping</button></div>
+        <sc-if value="{{ cartEmpty }}" hint-placeholder-val="{{ false }}"><div style="text-align:center;padding:40px 10px;color:#4B5D63;font-size:14px">Your cart is empty.<div style="margin-top:12px"><button class="tap" onClick="{{ goSearch }}" style="background:#0F4C5C;color:#fff;border:none;border-radius:12px;padding:12px 18px;font-weight:800">Start shopping</button></div></div></sc-if>
+        <sc-if value="{{ cartHas }}" hint-placeholder-val="{{ true }}">
+          <div style="background:#fff;border-radius:14px;padding:6px 12px;margin-top:12px">
+            <sc-for list="{{ cartRows }}" as="c" hint-placeholder-count="1">
+              <div style="display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid #EEF2F1">
+                <span style="width:40px;height:40px;flex:none;border-radius:10px;background:{{ c.tile }};display:grid;place-items:center;font-size:18px">{{ c.e }}</span>
+                <div style="flex:1;min-width:0"><div style="font-size:13.5px;font-weight:700">{{ c.n }}</div><div style="font-size:11.5px;font-weight:700;color:{{ c.eligC }}">{{ c.eligLabel }}</div>
+                  <div style="display:flex;align-items:center;gap:10px;margin-top:6px"><button class="tap" onClick="{{ c.dec }}" aria-label="Decrease" style="width:26px;height:26px;border-radius:8px;border:1px solid #C9D3D0;background:#fff;font-weight:800">−</button><span style="font-size:13px;font-weight:800">{{ c.qty }}</span><button class="tap" onClick="{{ c.inc }}" aria-label="Increase" style="width:26px;height:26px;border-radius:8px;border:1px solid #C9D3D0;background:#fff;font-weight:800">+</button><button class="tap" onClick="{{ c.remove }}" style="background:none;border:none;font-size:12px;color:#4B5D63;text-decoration:underline">Remove</button></div>
+                </div>
+                <span style="font-weight:800;font-size:14px">{{ c.price }}</span>
+              </div>
+            </sc-for>
+          </div>
+          <div style="font-size:12px;font-weight:700;color:#4B5D63;margin-top:16px">PAY WITH</div>
+          <div style="display:flex;gap:12px;align-items:center;background:#fff;border:1.5px solid #0F4C5C;border-radius:14px;padding:12px;margin-top:8px"><span style="width:40px;height:28px;border-radius:6px;background:#0F4C5C;color:#9FE3CF;display:grid;place-items:center;font-size:10px;font-weight:800">HSA</span><div style="flex:1"><div style="font-size:13.5px;font-weight:700">Meadow HSA ·· 4821</div><div style="font-size:12px;color:#4B5D63">{{ balanceLabel }} available</div></div><span style="color:#1F7A63;font-weight:800">✓</span></div>
+          <sc-if value="{{ needsCard }}" hint-placeholder-val="{{ false }}"><div style="display:flex;gap:12px;align-items:center;background:#fff;border:1.5px solid #C9D3D0;border-radius:14px;padding:12px;margin-top:8px"><span style="width:40px;height:28px;border-radius:6px;background:#2B3F45;color:#fff;display:grid;place-items:center;font-size:10px;font-weight:800">VISA</span><div style="flex:1"><div style="font-size:13.5px;font-weight:700">Visa ·· 1102</div><div style="font-size:12px;color:#4B5D63">{{ cardReason }}</div></div></div></sc-if>
+          <div style="background:#EEF4F2;border-radius:12px;padding:10px 12px;margin-top:10px;font-size:12.5px;line-height:1.45">🧾 {{ payNote }}</div>
+          <div style="background:#fff;border-radius:14px;padding:12px 14px;margin-top:12px;font-size:13.5px">
+            <div style="display:flex"><span style="color:#4B5D63">Subtotal</span><span style="margin-left:auto">{{ cartTotal }}</span></div>
+            <div style="display:flex;margin-top:6px"><span style="color:#4B5D63">Shipping</span><span style="margin-left:auto">Free</span></div>
+            <div style="display:flex;margin-top:8px;padding-top:8px;border-top:1px solid #E4EAE8;font-weight:800"><span>Paid from HSA</span><span style="margin-left:auto">{{ hsaPayLabel }}</span></div>
+            <sc-if value="{{ needsCard }}" hint-placeholder-val="{{ false }}"><div style="display:flex;margin-top:4px;font-weight:800"><span>Paid by Visa</span><span style="margin-left:auto">{{ cardPayLabel }}</span></div></sc-if>
+            <div style="display:flex;margin-top:4px;font-size:12px;color:#4B5D63"><span>HSA left after this</span><span style="margin-left:auto">{{ afterLabel }}</span></div>
+          </div>
+          <button class="tap" onClick="{{ placeOrder }}" style="width:100%;margin-top:16px;background:#0F4C5C;color:#fff;border:none;border-radius:12px;padding:15px;font-weight:800;font-size:15px">Place order · {{ cartTotal }}</button>
+        </sc-if>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isDone }}" hint-placeholder-val="{{ false }}">
+      <div class="up" style="padding:24px 18px 20px">
+        <div style="width:64px;height:64px;border-radius:50%;background:#DDF3EC;display:grid;place-items:center;font-size:28px;color:#1F6B57">✓</div>
+        <div style="font-size:24px;font-weight:800;margin-top:12px">{{ doneTitle }}</div>
+        <div style="font-size:13.5px;color:#4B5D63;margin-top:4px;line-height:1.45">{{ doneSub }}</div>
+        <div style="background:#fff;border-radius:14px;padding:14px;margin-top:16px">
+          <sc-for list="{{ steps }}" as="st" hint-placeholder-count="3">
+            <div style="display:flex;gap:10px;align-items:center;padding:5px 0"><span style="width:18px;height:18px;border-radius:50%;background:{{ st.bg }};color:#fff;display:grid;place-items:center;font-size:10px;font-weight:800">{{ st.mark }}</span><span style="font-size:13.5px;font-weight:{{ st.w }}">{{ st.t }}</span></div>
+          </sc-for>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center;background:#EEF4F2;border-radius:14px;padding:12px;margin-top:10px"><span style="font-size:18px">🧾</span><div style="flex:1;font-size:13px"><b>Receipt saved to your vault</b><div style="font-size:12px;color:#4B5D63">ready if the IRS ever asks</div></div></div>
+        <div class="tap" onClick="{{ toggleRemind }}" role="switch" aria-checked="{{ remind }}" style="display:flex;gap:10px;align-items:center;background:#fff;border-radius:14px;padding:12px;margin-top:10px"><span style="font-size:18px">🔔</span><div style="flex:1;font-size:13px;font-weight:700">{{ remindLabel }}<div style="font-size:12px;color:#4B5D63;font-weight:500">we'll nudge you before you run out</div></div><span style="width:36px;height:22px;border-radius:999px;background:{{ remindTrack }};position:relative"><span style="position:absolute;top:3px;left:{{ remindKnob }};width:16px;height:16px;border-radius:50%;background:#fff;transition:left .2s"></span></span></div>
+        <div style="display:flex;gap:8px;margin-top:16px">
+          <button class="tap" onClick="{{ goVault }}" style="flex:1;background:transparent;border:1.5px solid #0F4C5C;color:#0F4C5C;border-radius:12px;padding:13px;font-weight:800;font-size:14px">See receipts</button>
+          <button class="tap" onClick="{{ goHome }}" style="flex:1;background:#0F4C5C;border:none;color:#fff;border-radius:12px;padding:13px;font-weight:800;font-size:14px">Back to shop</button>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isVault }}" hint-placeholder-val="{{ false }}">
+      <div class="up" style="padding:8px 18px 20px">
+        <div style="font-size:21px;font-weight:800">Receipts</div>
+        <div style="font-size:13px;color:#4B5D63">every HSA purchase, saved automatically · tap one for details</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px">
+          <div style="background:#0F4C5C;color:#fff;border-radius:14px;padding:12px"><div style="font-size:11px;opacity:.85">Spent tax-free in 2026</div><div style="font-size:20px;font-weight:800">{{ ytdLabel }}</div></div>
+          <div style="background:#fff;border-radius:14px;padding:12px"><div style="font-size:11px;color:#4B5D63">Receipts saved</div><div style="font-size:20px;font-weight:800">{{ receiptCount }}</div></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px">
+          <sc-for list="{{ receipts }}" as="r" hint-placeholder-count="4">
+            <div class="tap" onClick="{{ r.open }}" style="display:flex;gap:10px;align-items:center;background:#fff;border-radius:12px;padding:11px 12px;outline:{{ r.ring }}"><span style="font-size:18px">{{ r.e }}</span><div style="flex:1;font-size:13px;font-weight:700">{{ r.n }}<div style="font-size:11.5px;color:#4B5D63;font-weight:500">{{ r.d }}</div></div><span style="font-size:13px;font-weight:800">{{ r.price }}</span><span style="color:#4B5D63">›</span></div>
+          </sc-for>
+        </div>
+        <button class="tap" onClick="{{ doExport }}" style="width:100%;margin-top:14px;background:#0F4C5C;color:#fff;border:none;border-radius:12px;padding:14px;font-weight:800;font-size:14px">{{ exportLabel }}</button>
+      </div>
+    </sc-if>
+
+  </div>
+  <sc-if value="{{ showCartBar }}" hint-placeholder-val="{{ false }}">
+    <div style="padding:8px 14px;background:#F7F8F6"><button class="tap" onClick="{{ goCart }}" style="width:100%;display:flex;align-items:center;background:#13232A;color:#fff;border:none;border-radius:12px;padding:12px 14px;font-weight:800;font-size:14px"><span>View cart · {{ cartCount }}</span><span style="margin-left:auto">{{ cartTotal }}</span></button></div>
+  </sc-if>
+  <sc-if value="{{ hasReceipt }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;inset:0;background:rgba(19,35,42,.45);z-index:40;display:flex;align-items:flex-end">
+      <div role="dialog" aria-label="Receipt details" class="up" style="width:100%;background:#fff;border-radius:24px 24px 0 0;padding:18px 18px 24px">
+        <div style="width:36px;height:4px;border-radius:999px;background:#DCE3E1;margin:0 auto 14px"></div>
+        <div style="display:flex;gap:10px;align-items:center"><span style="font-size:24px">{{ rcE }}</span><div style="flex:1"><div style="font-size:16px;font-weight:800">{{ rcN }}</div><div style="font-size:12px;color:#4B5D63">{{ rcD }}</div></div><span style="font-size:17px;font-weight:800">{{ rcPrice }}</span></div>
+        <div style="margin-top:14px;font-size:13px">
+          <div style="display:flex;padding:8px 0;border-top:1px solid #EEF2F1"><span style="color:#4B5D63">Paid with</span><span style="margin-left:auto">Meadow HSA ·· 4821</span></div>
+          <div style="display:flex;padding:8px 0;border-top:1px solid #EEF2F1"><span style="color:#4B5D63">Eligibility</span><span style="margin-left:auto;color:#1F6B57;font-weight:700">✓ qualified medical expense</span></div>
+          <div style="display:flex;padding:8px 0;border-top:1px solid #EEF2F1"><span style="color:#4B5D63">Itemized receipt</span><span style="margin-left:auto">saved ✓</span></div>
+        </div>
+        <button class="tap" onClick="{{ closeReceipt }}" style="width:100%;margin-top:14px;background:#0F4C5C;color:#fff;border:none;border-radius:12px;padding:13px;font-weight:800;font-size:14px">Done</button>
+      </div>
+    </div>
+  </sc-if>
+  <div style="display:flex;justify-content:space-around;border-top:1px solid #E4EAE8;padding:10px 8px 16px;background:#fff">
+    <div class="tap" onClick="{{ goHome }}" style="text-align:center;color:{{ cShop }};min-width:64px;padding:2px 0"><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="display:block;margin:0 auto"><path d="M3.5 10.5 12 3.5l8.5 7"/><path d="M5.5 9v10.5h13V9"/><path d="M10 19.5v-5h4v5"/></svg><div style="font-size:11.5px;font-weight:800;margin-top:4px">Shop</div></div>
+    <div class="tap" onClick="{{ goSearch }}" style="text-align:center;color:{{ cSearch }};min-width:64px;padding:2px 0"><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="display:block;margin:0 auto"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.3-4.3"/></svg><div style="font-size:11.5px;font-weight:800;margin-top:4px">Search</div></div>
+    <div class="tap" onClick="{{ goVault }}" style="text-align:center;color:{{ cVault }};min-width:64px;padding:2px 0"><svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="display:block;margin:0 auto"><path d="M6 3.5h12v17l-2.5-1.6-2 1.6-1.5-1.2-1.5 1.2-2-1.6L6 20.5z"/><path d="M9 8.5h6M9 12h6M9 15.5h3.5"/></svg><div style="font-size:11.5px;font-weight:800;margin-top:4px">Receipts</div></div>
+  </div>
+</div>
+<sc-if value="{{ isStandalone }}" hint-placeholder-val="{{ true }}"><div style="font-size:13px;color:#4B5D63;max-width:340px;text-align:center">Try: search anything · add items · check out · open Receipts</div></sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":480,"height":940},"embed":{"editor":"boolean","default":false,"tsType":"boolean"},"autoplay":{"editor":"enum","default":"off","options":["off","buy","compare","receipts"],"tsType":"string"}}'>
+class Component extends DCLogic {
+  state = { screen: 'home', from: 'home', q: '', elig: true, prod: 'sun', cart: [], visit: '', orders: [], remind: true, exported: false, showWhy: false, showRecWhy: false, lmn: false, receipt: null, toast: '' };
+  go(screen) { this.setState({ screen, receipt: null }); }
+  flash(msg) { this.setState({ toast: msg }); clearTimeout(this._t); this._t = setTimeout(() => this.setState({ toast: '' }), 1800); }
+  phoneRef = (el) => { this._phone = el; };
+  takeOver = (e) => {
+    const trusted = e && (e.nativeEvent ? e.nativeEvent.isTrusted : e.isTrusted);
+    if (!trusted || !this._apFlow()) return;
+    this._apStop(); this._apUser = true; this.setState({ apLabel: '', apTapOn: false });
+  };
+  _apFlow() {
+    const F = {
+      buy: [
+        { wait: 1400, label: '① balance + eligibility, upfront' },
+        { find: 'Search sunscreen', label: '② search' },
+        { find: 'sunscreen', within: 'contacts', label: '③ one-tap suggestions' },
+        { find: 'Mineral sunscreen', label: '④ eligibility on every result' },
+        { wait: 1200, label: '⑤ why it qualifies, in plain words' },
+        { find: 'Add to cart', label: '⑥ add to cart' },
+        { find: 'View cart', label: '⑦ review the cart' },
+        { find: 'Place order', label: '⑧ paid from HSA, tax-free' },
+        { wait: 2600, label: '⑨ receipt saved automatically' },
+      ],
+      compare: [
+        { wait: 1400, label: '① personalized, and says why' },
+        { find: 'why these?', label: '② transparent recommendations' },
+        { find: 'Dermatology visit', label: '③ compare partners' },
+        { find: 'Same-day video', label: '④ wait, format, Rx side by side' },
+        { find: 'Book', within: 'Next-day', label: '⑤ book' },
+        { wait: 2600, label: '⑥ booked · paid from HSA' },
+      ],
+      receipts: [
+        { wait: 1400, label: '① post-purchase lives here' },
+        { find: 'Receipts', within: 'Search', label: '② open receipts' },
+        { wait: 1400, label: '③ every purchase, saved' },
+        { find: 'Daily contacts', label: '④ open a receipt' },
+        { find: 'Done', label: '⑤ IRS-ready details' },
+        { find: 'Export', label: '⑥ tax season in one tap' },
+        { wait: 2600, label: '⑦ trust long after checkout' },
+      ],
+    };
+    return F[this.props.autoplay] || null;
+  }
+  componentDidMount() {
+    if (!this._apFlow() || typeof IntersectionObserver === 'undefined') return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    this._apIO = new IntersectionObserver((es) => {
+      this._apVisible = es.some((x) => x.isIntersecting);
+      if (this._apVisible && !this._apOn && !this._apUser) this._apStart();
+      else if (!this._apVisible) { if (this._apOn) { this._apStop(); this.setState({ apTapOn: false }); } this._apUser = false; }
+    }, { threshold: 0.3 });
+    this._apObs = setTimeout(() => { if (this._phone) this._apIO.observe(this._phone); }, 60);
+  }
+  componentWillUnmount() { this._apStop(); clearTimeout(this._apObs); if (this._apIO) this._apIO.disconnect(); }
+  _apStart() { this._apOn = true; const tok = this._apTok = (this._apTok || 0) + 1; this._apRun(tok); }
+  _apStop() { this._apOn = false; this._apTok = (this._apTok || 0) + 1; }
+  _apSleep(ms) { return new Promise((r) => setTimeout(r, ms)); }
+  _apFind(text, within) {
+    const root = this._phone; if (!root) return null;
+    const vis = (el) => el.offsetParent !== null || el === root;
+    const short = (arr) => arr.reduce((a, b) => (b.textContent.length < a.textContent.length ? b : a));
+    let scope = root;
+    if (within) {
+      const boxes = [...root.querySelectorAll('div')].filter((d) => vis(d) && d.textContent.includes(within) && d.textContent.includes(text));
+      if (boxes.length) scope = short(boxes);
+    }
+    const hits = [...scope.querySelectorAll('button, .tap')].filter((el) => vis(el) && el.textContent.includes(text));
+    return hits.length ? short(hits) : null;
+  }
+  _apScroll(el) {
+    let sc = el && el.parentElement;
+    while (sc && sc !== this._phone) { const oy = getComputedStyle(sc).overflowY; if ((oy === 'auto' || oy === 'scroll') && sc.scrollHeight > sc.clientHeight + 2) break; sc = sc.parentElement; }
+    if (!sc || sc === this._phone) return;
+    const er = el.getBoundingClientRect(), sr = sc.getBoundingClientRect(); const k = sr.height / (sc.offsetHeight || 1) || 1;
+    sc.scrollTo({ top: Math.max(0, sc.scrollTop + (er.top + er.height / 2 - (sr.top + sr.height * 0.45)) / k), behavior: 'smooth' });
+  }
+  _apTopAll() { if (this._phone) this._phone.querySelectorAll('div').forEach((d) => { if (d.scrollTop) d.scrollTop = 0; }); }
+  _apTap(el) {
+    const ph = this._phone; const pr = ph.getBoundingClientRect(); const k = pr.width / (ph.offsetWidth || 1) || 1; const r = el.getBoundingClientRect();
+    this.setState({ apTapOn: false }, () => this.setState({ apTapOn: true, apTapX: ((r.left + r.width / 2 - pr.left) / k - 6) + 'px', apTapY: ((r.top + r.height / 2 - pr.top) / k - 6) + 'px' }));
+  }
+  async _apRun(tok) {
+    const flow = this._apFlow(); const live = () => tok === this._apTok;
+    while (live()) {
+      this.setState({ ...{ screen: 'home', from: 'home', q: '', elig: true, prod: 'sun', cart: [], visit: '', orders: [], remind: true, exported: false, showWhy: false, showRecWhy: false, lmn: false, receipt: null, toast: '' }, apTapOn: false });
+      await this._apSleep(60); this._apTopAll();
+      for (const st of flow) {
+        if (!live()) return;
+        this.setState({ apLabel: st.label });
+        if (st.find) {
+          await this._apSleep(750); if (!live()) return;
+          const el = this._apFind(st.find, st.within);
+          if (el) {
+            this._apScroll(el); await this._apSleep(420); if (!live()) return;
+            this._apTap(el); await this._apSleep(470); if (!live()) return;
+            const before = this.state.screen; el.click();
+            await this._apSleep(450); if (!live()) return;
+            if (this.state.screen !== before) this._apTopAll();
+            this.setState({ apTapOn: false });
+          }
+        }
+        await this._apSleep(st.wait || 900);
+      }
+    }
+  }
+  renderVals() {
+    const s = this.state;
+    const TEAL = '#0F4C5C', GREEN = '#1F7A63', MUTE = '#5E6E73';
+    const BAL = 1240.18;
+    const money = (n) => '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const P = {
+      sun: { e: '🧴', n: 'Mineral sunscreen SPF 50', meta: 'broad spectrum · 3 oz · ★ 4.7', price: 24, tile: '#FFF1DC', tags: 'sunscreen spf sun skin', elig: 'yes', addon: 'lip' },
+      sun2: { e: '☀️', n: 'Daily face SPF 30 lotion', meta: 'broad spectrum · 1.7 oz · ★ 4.5', price: 18, tile: '#FFF6E5', tags: 'sunscreen spf sun skin face', elig: 'yes', addon: 'lip' },
+      lip: { e: '💋', n: 'Lip balm SPF 30', meta: '2-pack · ★ 4.6', price: 8, tile: '#FFF1DC', tags: 'sunscreen spf lip skin', elig: 'yes' },
+      tan: { e: '🏖', n: 'Self-tanning lotion', meta: 'cosmetic · 6 oz', price: 22, tile: '#F6EDE6', tags: 'sunscreen tan skin', elig: 'no' },
+      con: { e: '👁', n: 'Daily contacts · 90 pack', meta: 'your prescription on file', price: 78, tile: '#E4F3EF', tags: 'contacts vision eye lenses', elig: 'yes', addon: 'sol' },
+      sol: { e: '💧', n: 'Contact solution 2-pack', meta: '12 oz each · ★ 4.6', price: 16, tile: '#E5EEFA', tags: 'contacts vision eye solution', elig: 'yes' },
+      shades: { e: '🕶', n: 'Prescription sunglasses', meta: 'partner · your Rx on file', price: 127.5, was: 150, tile: '#E9EEF2', tags: 'vision sunglasses glasses eye', elig: 'yes', promo: true },
+      kit: { e: '🩹', n: 'First aid kit, 120 pc', meta: 'home + travel · ★ 4.8', price: 29, tile: '#FCE7E4', tags: 'first aid bandage kit', elig: 'yes' },
+      vit: { e: '💊', n: 'Daily multivitamin', meta: '90 tablets', price: 21, tile: '#EFE8F3', tags: 'vitamin supplement first aid', elig: 'lmn' },
+      sleep: { e: '🌙', n: 'Sleep aid tablets', meta: 'OTC · 32 ct · ★ 4.4', price: 12, tile: '#ECEAF6', tags: 'sleep insomnia', elig: 'yes' },
+      mask: { e: '😴', n: 'Silk sleep mask', meta: 'lifestyle · one size', price: 19, tile: '#F1EFF7', tags: 'sleep mask', elig: 'no' },
+      thermo: { e: '🌡', n: 'Kids’ digital thermometer', meta: 'fast read · ★ 4.8', price: 15, tile: '#F4EFE4', tags: 'baby kids family thermometer', elig: 'yes' },
+      bsun: { e: '👶', n: 'Baby mineral sunscreen', meta: 'SPF 50 · 3 oz', price: 14, tile: '#F4EFE4', tags: 'baby kids family sunscreen spf', elig: 'yes' },
+      period: { e: '🌸', n: 'Period care kit', meta: 'pads + liners · 60 ct', price: 17, tile: '#FBE9EE', tags: 'period menstrual family', elig: 'yes' },
+    };
+    const eligOf = (k) => (P[k].elig === 'lmn' ? (s.lmn ? 'yes' : 'lmn') : P[k].elig);
+    const BADGE = { yes: ['✓ HSA-eligible', '#DDF3EC', '#1F6B57'], lmn: ['ⓘ Needs doctor’s note', '#FFF3D6', '#7A5600'], no: ['Not eligible', '#EEF0EF', '#4B5D63'] };
+    const ELIG = {
+      yes: ['✓', 'HSA-eligible · tax-free', 'This qualifies as a medical expense. Pay with your HSA card and we save the receipt.', '#EEF7F3', '#1F6B57'],
+      lmn: ['ⓘ', 'Eligible with a doctor’s note', 'Vitamins qualify only with a Letter of Medical Necessity. Upload one to pay with HSA funds.', '#FFF8E6', '#7A5600'],
+      no: ['–', 'Not HSA-eligible', 'Cosmetic and lifestyle products don’t qualify. You can still buy it; it’ll go on your other card.', '#F1F3F2', '#4B5D63'],
+    };
+    const p = P[s.prod] || P.sun; const pElig = eligOf(s.prod in P ? s.prod : 'sun'); const pe = ELIG[pElig];
+    const pQty = s.pQty || 1;
+    const q = (s.q || '').trim().toLowerCase();
+    const res = q ? Object.keys(P).filter((k) => (P[k].n.toLowerCase().includes(q) || P[k].tags.split(' ').some((t) => t.startsWith(q) || q.includes(t))) && (!s.elig || eligOf(k) !== 'no')) : [];
+    const VISITS = [
+      { k: 'video', n: 'Same-day video', price: 79, wait: '~2 hrs', fmt: 'video', rx: 'yes', best: true },
+      { k: 'next', n: 'Next-day video', price: 59, wait: 'tomorrow', fmt: 'video', rx: 'yes' },
+      { k: 'photo', n: 'Photo review', price: 39, wait: '24 hrs', fmt: 'async', rx: 'if needed' },
+    ];
+    const spent = s.orders.reduce((a, o) => a + o.hsa, 0);
+    const bal = BAL - spent;
+    const lines = s.cart.map((c) => ({ ...c, item: P[c.k], el: eligOf(c.k), sub: P[c.k].price * c.qty }));
+    const total = lines.reduce((a, l) => a + l.sub, 0);
+    const eligTotal = lines.filter((l) => l.el === 'yes').reduce((a, l) => a + l.sub, 0);
+    const hsaPay = Math.min(eligTotal, bal);
+    const cardPay = total - hsaPay;
+    const count = s.cart.reduce((a, c) => a + c.qty, 0);
+    const setQty = (k, d) => this.setState((st) => ({ cart: st.cart.map((c) => (c.k === k ? { ...c, qty: c.qty + d } : c)).filter((c) => c.qty > 0) }));
+    const addItem = (k, n) => this.setState((st) => { const ex = st.cart.find((c) => c.k === k); return { cart: ex ? st.cart.map((c) => (c.k === k ? { ...c, qty: c.qty + n } : c)) : [...st.cart, { k, qty: n }] }; });
+    const SEED = [
+      { id: 's1', e: '👁', n: 'Daily contacts · 90 pack', d: 'Aug 14 · paid from HSA', amt: 78 },
+      { id: 's2', e: '🩹', n: 'First aid kit, 120 pc', d: 'Jun 2 · paid from HSA', amt: 29 },
+      { id: 's3', e: '🩺', n: 'Telehealth visit', d: 'Mar 19 · paid from HSA', amt: 59 },
+    ];
+    const recs = s.orders.filter((o) => o.hsa > 0).slice().reverse().map((o) => ({ id: o.id, e: o.e, n: o.n, d: 'Today · paid from HSA · new', amt: o.hsa, fresh: true })).concat(SEED);
+    const rc = s.receipt ? recs.find((r) => r.id === s.receipt) : null;
+    const last = s.orders[s.orders.length - 1];
+    const fromLabel = { home: 'Home', search: 'Results', cart: 'Cart' };
+    const shopScreens = ['home', 'compare', 'pdp', 'cart', 'done'];
+    return {
+      isStandalone: !this.props.embed, stageClass: this.props.embed ? '' : 'md-stage', stagePad: this.props.embed ? '0' : '24px 0',
+      phoneRef: this.phoneRef, takeOver: this.takeOver,
+      apTapOn: !!s.apTapOn, apTapX: s.apTapX || '0px', apTapY: s.apTapY || '0px', apShowChip: !!s.apLabel, apLabel: s.apLabel || '',
+      hasToast: !!s.toast && !s.apLabel, toast: s.toast,
+      isHome: s.screen === 'home', isSearch: s.screen === 'search', isPdp: s.screen === 'pdp', isCompare: s.screen === 'compare', isCart: s.screen === 'cart', isDone: s.screen === 'done', isVault: s.screen === 'vault',
+      goHome: () => this.go('home'), goSearch: () => this.go('search'), goVault: () => this.go('vault'), goCart: () => this.go('cart'),
+      goCompare: () => this.setState({ screen: 'compare', visit: '' }),
+      goContacts: () => this.setState({ screen: 'pdp', prod: 'con', from: 'home', pQty: 1 }),
+      goOffer: () => this.setState({ screen: 'pdp', prod: 'shades', from: 'home', pQty: 1 }),
+      showWhy: s.showWhy, toggleWhy: () => this.setState({ showWhy: !s.showWhy }),
+      showRecWhy: s.showRecWhy, toggleRecWhy: () => this.setState({ showRecWhy: !s.showRecWhy }),
+      balanceLabel: money(bal),
+      cats: [{ e: '🧴', n: 'Skin & sun', bg: '#FFF1DC', q: 'sunscreen' }, { e: '👁', n: 'Vision', bg: '#E4F3EF', q: 'vision' }, { e: '🩹', n: 'First aid', bg: '#FCE7E4', q: 'first aid' }, { e: '🩺', n: 'Telehealth', bg: '#E5EEFA', q: 'tele' }, { e: '🌙', n: 'Sleep', bg: '#ECEAF6', q: 'sleep' }, { e: '👶', n: 'Family', bg: '#F4EFE4', q: 'family' }]
+        .map((c) => ({ ...c, go: () => (c.q === 'tele' ? this.setState({ screen: 'compare', visit: '' }) : this.setState({ screen: 'search', q: c.q })) })),
+      q: s.q, hasQ: !!s.q, qChange: (e) => this.setState({ q: e.target.value }), clearQ: () => this.setState({ q: '' }),
+      qChips: ['sunscreen', 'contacts', 'first aid', 'sleep', 'baby'].map((x) => ({ label: x, bg: q === x ? TEAL : '#E7EEEC', c: q === x ? '#fff' : '#13232A', pick: () => this.setState({ q: x }) })),
+      elig: s.elig, eligTrack: s.elig ? GREEN : '#C9D3D0', eligKnob: s.elig ? '17px' : '3px', toggleElig: () => this.setState({ elig: !s.elig }),
+      resultCount: q ? res.length + ' result' + (res.length === 1 ? '' : 's') : 'type or pick a search',
+      noResults: !!q && res.length === 0,
+      results: res.map((k) => { const x = P[k]; const b = BADGE[eligOf(k)]; return { e: x.e, n: x.n, meta: x.meta, tile: x.tile, price: money(x.price), badge: b[0], badgeBg: b[1], badgeC: b[2], open: () => this.setState({ screen: 'pdp', prod: k, from: 'search', pQty: 1 }) }; }),
+      goBack: () => this.go(s.from || 'home'), backLabel: fromLabel[s.from] || 'Back',
+      pE: p.e, pName: p.n, pMeta: p.meta, pPrice: money(p.price), pTile: p.tile, pPromo: !!p.promo, pWas: p.was ? money(p.was) : '',
+      pEligIcon: pe[0], pEligTitle: s.prod === 'vit' && s.lmn ? 'Eligible · doctor’s note on file' : pe[1], pEligBody: s.prod === 'vit' && s.lmn ? 'Your Letter of Medical Necessity is saved for 12 months. Pay with HSA funds.' : (s.prod === 'sun' || s.prod === 'sun2' || s.prod === 'bsun' ? 'Broad-spectrum sunscreen SPF 15+ qualifies as a medical expense. Pay with your HSA card and we save the receipt.' : pe[2]), pEligBg: pe[3], pEligC: pe[4],
+      pNeedsLmn: s.prod === 'vit' && !s.lmn, uploadLmn: () => { this.setState({ lmn: true }); this.flash('Doctor’s note uploaded ✓'); },
+      pQty, qtyDown: () => this.setState({ pQty: Math.max(1, pQty - 1) }), qtyUp: () => this.setState({ pQty: Math.min(9, pQty + 1) }),
+      addLabel: 'Add to cart · ' + money(p.price * pQty),
+      addToCart: () => { addItem(s.prod, pQty); this.flash('Added to cart ✓'); },
+      hasAddon: !!p.addon, aE: p.addon ? P[p.addon].e : '', aName: p.addon ? P[p.addon].n : '', aTile: p.addon ? P[p.addon].tile : '',
+      aMeta: p.addon ? money(P[p.addon].price) + ' · ✓ eligible' : '',
+      aBtn: p.addon && s.cart.find((c) => c.k === p.addon) ? '✓ Added' : '+ Add',
+      addAddon: () => { if (p.addon && !s.cart.find((c) => c.k === p.addon)) { addItem(p.addon, 1); this.flash('Added to cart ✓'); } },
+      visits: VISITS.map((v) => ({ ...v, on: s.visit === v.k, price: '$' + v.price, outline: s.visit === v.k ? '2px solid ' + TEAL : '1px solid transparent', pick: () => this.setState({ visit: v.k }) })),
+      visitBtn: s.visit ? 'Book ' + VISITS.find((v) => v.k === s.visit).n.toLowerCase() + ' · $' + VISITS.find((v) => v.k === s.visit).price : 'Pick an option',
+      visitBtnBg: s.visit ? TEAL : 'rgba(15,76,92,.35)',
+      bookVisit: () => { const v = VISITS.find((x) => x.k === s.visit); if (!v) return; const hsa = Math.min(v.price, bal); this.setState((st) => ({ orders: [...st.orders, { id: 'o' + (st.orders.length + 1), e: '🩺', n: 'Dermatology · ' + v.n.toLowerCase(), total: v.price, hsa, card: v.price - hsa, kind: 'visit' }], screen: 'done' })); },
+      cartEmpty: s.cart.length === 0, cartHas: s.cart.length > 0, cartCount: count + (count === 1 ? ' item' : ' items'),
+      keepShopping: () => this.go('search'),
+      cartRows: lines.map((l) => ({ e: l.item.e, n: l.item.n, tile: l.item.tile, qty: l.qty, price: money(l.sub),
+        eligLabel: BADGE[l.el][0] + (l.el !== 'yes' ? ' · paid by card' : ''), eligC: l.el === 'yes' ? GREEN : '#7A5600',
+        inc: () => setQty(l.k, 1), dec: () => setQty(l.k, -1), remove: () => setQty(l.k, -l.qty) })),
+      cartTotal: money(total), hsaPayLabel: money(hsaPay), cardPayLabel: money(cardPay), afterLabel: money(bal - hsaPay),
+      needsCard: cardPay > 0.004,
+      cardReason: eligTotal > bal ? 'covers what your HSA balance can’t' : 'for items that aren’t HSA-eligible',
+      payNote: cardPay > 0.004 ? 'We split it for you: eligible items come out of your HSA tax-free, the rest goes on your card. Only the HSA part needs a receipt, and we save it.' : 'Everything here is eligible, so it’s paid tax-free and your receipt is saved automatically.',
+      placeOrder: () => { if (!s.cart.length) return; const first = lines[0].item; const n = lines.length > 1 ? first.n + ' + ' + (lines.length - 1) + ' more' : first.n + (lines[0].qty > 1 ? ' × ' + lines[0].qty : ''); this.setState((st) => ({ orders: [...st.orders, { id: 'o' + (st.orders.length + 1), e: first.e, n, total, hsa: hsaPay, card: cardPay, kind: 'item' }], cart: [], screen: 'done' })); },
+      showCartBar: s.cart.length > 0 && ['home', 'search', 'pdp'].includes(s.screen),
+      doneTitle: last && last.kind === 'visit' ? 'Visit booked' : 'Order placed',
+      doneSub: last ? last.n + ' · ' + money(last.hsa) + ' paid from HSA' + (last.card > 0.004 ? ' · ' + money(last.card) + ' on Visa' : '') : '',
+      steps: (last && last.kind === 'visit' ? ['Booked · today', 'Video link sent to your email', 'Visit in ~2 hours'] : ['Ordered · today', 'Ships tomorrow', 'Arrives Thursday']).map((t, i) => ({ t, mark: i === 0 ? '✓' : '', bg: i === 0 ? GREEN : '#C9D3D0', w: i === 0 ? 800 : 500 })),
+      remind: s.remind, remindLabel: last && last.kind === 'visit' ? 'Follow-up reminder in 6 weeks' : 'Reorder reminder in ~60 days',
+      remindTrack: s.remind ? GREEN : '#C9D3D0', remindKnob: s.remind ? '17px' : '3px', toggleRemind: () => this.setState({ remind: !s.remind }),
+      ytdLabel: money(166 + spent), receiptCount: String(recs.length),
+      receipts: recs.map((r) => ({ e: r.e, n: r.n, d: r.d, price: money(r.amt), ring: r.fresh ? '1.5px solid #9FD9C6' : '1px solid transparent', open: () => this.setState({ receipt: r.id }) })),
+      hasReceipt: !!rc, rcE: rc ? rc.e : '', rcN: rc ? rc.n : '', rcD: rc ? rc.d : '', rcPrice: rc ? money(rc.amt) : '', closeReceipt: () => this.setState({ receipt: null }),
+      exportLabel: s.exported ? '✓ Exported · check your email' : 'Export for tax time',
+      doExport: () => { this.setState({ exported: true }); this.flash('Tax export sent to your email ✓'); },
+      cShop: shopScreens.includes(s.screen) ? TEAL : MUTE, cSearch: s.screen === 'search' ? TEAL : MUTE, cVault: s.screen === 'vault' ? TEAL : MUTE,
+    };
+  }
+}
+</script>
+</body>
+</html>

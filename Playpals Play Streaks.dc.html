@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Playpals Play Streaks prototype</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@500;600;700;800&display=swap');
+body{margin:0}
+.pp{font-family:'Nunito',system-ui,sans-serif;color:#1B1D3A}
+.pp-stage{background:#DCE4FF;min-height:100vh;box-sizing:border-box}
+.pp button{font-family:inherit;cursor:pointer;color:inherit}
+.pp .fr{font-family:'Fredoka',sans-serif}
+.pp .tap{transition:transform .12s ease}
+.pp .tap:active{transform:scale(.95)}
+@keyframes ppUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.pp .up{animation:ppUp .4s cubic-bezier(.2,.7,.3,1) both}
+@keyframes ppPop{0%{transform:scale(0) rotate(-20deg)}60%{transform:scale(1.25) rotate(8deg)}100%{transform:scale(1) rotate(0)}}
+.pp .pop{animation:ppPop .55s cubic-bezier(.2,.7,.3,1.2) both}
+@keyframes ppShake{0%,100%{transform:rotate(0)}20%{transform:rotate(-10deg)}40%{transform:rotate(9deg)}60%{transform:rotate(-7deg)}80%{transform:rotate(5deg)}}
+@keyframes ppShake2{0%,100%{transform:rotate(0)}20%{transform:rotate(10deg)}40%{transform:rotate(-9deg)}60%{transform:rotate(7deg)}80%{transform:rotate(-5deg)}}
+@keyframes ppBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes ppFall{0%{transform:translateY(-20px) rotate(0);opacity:1}100%{transform:translateY(560px) rotate(600deg);opacity:0}}
+@keyframes ppRays{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+</style>
+</helmet>
+<div class="pp {{ stageClass }}" style="display:flex;justify-content:center;padding:{{ stagePad }}">
+<div style="position:relative;width:375px;height:812px;background:#F5F7FF;border:6px solid #1B1D3A;border-radius:46px;overflow:hidden;display:flex;flex-direction:column">
+  <div style="height:44px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 26px;font-size:13px;font-weight:800"><span>9:41</span><span style="font-size:11px">●●● ▮</span></div>
+  <div style="flex:1;overflow-y:auto;padding:4px 18px 24px">
+    <div style="display:flex;align-items:center"><div><div style="font-size:12px;font-weight:700;color:#6E6C8A">Play Streaks</div><div class="fr" style="font-size:26px;font-weight:600;color:#1F2ED0;line-height:1.1">Marey's week</div></div>
+      <div class="tap" style="margin-left:auto;background:#FFF4CC;border-radius:999px;padding:8px 14px;display:flex;align-items:center;gap:6px"><span style="font-size:18px;display:inline-block;animation:ppBounce 1.2s ease-in-out infinite">🔥</span><span class="fr" style="font-size:18px;font-weight:700;color:#B26B00">{{ streak }}</span><span style="font-size:11px;font-weight:700;color:#B26B00">days</span></div>
+    </div>
+
+    <div style="display:flex;gap:6px;margin-top:14px">
+      <sc-for list="{{ week }}" as="d" hint-placeholder-count="7"><div style="flex:1;text-align:center"><div style="height:40px;border-radius:12px;background:{{ d.bg }};border:2px solid {{ d.border }};display:grid;place-items:center;font-size:18px">{{ d.icon }}</div><div style="font-size:10.5px;font-weight:800;margin-top:4px;color:{{ d.c }}">{{ d.label }}</div></div></sc-for>
+    </div>
+
+    <sc-if value="{{ notLogged }}" hint-placeholder-val="{{ true }}">
+      <div class="up" style="margin-top:16px;background:#1F2ED0;color:#fff;border-radius:22px;padding:18px 16px 16px">
+        <div class="fr" style="font-size:20px;font-weight:600">What did you play today?</div>
+        <div style="font-size:12.5px;opacity:.85;margin-top:2px">Even 10 minutes counts. Tap one to earn a sticker.</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px">
+          <sc-for list="{{ acts }}" as="a" hint-placeholder-count="6"><button class="tap" onClick="{{ a.pick }}" style="border:none;background:#fff;color:#1B1D3A;border-radius:16px;padding:12px 4px 10px"><div style="font-size:26px">{{ a.icon }}</div><div style="font-size:11.5px;font-weight:800;margin-top:4px">{{ a.label }}</div></button></sc-for>
+        </div>
+      </div>
+    </sc-if>
+    <sc-if value="{{ justLogged }}" hint-placeholder-val="{{ false }}">
+      <div class="up" style="margin-top:16px;background:#FFF4CC;border-radius:22px;padding:18px 16px;display:flex;gap:14px;align-items:center">
+        <div class="pop" style="width:64px;height:64px;flex:none;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:34px;box-shadow:0 4px 0 #F2C94C">{{ newSticker }}</div>
+        <div><div class="fr" style="font-size:19px;font-weight:600;color:#1B1D3A">Sticker earned!</div><div style="font-size:12.5px;color:#6E6C8A;margin-top:2px">{{ loggedMsg }}</div></div>
+      </div>
+    </sc-if>
+
+    <div style="margin-top:18px;background:#fff;border-radius:22px;padding:16px;box-shadow:0 2px 0 #E1E6FA">
+      <div style="display:flex;align-items:baseline"><div class="fr" style="font-size:17px;font-weight:600">Sticker book</div><div style="margin-left:auto;font-size:12px;font-weight:800;color:#6E6C8A">{{ stickerCount }} / 12</div></div>
+      <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin-top:12px">
+        <sc-for list="{{ book }}" as="b" hint-placeholder-count="12"><div style="aspect-ratio:1;border-radius:12px;background:{{ b.bg }};border:2px dashed {{ b.border }};display:grid;place-items:center;font-size:20px;transform:rotate({{ b.rot }})">{{ b.icon }}</div></sc-for>
+      </div>
+    </div>
+
+    <div style="margin-top:14px;background:#fff;border-radius:22px;padding:16px;box-shadow:0 2px 0 #E1E6FA">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="width:46px;height:46px;border-radius:14px;background:#CFF4EC;display:grid;place-items:center;font-size:22px">📦</div>
+        <div style="flex:1"><div class="fr" style="font-size:16px;font-weight:600">November Playpack</div><div style="font-size:12px;color:#6E6C8A">{{ packMsg }}</div></div>
+      </div>
+      <div style="display:flex;gap:5px;margin-top:12px"><sc-for list="{{ pack }}" as="p" hint-placeholder-count="6"><div style="flex:1;height:10px;border-radius:5px;background:{{ p.bg }};transition:background .4s"></div></sc-for></div>
+      <sc-if value="{{ boxReady }}" hint-placeholder-val="{{ false }}"><button class="tap up" onClick="{{ openBoxSheet }}" style="width:100%;margin-top:14px;border:none;background:#FFC724;color:#1B1D3A;border-radius:999px;padding:14px;font-weight:800;font-size:14px;box-shadow:0 4px 0 #D9A400">🎁 Open your mystery toy</button></sc-if>
+    </div>
+    <button onClick="{{ reset }}" style="display:block;margin:18px auto 0;background:none;border:none;font-size:11.5px;color:#8A8AA8;text-decoration:underline">Reset demo</button>
+  </div>
+
+  <div style="height:70px;flex:none;border-top:1px solid #E1E6FA;background:#fff;display:flex;justify-content:space-around;align-items:center;padding-bottom:10px">
+    <span style="font-size:11px;font-weight:800;color:#8A8AA8;text-align:center">🏠<br>Home</span><span style="font-size:11px;font-weight:800;color:#1F2ED0;text-align:center">🔥<br>Streaks</span><span style="font-size:11px;font-weight:800;color:#8A8AA8;text-align:center">📦<br>Playpack</span><span style="font-size:11px;font-weight:800;color:#8A8AA8;text-align:center">💬<br>Ask</span>
+  </div>
+
+  <sc-if value="{{ boxOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;inset:0;background:rgba(15,20,90,.95);z-index:30;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;padding:24px;text-align:center">
+      <sc-if value="{{ boxClosed }}" hint-placeholder-val="{{ true }}">
+        <div class="fr" style="font-size:24px;font-weight:600">Six sessions this month!</div>
+        <div style="font-size:13px;opacity:.8;margin-top:4px">Tap the box {{ tapsLeft }} more times</div>
+        <button class="tap" onClick="{{ tapBox }}" aria-label="Tap the mystery box" style="margin-top:30px;background:none;border:none;font-size:120px;line-height:1;animation:{{ shakeAnim }}">🎁</button>
+      </sc-if>
+      <sc-if value="{{ boxRevealed }}" hint-placeholder-val="{{ false }}">
+        <div style="position:relative;width:220px;height:220px;display:grid;place-items:center">
+          <div style="position:absolute;inset:-30px;border-radius:50%;background:repeating-conic-gradient(rgba(255,199,36,.35) 0 12deg,transparent 12deg 30deg);animation:ppRays 8s linear infinite"></div>
+          <div class="pop" style="position:relative;width:150px;height:150px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:80px">🌈</div>
+        </div>
+        <div style="background:#FFC724;color:#1B1D3A;border-radius:999px;padding:4px 12px;font-size:11px;font-weight:800;margin-top:22px">RARE FIND</div>
+        <div class="fr" style="font-size:24px;font-weight:600;margin-top:10px">Wooden Rainbow Stacker</div>
+        <div style="font-size:13px;opacity:.85;margin-top:6px;max-width:260px">Arrives in your December Playpack. Great for colour sorting at Marey's age.</div>
+        <button class="tap" onClick="{{ closeBox }}" style="margin-top:22px;border:none;background:#fff;color:#1F2ED0;border-radius:999px;padding:14px 28px;font-weight:800;font-size:14px">Yay! Back to streaks</button>
+      </sc-if>
+    </div>
+  </sc-if>
+  <sc-if value="{{ hasBurst }}" hint-placeholder-val="{{ false }}"><div aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;z-index:40;overflow:hidden"><sc-for list="{{ confetti }}" as="cf" hint-placeholder-count="24"><span style="position:absolute;left:{{ cf.x }};top:-20px;font-size:{{ cf.size }};animation:ppFall {{ cf.d }} cubic-bezier(.3,.6,.4,1) {{ cf.delay }} both">{{ cf.icon }}</span></sc-for></div></sc-if>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":420,"height":860},"embed":{"editor":"boolean","default":false,"tsType":"boolean"}}'>
+class Component extends DCLogic {
+  state = this._init();
+  _init() { return { streak: 4, logged: '', stickers: ['🧱', '📚', '🌳', '🎨', '🎵', '🎭', '🧱'], pack: 5, box: '', taps: 0, burst: 0 }; }
+  componentWillUnmount() { clearTimeout(this._b); }
+  _burst() { this.setState({ burst: this.state.burst + 1 }); clearTimeout(this._b); this._b = setTimeout(() => this.setState({ burst: 0 }), 1900); }
+  renderVals() {
+    const s = this.state;
+    const ACTS = [['🧱', 'Building'], ['🎭', 'Pretend'], ['🌳', 'Outside'], ['📚', 'Reading'], ['🎵', 'Music'], ['🎨', 'Art']];
+    const DAYS = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+    const past = ['🌳', '📚', '🎨', '🧱'];
+    const today = 4;
+    const confetti = s.burst ? Array.from({ length: 24 }, (_, i) => ({ x: ((i * 41 + s.burst * 17) % 96) + '%', size: (16 + (i % 3) * 6) + 'px', icon: ['⭐', '🎉', '💛', '✨', '🎈', '💙'][i % 6], d: (1.3 + (i % 4) * 0.15) + 's', delay: (i % 6) * 0.05 + 's' })) : [];
+    return {
+      stageClass: this.props.embed ? '' : 'pp-stage', stagePad: this.props.embed ? '0' : '24px 0',
+      streak: String(s.streak),
+      week: DAYS.map((d, i) => { const done = i < today || (i === today && s.logged); const now = i === today; return { label: d, icon: i < today ? past[i] : (now && s.logged ? s.logged : ''), bg: done ? '#FFF4CC' : now ? '#fff' : '#EEF1FC', border: now ? '#1F2ED0' : 'transparent', c: now ? '#1F2ED0' : '#8A8AA8' }; }),
+      notLogged: !s.logged, justLogged: !!s.logged, newSticker: s.logged,
+      loggedMsg: s.streak + '-day streak! ' + (s.pack >= 6 ? 'Your mystery toy is ready.' : 'See you tomorrow.'),
+      acts: ACTS.map(([icon, label]) => ({ icon, label, pick: () => { this.setState({ logged: icon, streak: s.streak + 1, stickers: [...s.stickers, icon].slice(0, 12), pack: Math.min(6, s.pack + 1) }); this._burst(); } })),
+      stickerCount: String(s.stickers.length),
+      book: Array.from({ length: 12 }, (_, i) => { const st = s.stickers[i]; return { icon: st || '', bg: st ? '#FFF4CC' : '#F5F7FF', border: st ? 'transparent' : '#D6DCF5', rot: st ? ((i * 7) % 15 - 7) + 'deg' : '0deg' }; }),
+      pack: Array.from({ length: 6 }, (_, i) => ({ bg: i < s.pack ? '#1F2ED0' : '#E1E6FA' })),
+      packMsg: s.pack >= 6 ? (s.box === 'done' ? 'Mystery toy unlocked ✓' : '6 of 6 sessions · mystery toy unlocked!') : s.pack + ' of 6 play sessions · 1 more unlocks a mystery toy',
+      boxReady: s.pack >= 6 && s.box !== 'done',
+      openBoxSheet: () => this.setState({ box: 'closed', taps: 0 }),
+      boxOpen: s.box === 'closed' || s.box === 'open', boxClosed: s.box === 'closed', boxRevealed: s.box === 'open',
+      tapsLeft: String(3 - s.taps), shakeAnim: s.taps ? (s.taps % 2 ? 'ppShake' : 'ppShake2') + ' .5s ease' : 'ppBounce 1.2s ease-in-out infinite',
+      tapBox: () => { const t = s.taps + 1; if (t >= 3) { this.setState({ box: 'open', taps: t }); this._burst(); } else this.setState({ taps: t }); },
+      closeBox: () => this.setState({ box: 'done' }),
+      reset: () => this.setState(this._init()),
+      hasBurst: !!s.burst, confetti,
+    };
+  }
+}
+</script>
+</body>
+</html>

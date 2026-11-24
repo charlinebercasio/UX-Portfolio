@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Case study · Sleepmaxx</title>
+<script src="vendor/react.production.min.js"></script>
+<script src="vendor/react-dom.production.min.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap');
+body{margin:0;background:#fff}
+.cs{font-family:'Instrument Sans',sans-serif;color:#191b1f;max-width:1180px;margin:0 auto;background:#fff}
+.cs h1,.cs h2,.cs h3{font-family:'Instrument Sans',sans-serif;letter-spacing:-.02em;margin:0}
+.cs .sec{padding:56px 40px 0}
+.cs .eyebrow{font-size:12.5px;font-weight:600;color:#1a63e8;letter-spacing:.02em}
+.cs .muted{color:#5f6368}
+.cs .card{border:1px solid #e8eaed;border-radius:16px;background:#fff}
+.cs .fill{background:#FFF6D6;border:1px dashed #C9961A;border-radius:6px;padding:0 6px;color:#6b4e00;white-space:nowrap}
+.cs .pvp{width:271px;height:577px;flex:none;overflow:hidden;border-radius:31px}
+.cs .pvp>div{transform:scale(.7);transform-origin:top left;width:387px;height:824px}
+.cs{--acc:#5b3fd1}
+.cs .ch{padding:88px 40px 0}
+.cs .ch.band{background:#F7F8F8;margin-top:88px;padding:80px 40px 88px}
+.cs .ch.band + .ch{padding-top:80px}
+.cs .chl{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--acc)}
+.cs .chn{color:var(--acc);border:1px solid var(--acc);border-radius:999px;padding:2px 9px;font-size:12px;letter-spacing:0}
+.cs .cht{font-size:40px;line-height:1.12;font-weight:600;margin-top:14px;max-width:860px;letter-spacing:-.025em}
+.cs .lead{font-size:18px;line-height:1.6;color:#3c4043;max-width:720px;margin:16px 0 0}
+.cs .h3{font-size:20px;font-weight:600;letter-spacing:-.01em;margin:0}
+.cs .p{font-size:14.5px;line-height:1.6;color:#5f6368;margin:6px 0 0}
+.cs .k{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#191b1f}
+.cs .ul{margin:14px 0 0;padding-left:18px;font-size:15px;line-height:1.65;color:#3c4043}
+.cs .ul li{margin-bottom:8px}
+.cs .cols2{display:grid;grid-template-columns:1fr 1fr;gap:56px}
+.cs .cols3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:40px}
+.cs .cols3>div{border-top:2px solid #191b1f;padding-top:14px}
+.cs .hmw{margin-top:48px;border-left:4px solid var(--acc);padding:4px 0 4px 24px}
+.cs .hmwl{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--acc)}
+.cs .hmwt{font-size:24px;line-height:1.35;font-weight:500;margin-top:8px;max-width:820px}
+.cs .ins{display:grid;grid-template-columns:1fr 1fr;gap:0 56px;margin-top:8px}
+.cs .in{display:flex;gap:18px;padding:22px 0;border-top:1px solid #dadce0}
+.cs .inn{font-size:28px;font-weight:600;color:var(--acc);line-height:1;width:24px;flex:none}
+.cs .int{font-size:18px;font-weight:600;line-height:1.3}
+.cs .note{font-size:12.5px;color:#5f6368;margin:28px 0 0}
+.cs .pc{background:#fff;border:1px solid #e8eaed;border-radius:16px;padding:28px}
+.cs .av{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:18px;flex:none}
+.cs .pn{font-size:20px;font-weight:600}
+.cs .q{margin:20px 0 0;font-size:20px;line-height:1.4;font-style:italic;color:#191b1f}
+.cs .dec{margin-top:36px}
+.cs .d{display:grid;grid-template-columns:96px 1fr;gap:24px;padding:32px 0;border-top:1px solid #dadce0}
+.cs .dn{font-size:44px;font-weight:600;color:var(--acc);line-height:1;letter-spacing:-.03em}
+.cs .dt{font-size:22px;font-weight:600;letter-spacing:-.015em;margin:0}
+.cs .dp{font-size:16px;line-height:1.6;color:#3c4043;margin:8px 0 0;max-width:720px}
+.cs .dx{font-size:14px;line-height:1.55;color:#5f6368;margin-top:12px;max-width:720px}
+.cs .dx span{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#191b1f;margin-right:8px}
+.cs .tbl{margin-top:32px;border-top:2px solid #191b1f}
+.cs .tr{display:grid;grid-template-columns:1fr 1.3fr 1.3fr;gap:24px;padding:18px 0;border-bottom:1px solid #dadce0;font-size:15px;line-height:1.5;color:#3c4043}
+.cs .tr.th{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#191b1f;padding:12px 0}
+.cs .mets{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:32px;margin-top:32px}
+.cs .mets>div{border-top:2px solid var(--acc);padding-top:14px}
+.cs .mv{font-size:19px;font-weight:600}
+.cs .pull{margin:64px 0 0;font-size:28px;line-height:1.4;font-weight:500;letter-spacing:-.015em;max-width:900px;color:#191b1f}
+.cs nav a{color:#3c4043;text-decoration:none;padding:4px 10px}
+.cs nav a:hover{color:var(--acc)}
+.cs .wflow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:16px}
+.cs .wfs{border:1.5px solid #5f6368;border-radius:6px;padding:9px 14px;font-size:14px;font-weight:600;background:#fff}
+.cs .wfa{color:#9aa0a6;font-size:18px}
+.cs .wbranch{display:flex;gap:18px;flex-wrap:wrap;align-items:center;margin-top:14px;font-size:13.5px;color:#3c4043}
+.cs .wdia{display:inline-block;border:1.5px dashed #5f6368;border-radius:6px;padding:6px 12px;font-weight:600;background:#f8f9fa}
+.cs .wgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px;margin-top:20px}
+.cs .wfph{border:2px solid #5f6368;border-radius:22px;padding:28px 14px 18px;height:330px;box-sizing:border-box;background:#fff;position:relative}
+.cs .wbox{border:1px solid #bdc1c6;border-radius:4px;background:#fff;position:relative}
+.cs .wrow{display:flex;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid #e8eaed;position:relative}
+.cs .wimg{width:30px;height:30px;border-radius:4px;background:#e8eaed;flex:none;background-image:linear-gradient(45deg,transparent 47%,#bdc1c6 47%,#bdc1c6 53%,transparent 53%)}
+.cs .wimgL{height:80px;border-radius:6px;background:#e8eaed;background-image:linear-gradient(45deg,transparent 49%,#bdc1c6 49%,#bdc1c6 51%,transparent 51%),linear-gradient(-45deg,transparent 49%,#bdc1c6 49%,#bdc1c6 51%,transparent 51%)}
+.cs .wchip{display:inline-block;border:1px solid #9aa0a6;border-radius:999px;height:12px;width:34px;margin:6px 4px 0 0}
+.cs .wm{position:absolute;right:-10px;top:-8px;width:18px;height:18px;border-radius:50%;background:var(--acc);color:#fff;font-size:10px;font-weight:700;display:grid;place-items:center;z-index:2}
+.cs .wft{font-size:16px;font-weight:600;margin-top:14px}
+.cs .wfl{list-style:none;padding:0;margin:8px 0 0}
+.cs .wfl li{display:flex;gap:8px;font-size:13.5px;line-height:1.5;color:#3c4043;margin-top:6px}
+.cs .wn{width:18px;height:18px;flex:none;border-radius:50%;background:var(--acc);color:#fff;font-size:10px;font-weight:700;display:grid;place-items:center;margin-top:2px}
+.cs .wdrop{display:flex;gap:16px;padding:20px;border:1.5px dashed #bdc1c6;border-radius:14px}
+.cs .wx{width:28px;height:28px;flex:none;border-radius:50%;background:#f1f3f4;color:#5f6368;display:grid;place-items:center;font-weight:700}
+
+</style>
+</helmet>
+<div class="cs">
+  <div style="display:flex;align-items:center;padding:20px 40px;border-bottom:1px solid #e8eaed">
+    <div style="display:flex;align-items:center;gap:10px"><span style="width:26px;height:26px;border-radius:8px;background:#1a63e8;display:grid;place-items:center;color:#fff;font-weight:700;font-size:13px">cb</span><span style="font-size:15px;font-weight:600;white-space:nowrap">Charline Bercasio</span></div>
+    <div style="margin-left:auto;display:flex;gap:26px;font-size:13.5px;font-weight:500;color:#5f6368;align-items:center"><a href="index.html#work" style="color:#1a63e8;text-decoration:none">Work</a><a href="about.html" style="color:inherit;text-decoration:none">About</a><a href="resume.html" style="color:inherit;text-decoration:none">Resume</a><a href="contact.html" style="background:#1a63e8;color:#fff;border-radius:999px;padding:8px 18px;font-weight:600;text-decoration:none">Get in touch</a></div>
+  </div>
+
+  <div style="padding:48px 40px 0">
+    <a href="index.html#work" style="display:inline-block;font-size:13px;font-weight:600;color:#5f6368;text-decoration:none">← All work</a>
+    <div style="display:flex;gap:8px;margin-top:20px"><span style="background:#ede7fe;color:#5b3fd1;border-radius:6px;padding:3px 10px;font-size:11.5px;font-weight:600">Healthtech · behavior change</span><span style="background:#f1f3f4;color:#5f6368;border-radius:6px;padding:3px 10px;font-size:11.5px;font-weight:600">Concept · iOS</span><span style="background:#fce8e8;color:#c5221f;border-radius:6px;padding:3px 10px;font-size:11.5px;font-weight:600">Live prototype</span></div>
+    <h1 style="font-size:50px;line-height:1.1;margin-top:16px;font-weight:600;max-width:940px">Sleepmaxx: an AI sleep coach that works with your chaos, not against it.</h1>
+    <p class="muted" style="font-size:16px;line-height:1.6;max-width:700px;margin:18px 0 0">Most sleep apps assume you control your schedule. Students and shift workers don't. Sleepmaxx reads tomorrow's first commitment and tonight's reality, then coaches the best sleep possible inside it · warm, a little funny, never preachy.</p>
+    <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin-top:32px;border-block:1px solid #e8eaed">
+      <div style="padding:16px 16px 16px 0"><div style="font-size:11px;font-weight:600;color:#5f6368;letter-spacing:.04em">ROLE</div><div style="font-size:14px;margin-top:4px">Research, UX, UI, prototype</div></div>
+      <div style="padding:16px;border-left:1px solid #e8eaed"><div style="font-size:11px;font-weight:600;color:#5f6368;letter-spacing:.04em">TYPE</div><div style="font-size:14px;margin-top:4px">Concept project</div></div>
+      <div style="padding:16px;border-left:1px solid #e8eaed"><div style="font-size:11px;font-weight:600;color:#5f6368;letter-spacing:.04em">TIMELINE</div><div style="font-size:14px;margin-top:4px"><span class="fill">✎ e.g. 3 weeks</span></div></div>
+      <div style="padding:16px;border-left:1px solid #e8eaed"><div style="font-size:11px;font-weight:600;color:#5f6368;letter-spacing:.04em">TOOLS</div><div style="font-size:14px;margin-top:4px">Figma · AI-assisted prototyping</div></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="eyebrow">THE PROTOTYPE</div>
+    <h2 style="font-size:30px;font-weight:600;margin-top:8px">Tonight, the coach, and the week</h2>
+    <p class="muted" style="font-size:14.5px;margin:8px 0 0">The real working prototype · each phone loops one flow · tap any phone to take over.</p>
+    <div style="display:flex;gap:36px;justify-content:center;align-items:flex-start;margin-top:26px">
+      <div style="display:flex;flex-direction:column;gap:10px;width:271px">
+        <div class="pvp"><div><dc-import name="Sleepmaxx Prototype" autoplay="tonight" embed="{{ true }}" hint-size="387px,824px"></dc-import></div></div>
+        <span style="align-self:flex-start;background:#ede7fe;color:#5b3fd1;border-radius:6px;padding:3px 10px;font-size:11px;font-weight:700">01 · tonight</span>
+        <div style="font-size:16.5px;font-weight:600">A plan that bends to real life</div>
+        <p class="muted" style="font-size:12.5px;line-height:1.5;margin:0">One honest question (closing shift?) recalculates the window around tomorrow's 8am, then a 3-step wind-down.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;width:271px">
+        <div class="pvp"><div><dc-import name="Sleepmaxx Prototype" autoplay="coach" embed="{{ true }}" hint-size="387px,824px"></dc-import></div></div>
+        <span style="align-self:flex-start;background:#e8f0fe;color:#1a63e8;border-radius:6px;padding:3px 10px;font-size:11px;font-weight:700">02 · coach</span>
+        <div style="font-size:16.5px;font-weight:600">Math, not a lecture</div>
+        <p class="muted" style="font-size:12.5px;line-height:1.5;margin:0">Quick-reply chips for the real moments · a rough night out gets a recovery plan, not a red streak.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;width:271px">
+        <div class="pvp"><div><dc-import name="Sleepmaxx Prototype" autoplay="week" embed="{{ true }}" hint-size="387px,824px"></dc-import></div></div>
+        <span style="align-self:flex-start;background:#fef7e0;color:#a56a00;border-radius:6px;padding:3px 10px;font-size:11px;font-weight:700">03 · week</span>
+        <div style="font-size:16.5px;font-weight:600">Sleep debt, honest not scary</div>
+        <p class="muted" style="font-size:12.5px;line-height:1.5;margin:0">Short nights show in warm amber, never red · exam week mode spreads recovery across the whole week.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div style="display:grid;grid-template-columns:1fr 271px;gap:40px;align-items:center;background:#f6f4fe;border-radius:20px;padding:36px 40px">
+      <div>
+        <div class="eyebrow" style="color:#5b3fd1">NEW FEATURE · BRAIN DUMP</div>
+        <h2 style="font-size:30px;font-weight:600;margin-top:8px">Get it out of your head, then sleep</h2>
+        <p class="muted" style="font-size:14.5px;line-height:1.6;margin:10px 0 0;max-width:500px">Racing thoughts are a common reason people can't fall asleep even when the plan is perfect. The Journal tab, also linked from wind-down, gives them somewhere to go.</p>
+        <div style="display:flex;flex-direction:column;gap:12px;margin-top:18px;font-size:14px;line-height:1.5">
+          <div><b>Prompts, not a blank page.</b> <span class="muted">"Tomorrow I need to…", "on my mind…", "one good thing" get a tired brain started in one tap.</span></div>
+          <div><b>Park it, don't solve it.</b> <span class="muted">One tap sorts the dump into tomorrow's to-dos (with a reminder after the alarm), parked thoughts, and a good thing to end on.</span></div>
+          <div><b>Shows it's working.</b> <span class="muted">Past dumps sit next to how fast you fell asleep, so the habit proves itself.</span></div>
+        </div>
+        <p class="muted" style="font-size:12.5px;line-height:1.5;margin:16px 0 0">Grounded in sleep research: a 2018 Baylor University study found that writing a specific to-do list before bed helped people fall asleep faster than writing about tasks already done.</p>
+      </div>
+      <div class="pvp"><div><dc-import name="Sleepmaxx Prototype" autoplay="journal" embed="{{ true }}" hint-size="387px,824px"></dc-import></div></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div style="display:grid;grid-template-columns:1fr 330px;gap:40px;align-items:center;background:#f6f4fe;border-radius:20px;padding:36px 40px">
+      <div>
+        <div class="eyebrow" style="color:#5b3fd1">TRY IT YOURSELF</div>
+        <h2 style="font-size:30px;font-weight:600;margin-top:8px">Plan a real night, start to finish</h2>
+        <ol style="font-size:14px;line-height:1.9;margin:14px 0 0;padding-left:20px">
+          <li>On <b>Tonight</b>, answer the closing-shift question and watch the plan change</li>
+          <li>Start <b>wind-down</b> and check off steps · try the brain dump link</li>
+          <li>In <b>Coach</b>, tap a quick reply or type a question · try “nap” or “coffee”</li>
+          <li>In <b>Journal</b>, use the prompts or write your own, then park it</li>
+          <li>In <b>Week</b>, turn on exam week mode</li>
+        </ol>
+      </div>
+      <div style="width:330px;height:702px;overflow:hidden;border-radius:38px"><div style="transform:scale(.853);transform-origin:top left;width:387px;height:824px"><dc-import name="Sleepmaxx Prototype" embed="{{ true }}" hint-size="387px,824px"></dc-import></div></div>
+    </div>
+  </div>
+
+  <nav aria-label="Case study sections" style="margin:56px 40px 0;display:flex;gap:6px;flex-wrap:wrap;padding:14px 0;border-block:1px solid #e8eaed;font-size:13px">
+    <a href="#s-problem">01 Problem</a>
+    <a href="#s-research">02 Research</a>
+    <a href="#s-people">03 People</a>
+    <a href="#s-wire">04 Wireframes</a>
+    <a href="#s-decisions">05 Decisions</a>
+    <a href="#s-tone">06 Tone</a>
+    <a href="#s-outcomes">07 Outcomes</a>
+  </nav>
+
+  <section id="s-problem" class="ch">
+    <div class="chl"><span class="chn">01</span>The problem</div>
+    <h2 class="cht">Sleep advice assumes control most young people don’t have.</h2>
+    <p class="lead">Students and shift workers know the rules. Their schedules just don’t let them follow them, and most apps punish them for it.</p>
+<div class="cols2" style="margin-top:36px"><div><h3 class="h3">What exists</h3><ul class="ul"><li>“Go to bed at 10, wake at 6”: one fixed schedule</li><li>Trackers that score last night after the fact</li><li>Streaks and red bars that make a bad night feel like failure</li><li>Reminders that ignore a closing shift or an 8am</li></ul></div><div><h3 class="h3">What users actually live</h3><ul class="ul"><li>Shifts that end at 1am, classes that start at 8</li><li>Nights out that are worth it, and a morning that still happens</li><li>Exam weeks where every night is short</li><li>Apps deleted after the first guilt trip</li></ul></div></div><div class="hmw"><div class="hmwl">How might we</div><div class="hmwt">…coach the best possible sleep inside the schedule someone actually has, so a chaotic night becomes a plan instead of a failure?</div></div>
+  </section>
+  <section id="s-research" class="ch band">
+    <div class="chl"><span class="chn">02</span>Research</div>
+    <h2 class="cht">The screen after a bad night decides whether the app survives.</h2>
+    <p class="lead">A survey, follow-up interviews and an audit of how sleep and habit apps handle missed nights.</p>
+<div class="cols3" style="margin-top:36px"><div><div class="k">Survey</div><p class="p">75 students and shift workers: schedule shape, sleep apps tried, why they stopped.</p></div><div><div class="k">Interviews</div><p class="p">15 follow-ups walking through their last rough week, night by night.</p></div><div><div class="k">App audit</div><p class="p">Onboarding and “missed night” states in popular sleep and habit apps: where tone turns into guilt.</p></div></div>
+    <h3 class="h3" style="margin-top:52px">What we learned</h3>
+    <div class="ins"><div class="in"><span class="inn">1</span><div><div class="int">They know the rules, they can’t apply them</div><p class="p">The gap is applying sleep hygiene to a schedule they don’t control.</p></div></div><div class="in"><span class="inn">2</span><div><div class="int">Tomorrow’s first thing sets tonight</div><p class="p">The time of tomorrow’s first commitment is the real anchor, not a fixed bedtime.</p></div></div><div class="in"><span class="inn">3</span><div><div class="int">Shame is the churn moment</div><p class="p">Guilt after a bad night is when people delete the app.</p></div></div><div class="in"><span class="inn">4</span><div><div class="int">Think in weeks, not nights</div><p class="p">One short night is recoverable; planning recovery across the week turns stress into strategy.</p></div></div></div>
+  </section>
+  <section id="s-people" class="ch">
+    <div class="chl"><span class="chn">03</span>People</div>
+    <h2 class="cht">The closer and the overcommitted.</h2>
+    
+<div class="cols2" style="margin-top:36px"><div class="pc"><div style="display:flex;gap:14px;align-items:center"><span class="av" style="background:#ede7fe">S</span><div><div class="pn">Sam, 21 · “The Closer”</div><div class="p" style="margin:0">student + server · off at 12:30am twice a week</div></div></div><blockquote class="q">"I’m not skipping sleep. I’m at work."</blockquote><div class="k" style="margin-top:18px">Needs</div><p class="p">A plan that bends around late shifts, and a way to wind down fast.</p></div><div class="pc"><div style="display:flex;gap:14px;align-items:center"><span class="av" style="background:#fef7e0">P</span><div><div class="pn">Priya, 20 · “The Overcommitted”</div><div class="p" style="margin:0">8ams, practice, a social life</div></div></div><blockquote class="q">"Just tell me how to survive tomorrow."</blockquote><div class="k" style="margin-top:18px">Needs</div><p class="p">Say yes to the night out without wrecking the week.</p></div></div>
+  </section>
+  <section id="s-wire" class="ch band">
+    <div class="chl"><span class="chn">04</span>Wireframes</div>
+    <h2 class="cht">Structure before style.</h2>
+    <p class="lead">Grayscale, low-fidelity frames to settle what goes where and why, before the night palette and the coach’s voice.</p>
+    <h3 class="h3" style="margin-top:44px">The core flow</h3>
+    <div class="wflow"><div class="wfs">Evening check-in</div><span class="wfa">→</span><div class="wfs">Closing shift?</div><span class="wfa">→</span><div class="wfs">Sleep window</div><span class="wfa">→</span><div class="wfs">Wind-down</div><span class="wfa">→</span><div class="wfs">Goodnight</div><span class="wfa">→</span><div class="wfs">Morning</div></div>
+    <div class="wbranch"><span class="wdia">Racing thoughts?</span><span>→ Brain dump → parked for 7:30 → back to wind-down</span></div>
+    <div class="wbranch"><span class="wdia">Short night?</span><span>→ coach plans a nap and spreads recovery across the week</span></div>
+    <h3 class="h3" style="margin-top:52px">Key screens, annotated</h3>
+    <div class="wgrid"><div class="wfc"><div class="wfph"><div style="width:55%;height:12px;background:#5f6368;border-radius:3px;margin-top:0px"></div><div class="wbox" style="height:24px;margin-top:10px;display:flex;align-items:center;padding:0 6px;gap:6px"><span style="width:10px;height:10px;background:#bdc1c6;border-radius:2px"></span><div style="width:60%;height:5px;background:#dadce0;border-radius:3px;margin-top:0px"></div><span class="wm" style="">1</span></div>
+<div class="wbox" style="height:38px;margin-top:6px;padding:6px"><div style="width:70%;height:5px;background:#dadce0;border-radius:3px;margin-top:0px"></div><div style="display:flex;gap:4px;margin-top:6px"><div style="flex:1;height:12px;border:1px solid #5f6368;border-radius:3px"></div><div style="flex:1;height:12px;background:#5f6368;border-radius:3px"></div></div><span class="wm" style="">2</span></div>
+<div class="wbox" style="height:110px;margin-top:8px;text-align:center;padding-top:10px"><div style="width:30px;height:30px;border-radius:50%;border:1.5px solid #5f6368;margin:0 auto"></div><div style="width:60%;height:12px;background:#5f6368;border-radius:3px;margin:8px auto 0;margin-top:8px"></div><div style="width:40%;height:5px;background:#dadce0;border-radius:3px;margin:6px auto 0;margin-top:6px"></div><span class="wm" style="">3</span></div>
+<div style="height:20px;border-radius:10px;background:#5f6368;margin-top:8px"></div></div><div class="wft">Tonight</div><ol class="wfl"><li><span class="wn">1</span>Tomorrow’s first commitment, pulled from the calendar</li><li><span class="wn">2</span>One honest question instead of a setup wizard</li><li><span class="wn">3</span>The sleep window and wake time are the hero</li></ol></div><div class="wfc"><div class="wfph"><div style="width:50%;height:12px;background:#5f6368;border-radius:3px;margin-top:0px"></div><div style="width:100%;height:5px;background:#9aa0a6;border-radius:3px;margin-top:10px"></div><div style="position:relative"><div class="wrow"><span style="width:14px;height:14px;border:1px solid #5f6368;border-radius:50%"></span><div style="flex:1"><div style="width:60%;height:6px;background:#dadce0;border-radius:3px;margin-top:0px"></div><div style="width:40%;height:4px;background:#dadce0;border-radius:3px;margin-top:4px"></div></div></div><div class="wrow"><span style="width:14px;height:14px;border:1px solid #5f6368;border-radius:50%"></span><div style="flex:1"><div style="width:60%;height:6px;background:#dadce0;border-radius:3px;margin-top:0px"></div><div style="width:40%;height:4px;background:#dadce0;border-radius:3px;margin-top:4px"></div></div></div><div class="wrow"><span style="width:14px;height:14px;border:1px solid #5f6368;border-radius:50%"></span><div style="flex:1"><div style="width:60%;height:6px;background:#dadce0;border-radius:3px;margin-top:0px"></div><div style="width:40%;height:4px;background:#dadce0;border-radius:3px;margin-top:4px"></div></div></div><span class="wm" style="">1</span></div>
+<div class="wbox" style="height:24px;margin-top:8px;border-style:dashed"><span class="wm" style="">2</span></div>
+<div style="height:20px;border-radius:10px;background:#5f6368;margin-top:10px;position:relative"><span class="wm" style="">3</span></div></div><div class="wft">Wind-down</div><ol class="wfl"><li><span class="wn">1</span>Three small, checkable steps</li><li><span class="wn">2</span>An escape hatch for racing thoughts</li><li><span class="wn">3</span>Goodnight unlocks at 2 of 3, not perfection</li></ol></div><div class="wfc"><div class="wfph"><div style="display:flex;gap:6px;align-items:center"><span style="width:18px;height:18px;border-radius:50%;background:#bdc1c6"></span><div style="width:35%;height:8px;background:#5f6368;border-radius:3px;margin-top:0px"></div></div>
+<div style="position:relative"><div style="width:75%;height:30px;border:1px solid #bdc1c6;border-radius:8px 8px 8px 2px;margin-top:12px"></div><span class="wm" style="">1</span></div>
+<div style="width:55%;height:20px;background:#9aa0a6;border-radius:8px 8px 2px 8px;margin:8px 0 0 auto"></div>
+<div style="width:80%;height:40px;border:1px solid #bdc1c6;border-radius:8px 8px 8px 2px;margin-top:8px"></div>
+<div style="position:relative;margin-top:10px"><span class="wchip" style="width:54px"></span><span class="wchip" style="width:44px"></span><span class="wchip" style="width:50px"></span><span class="wm" style="top:2px">2</span></div>
+<div class="wbox" style="height:20px;border-radius:10px;margin-top:12px"><span class="wm" style="">3</span></div></div><div class="wft">Coach</div><ol class="wfl"><li><span class="wn">1</span>Opens with tomorrow’s context</li><li><span class="wn">2</span>Quick replies for the real moments</li><li><span class="wn">3</span>Free text for everything else</li></ol></div><div class="wfc"><div class="wfph"><div style="width:50%;height:12px;background:#5f6368;border-radius:3px;margin-top:0px"></div><div class="wbox" style="height:66px;margin-top:10px;padding:6px"><div style="width:80%;height:4px;background:#dadce0;border-radius:3px;margin-top:0px"></div><div style="width:65%;height:4px;background:#dadce0;border-radius:3px;margin-top:5px"></div><div style="margin-top:8px"><span class="wchip" style="width:40px;height:10px"></span><span class="wchip" style="width:34px;height:10px"></span><span class="wchip" style="width:30px;height:10px"></span></div><span class="wm" style="">1</span></div>
+<div style="height:20px;border-radius:10px;background:#5f6368;margin-top:8px;position:relative"><span class="wm" style="">2</span></div>
+<div style="position:relative;margin-top:12px"><div class="wrow" style="padding:6px 0"><div style="width:40%;height:5px;background:#dadce0;border-radius:3px;margin-top:0px"></div><div style="margin-left:auto;width:30%"><div style="width:100%;height:5px;background:#bdc1c6;border-radius:3px;margin-top:0px"></div></div></div><div class="wrow" style="padding:6px 0"><div style="width:40%;height:5px;background:#dadce0;border-radius:3px;margin-top:0px"></div><div style="margin-left:auto;width:30%"><div style="width:100%;height:5px;background:#bdc1c6;border-radius:3px;margin-top:0px"></div></div></div><span class="wm" style="">3</span></div></div><div class="wft">Brain dump</div><ol class="wfl"><li><span class="wn">1</span>Prompts instead of a blank page</li><li><span class="wn">2</span>“Park it” sorts the dump automatically</li><li><span class="wn">3</span>Past dumps tied to how fast you fell asleep</li></ol></div></div>
+    <h3 class="h3" style="margin-top:52px">Explored and dropped</h3>
+    <div class="cols2" style="margin-top:14px;gap:32px"><div class="wdrop"><div class="wx">✕</div><div><div class="int">A sleep score after the fact</div><p class="p">Scoring last night judges something the user can’t change. Every screen points at tonight or the week ahead instead.</p></div></div><div class="wdrop"><div class="wx">✕</div><div><div class="int">Streaks</div><p class="p">One closing shift breaks the streak, and the habit goes with it. Weekly recovery replaces streaks entirely.</p></div></div></div>
+  </section>
+  <section id="s-decisions" class="ch">
+    <div class="chl"><span class="chn">05</span>Key decisions</div>
+    <h2 class="cht">Five choices that shaped the coach.</h2>
+    
+<div class="dec"><div class="d"><div class="dn">01</div><div><h3 class="dt">Anchor to tomorrow, not a bedtime</h3><p class="dp">The calendar’s first commitment drives the window, wake time and wind-down; the plan is rebuilt every evening.</p><div class="dx"><span>Trade-off</span>calendar access is a big ask, so it’s optional; a single “first thing tomorrow” time works too.</div></div></div><div class="d"><div class="dn">02</div><div><h3 class="dt">One honest question beats a setup wizard</h3><p class="dp">“Working a closing shift tonight?” instantly rewrites the window and the coach’s note.</p><div class="dx"><span>Why it matters</span>value on night one, with no tracking history needed.</div></div></div><div class="d"><div class="dn">03</div><div><h3 class="dt">A coach voice with rules</h3><p class="dp">Acknowledge, do the math, give one or two moves, end warm. No “you should have.”</p><div class="dx"><span>Guardrail</span>not medical advice; ongoing insomnia patterns get a gentle “worth talking to a doctor.”</div></div></div><div class="d"><div class="dn">04</div><div><h3 class="dt">The week, not the night</h3><p class="dp">Sleep debt is a recoverable number with planned days ahead; exam week mode spreads recovery out.</p><div class="dx"><span>Detail</span>short nights are warm amber, never red; planned nights are dashed, so the future looks editable.</div></div></div><div class="d"><div class="dn">05</div><div><h3 class="dt">A brain dump that sorts itself</h3><p class="dp">Prompt-led, two minutes, sorted on save into to-dos, parked thoughts and one good thing.</p><div class="dx"><span>Trade-off</span>no mood tracking or streaks; it stays a utility, not another habit to keep up.</div></div></div></div>
+  </section>
+  <section id="s-tone" class="ch band">
+    <div class="chl"><span class="chn">06</span>Tone guide</div>
+    <h2 class="cht">In behavior change, copy is the interface.</h2>
+    <p class="lead">The same plan reads as support or judgment depending on one sentence, so every coach reply follows these rules.</p>
+<div class="tbl" role="table" style="margin-top:36px"><div class="tr th" role="row"><span role="columnheader">Moment</span><span role="columnheader">Not</span><span role="columnheader">Instead</span></div><div class="tr" role="row"><span role="cell"><b>After a night out</b></span><span role="cell" style="color:#a50e0e">“You missed your sleep goal. Streak lost.”</span><span role="cell" style="color:#14532d">“Been there, no shame, just math: you’re ~2h short.”</span></div><div class="tr" role="row"><span role="cell"><b>Can’t fall asleep</b></span><span role="cell" style="color:#a50e0e">“Avoid screens 2 hours before bed.”</span><span role="cell" style="color:#14532d">“Classic wired-tired. Phone across the room, lights warm.”</span></div><div class="tr" role="row"><span role="cell"><b>Short night planned</b></span><span role="cell" style="color:#a50e0e">“Warning: under 6 hours.”</span><span role="cell" style="color:#14532d">“Short night, let’s make it count: nap blocked at 2pm.”</span></div></div>
+  </section>
+  <section id="s-outcomes" class="ch" style="padding-bottom:72px">
+    <div class="chl"><span class="chn">07</span>Outcomes</div>
+    <h2 class="cht">What success looks like.</h2>
+    
+<div class="mets"><div><div class="mv">Day-7 retention</div><div class="p">especially after a missed night</div></div><div><div class="mv">Wind-downs started</div><div class="p">per active user, per week</div></div><div><div class="mv">Nights in window</div><div class="p">asleep within the planned window</div></div><div><div class="mv">Morning energy</div><div class="p">one-tap self-rating, 1–5</div></div></div>
+    <blockquote class="pull">“The tone guide became a design artifact, not an afterthought. The same plan reads as support or judgment depending on one sentence.”</blockquote>
+    <div class="cols2" style="margin-top:32px"><div><h3 class="h3">What I’d do next</h3><p class="p" style="font-size:15px">A diary study across one real exam week to test whether week-level planning changes behavior, plus roommate quiet-hours sync.</p></div></div>
+  </section>
+  <div style="border-top:1px solid #e8eaed;padding:28px 40px;display:flex;align-items:center"><span style="font-size:13px;color:#5f6368">Next · <b style="color:#191b1f">Supercharge Bras</b> →</span><a href="mailto:charlinebercasio2021@gmail.com" style="margin-left:auto;background:#1a63e8;color:#fff;border-radius:999px;padding:11px 24px;font-size:13.5px;font-weight:600;white-space:nowrap;text-decoration:none">Email me</a></div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1180,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>
