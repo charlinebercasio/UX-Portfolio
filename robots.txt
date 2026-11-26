@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /gamified.html
+Sitemap: https://businessbychar.github.io/UX-Portfolio/sitemap.xml

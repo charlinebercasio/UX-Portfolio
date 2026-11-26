@@ -1,0 +1,89 @@
+/* Mobile + tablet layer for the portfolio. Pages are designed at 1180px;
+   below 900px these rules reflow them. Embedded prototypes (.sc-host[data-dc-tpl])
+   are left alone and scaled to fit by mobile.js instead. */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+img{max-width:100%;height:auto}
+
+@media (max-width:900px){
+  /* --- generic page-level reflow (never inside embedded prototypes) --- */
+  #dc-root [style*="grid-template-columns"]:not(.sc-host[data-dc-tpl] *):not(.wdesk *):not(.wfph *):not(.ecv *):not(.vis *):not(.wk *):not(.mini *){grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:24px!important}
+  #dc-root [style*="padding:20px 40px"]:not(.sc-host[data-dc-tpl] *),
+  #dc-root [style*="padding: 20px 40px"]:not(.sc-host[data-dc-tpl] *){padding-left:24px!important;padding-right:24px!important}
+  html body .ph [style*="40px"]:is(section,div)[style*="padding"]:not(.sc-host[data-dc-tpl] *),
+  html body .ab [style*="40px"]:is(section,div)[style*="padding"]:not(.sc-host[data-dc-tpl] *),
+  html body .rs [style*="40px"]:is(section,div)[style*="padding"]:not(.sc-host[data-dc-tpl] *),
+  html body .ct [style*="40px"]:is(section,div)[style*="padding"]:not(.sc-host[data-dc-tpl] *),
+  html body .cs [style*="40px"]:is(section,div)[style*="padding"]:not(.sc-host[data-dc-tpl] *){padding-left:24px!important;padding-right:24px!important}
+
+  #dc-root :is([style*="display:flex"],[style*="display: flex"])[style*="gap"]:not(.sc-host[data-dc-tpl] *):not(.wdesk *):not(.wfph *):not(.ecv *):not(.vis *):not(.wk *):not(.mini *):not(nav):not(a):not(button):not(span){flex-wrap:wrap;row-gap:28px}
+
+  /* case studies */
+  html body .cs .sec{padding:44px 24px 0}
+  html body .cs .ch{padding:64px 24px 0}
+  html body .cs .ch.band{margin-top:64px;padding:56px 24px 64px}
+  html body .cs .cht{font-size:32px}
+  html body .cs .cols3,html body .cs .ver,html body .cs .ecg,html body .cs .also,html body .cs .wgrid,html body .cs .mets{grid-template-columns:repeat(2,minmax(0,1fr))}
+  html body .cs .sfc{grid-template-columns:1fr}
+  html body .cs .pull{font-size:24px}
+  html body .cs nav{flex-wrap:wrap}
+}
+
+@media (max-width:640px){
+  #dc-root [style*="grid-template-columns"]:not(.sc-host[data-dc-tpl] *):not(.wdesk *):not(.wfph *):not(.ecv *):not(.vis *):not(.wk *):not(.mini *){grid-template-columns:1fr!important}
+  #dc-root [style*="repeat(4"][style*="grid-template-columns"]:not(.sc-host[data-dc-tpl] *):not(.wdesk *):not(.wfph *):not(.ecv *):not(.vis *):not(.wk *):not(.mini *){grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:0 16px!important}
+  #dc-root :is([style*="display:flex"],[style*="display: flex"])[style*="gap"]:not(.sc-host[data-dc-tpl] *):not(.wdesk *):not(.wfph *):not(.ecv *):not(.vis *):not(.wk *):not(.mini *):not(nav):not(a):not(button):not(span){flex-wrap:wrap}
+  #dc-root :is([style*="border-left:1px solid"],[style*="border-left: 1px solid"]):not(.sc-host[data-dc-tpl] *){border-left:0!important;padding-left:0!important}
+
+  /* type scale */
+  #dc-root h1:not(.sc-host[data-dc-tpl] *){font-size:34px!important;line-height:1.12!important;letter-spacing:-.02em}
+  #dc-root h2:not(.sc-host[data-dc-tpl] *){font-size:26px!important;line-height:1.2!important}
+  #dc-root p:not(.sc-host[data-dc-tpl] *){max-width:100%!important}
+
+  /* header: keep logo + Get in touch, tuck secondary links into a scroll row */
+  #dc-root > .sc-host > div > div:first-child:not(.sc-host[data-dc-tpl] *){flex-wrap:wrap;row-gap:12px;padding:14px 18px!important}
+  #dc-root > .sc-host > div > div:first-child > nav,
+  #dc-root > .sc-host > div > div:first-child > div:last-child{gap:16px!important;font-size:13px!important}
+  #dc-root > .sc-host > div > div:first-child > a span:last-child,
+  #dc-root > .sc-host > div > div:first-child > div:first-child span:last-child{white-space:nowrap}
+
+  /* case studies */
+  html body .cs .sec{padding:36px 18px 0}
+  html body .cs .ch{padding:52px 18px 0}
+  html body .cs .ch.band{margin-top:52px;padding:44px 18px 52px}
+  html body .cs .cht{font-size:28px}
+  html body .cs .lead{font-size:16px}
+  html body .cs .hmwt{font-size:20px}
+  html body .cs .pull{font-size:21px;margin-top:44px}
+  html body .cs .cols2,html body .cs .cols3,html body .cs .ins,html body .cs .ver,html body .cs .ecg,html body .cs .also,html body .cs .wgrid,html body .cs .mets,html body .cs .tr,html body .cs .er{grid-template-columns:1fr;gap:16px}
+  html body .cs .tr.th{display:none}
+  html body .cs .cr{grid-template-columns:110px repeat(3,minmax(0,1fr));gap:10px;font-size:12.5px}
+  html body .cs .d{grid-template-columns:48px 1fr;gap:14px}
+  html body .cs .dn{font-size:30px}
+  html body .cs .sf{grid-template-columns:1fr;justify-items:center}
+  html body .cs .st{justify-self:start}
+  html body .cs .pc{padding:22px}
+
+  /* resume */
+  html body .rs .job{grid-template-columns:1fr;gap:8px}
+
+  /* home + resume work cards */
+  html body .ph .vis,html body .rs .vis{height:240px}
+
+  /* rows of live phones: stack and center */
+  #dc-root .pvp{margin:0 auto}
+
+
+  /* contact block (Home, About, Resume) */
+  html body #contact{margin:56px 18px 0!important;padding:28px 22px!important;flex-direction:column;align-items:flex-start!important}
+  html body #contact > div{flex:none!important;width:100%}
+  html body #contact > div:last-child{flex-wrap:wrap}
+  html body #contact > div:first-child > div:first-child{font-size:26px!important}
+
+  /* forms: 16px stops iOS zoom-on-focus */
+  html body .ct input,html body .ct textarea,html body .ct select{font-size:16px}
+}
+
+/* comfortable tap targets everywhere */
+@media (pointer:coarse){
+  #dc-root nav a{padding-top:8px;padding-bottom:8px}
+}
